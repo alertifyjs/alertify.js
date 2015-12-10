@@ -1,15 +1,15 @@
-(function() {
+(function () {
 
     "use strict";
 
     var TRANSITION_FALLBACK_DURATION = 500;
-    var hideElement = function(el) {
+    var hideElement = function (el) {
 
-        if (! el) {
+        if (!el) {
             return;
         }
 
-        var removeThis = function() {
+        var removeThis = function () {
             if (el && el.parentNode) {
                 el.parentNode.removeChild(el);
             }
@@ -34,6 +34,11 @@
 
             defaultOkLabel: "Ok",
             okLabel: "Ok",
+            //new properties
+            okClass: '',
+            cancelClass: '',
+            hasCloseDialog: true,
+            //--
             defaultCancelLabel: "Cancel",
             cancelLabel: "Cancel",
             defaultMaxLogItems: 2,
@@ -49,8 +54,8 @@
             dialogs: {
                 buttons: {
                     holder: "<nav>{{buttons}}</nav>",
-                    ok: "<button class='ok' tabindex='1'>{{ok}}</button>",
-                    cancel: "<button class='cancel' tabindex='2'>{{cancel}}</button>"
+                    ok: "<button class='ok {{okClass}}' tabindex='1'>{{ok}}</button>",
+                    cancel: "<button class='cancel {{cancelClass}}' tabindex='2'>{{cancel}}</button>"
                 },
                 input: "<input type='text'>",
                 message: "<p class='msg'>{{message}}</p>",
@@ -60,8 +65,8 @@
             defaultDialogs: {
                 buttons: {
                     holder: "<nav>{{buttons}}</nav>",
-                    ok: "<button class='ok' tabindex='1'>{{ok}}</button>",
-                    cancel: "<button class='cancel' tabindex='2'>{{cancel}}</button>"
+                    ok: "<button class='ok {{okClass}}' tabindex='1'>{{ok}}</button>",
+                    cancel: "<button class='cancel {{cancelClass}}' tabindex='2'>{{cancel}}</button>"
                 },
                 input: "<input type='text'>",
                 message: "<p class='msg'>{{message}}</p>",
@@ -75,12 +80,12 @@
              *
              * @return {String}         An HTML string of the message box
              */
-            build: function(item) {
+            build: function (item) {
 
                 var btnTxt = this.dialogs.buttons.ok;
-                var html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
+                var html = "<div class='dialog'>" + "<div> " + (this.hasCloseDialog ? "<a href='#' class='pull-right cancel' style='margin-top: -15px; margin-right: -5px;'><h4><i class='zmdi zmdi-close' data-id='78' data-bind='click: removeNote'></i></h4></a>" : " ") + this.dialogs.message.replace("{{message}}", item.message);
 
-                if(item.type === "confirm" || item.type === "prompt") {
+                if (item.type === "confirm" || item.type === "prompt") {
                     btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
                 }
 
@@ -91,14 +96,16 @@
                 html = (html + this.dialogs.buttons.holder + "</div>" + "</div>")
                   .replace("{{buttons}}", btnTxt)
                   .replace("{{ok}}", this.okLabel)
+                  .replace("{{okClass}}", this.okClass)
+                  .replace("{{cancelClass}}", this.cancelClass)
                   .replace("{{cancel}}", this.cancelLabel);
 
                 return html;
 
             },
 
-            setCloseLogOnClick: function(bool) {
-                this.closeLogOnClick = !! bool;
+            setCloseLogOnClick: function (bool) {
+                this.closeLogOnClick = !!bool;
             },
 
             /**
@@ -109,10 +116,10 @@
              *
              * @return {undefined}
              */
-            close: function(elem, wait) {
+            close: function (elem, wait) {
 
                 if (this.closeLogOnClick) {
-                    elem.addEventListener("click", function(ev) {
+                    elem.addEventListener("click", function (ev) {
                         hideElement(ev.srcElement);
                     });
                 }
@@ -121,8 +128,8 @@
 
                 if (wait < 0) {
                     hideElement(elem);
-                } else if(wait > 0) {
-                    setTimeout(function() {
+                } else if (wait > 0) {
+                    setTimeout(function () {
                         hideElement(elem);
                     }, wait);
                 }
@@ -139,7 +146,7 @@
              *
              * @return {Object}
              */
-            dialog: function(message, type, onOkay, onCancel) {
+            dialog: function (message, type, onOkay, onCancel) {
                 return this.setup({
                     type: type,
                     message: message,
@@ -157,7 +164,7 @@
              *
              * @return {Object}
              */
-            log: function(message, type, click) {
+            log: function (message, type, click) {
 
                 var existing = document.querySelectorAll(".alertify-logs > div");
                 if (existing) {
@@ -172,15 +179,15 @@
                 this.notify(message, type, click);
             },
 
-            setLogPosition: function(str) {
+            setLogPosition: function (str) {
                 this.logContainerClass = "alertify-logs " + str;
             },
 
-            setupLogContainer: function() {
+            setupLogContainer: function () {
 
                 var elLog = document.querySelector(".alertify-logs");
                 var className = this.logContainerClass;
-                if (! elLog) {
+                if (!elLog) {
                     elLog = document.createElement("div");
                     elLog.className = className;
                     document.body.appendChild(elLog);
@@ -206,7 +213,7 @@
              *
              * @return {undefined}
              */
-            notify: function(message, type, click) {
+            notify: function (message, type, click) {
 
                 var elLog = this.setupLogContainer();
                 var log = document.createElement("div");
@@ -220,7 +227,7 @@
                 }
 
                 elLog.appendChild(log);
-                setTimeout(function() {
+                setTimeout(function () {
                     log.className += " show";
                 }, 10);
 
@@ -233,7 +240,7 @@
              *
              * @return {undefined}
              */
-            setup: function(item) {
+            setup: function (item) {
 
                 var el = document.createElement("div");
                 el.className = "alertify hide";
@@ -262,11 +269,11 @@
                 function setupHandlers(resolve) {
                     if ("function" !== typeof resolve) {
                         // promises are not available so resolve is a no-op
-                        resolve = function () {};
+                        resolve = function () { };
                     }
 
                     if (btnOK) {
-                        btnOK.addEventListener("click", function(ev) {
+                        btnOK.addEventListener("click", function (ev) {
                             if (item.onOkay && "function" === typeof item.onOkay) {
                                 if (input) {
                                     item.onOkay(input.value, ev);
@@ -293,7 +300,7 @@
                     }
 
                     if (btnCancel) {
-                        btnCancel.addEventListener("click", function(ev) {
+                        btnCancel.addEventListener("click", function (ev) {
                             if (item.onCancel && "function" === typeof item.onCancel) {
                                 item.onCancel(ev);
                             }
@@ -317,9 +324,9 @@
                 }
 
                 document.body.appendChild(el);
-                setTimeout(function() {
+                setTimeout(function () {
                     el.classList.remove("hide");
-                    if(input && item.type && item.type === "prompt") {
+                    if (input && item.type && item.type === "prompt") {
                         input.select();
                         input.focus();
                     } else {
@@ -332,58 +339,73 @@
                 return promise;
             },
 
-            okBtn: function(label) {
+            okBtn: function (label) {
                 this.okLabel = label;
                 return this;
             },
 
-            setDelay: function(time) {
+            okBtnStyle: function (className) {
+                this.okClass = className;
+                return this;
+            },
+
+            cancelBtnStyle: function (className) {
+                this.cancelClass = className;
+                return this;
+            },
+
+            setClaseDialog: function(val){
+                this.hasCloseDialog = val;
+                return this;
+            },
+
+            setDelay: function (time) {
                 var dur = parseInt(time || 0, 10);
                 this.delay = isNaN(dur) ? this.defultDelay : time;
                 return this;
             },
 
-            cancelBtn: function(str) {
+            cancelBtn: function (str) {
                 this.cancelLabel = str;
                 return this;
             },
 
-            setMaxLogItems: function(num) {
+            setMaxLogItems: function (num) {
                 this.maxLogItems = parseInt(num || this.defaultMaxLogItems);
             },
 
-            theme: function(themeStr) {
-                switch(themeStr.toLowerCase()) {
-                case "bootstrap":
-                    this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
-                    this.dialogs.buttons.cancel = "<button class='cancel btn btn-default' tabindex='2'>{{cancel}}</button>";
-                    this.dialogs.input = "<input type='text' class='form-control'>";
-                    break;
-                case "purecss":
-                    this.dialogs.buttons.ok = "<button class='ok pure-button' tabindex='1'>{{ok}}</button>";
-                    this.dialogs.buttons.cancel = "<button class='cancel pure-button' tabindex='2'>{{cancel}}</button>";
-                    break;
-                case "mdl":
-                case "material-design-light":
-                    this.dialogs.buttons.ok = "<button class='ok mdl-button mdl-js-button mdl-js-ripple-effect'  tabindex='1'>{{ok}}</button>";
-                    this.dialogs.buttons.cancel = "<button class='cancel mdl-button mdl-js-button mdl-js-ripple-effect' tabindex='2'>{{cancel}}</button>";
-                    this.dialogs.input = "<div class='mdl-textfield mdl-js-textfield'><input class='mdl-textfield__input'><label class='md-textfield__label'></label></div>";
-                    break;
-                case "angular-material":
-                    this.dialogs.buttons.ok = "<button class='ok md-primary md-button' tabindex='1'>{{ok}}</button>";
-                    this.dialogs.buttons.cancel = "<button class='cancel md-button' tabindex='2'>{{cancel}}</button>";
-                    this.dialogs.input = "<div layout='column'><md-input-container md-no-float><input type='text'></md-input-container></div>";
-                    break;
-                case "default":
-                default:
-                    this.dialogs.buttons.ok = this.defaultDialogs.buttons.ok;
-                    this.dialogs.buttons.cancel = this.defaultDialogs.buttons.cancel;
-                    this.dialogs.input = this.defaultDialogs.input;
-                    break;
+            theme: function (themeStr) {
+                switch (themeStr.toLowerCase()) {
+                    case "bootstrap":
+                        this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
+                        this.dialogs.buttons.cancel = "<button class='cancel btn btn-default' tabindex='2'>{{cancel}}</button>";
+                        this.dialogs.input = "<input type='text' class='form-control'>";
+                        break;
+                    case "purecss":
+                        this.dialogs.buttons.ok = "<button class='ok pure-button' tabindex='1'>{{ok}}</button>";
+                        this.dialogs.buttons.cancel = "<button class='cancel pure-button' tabindex='2'>{{cancel}}</button>";
+                        break;
+                    case "mdl":
+                    case "material-design-light":
+                        this.dialogs.buttons.ok = "<button class='ok mdl-button mdl-js-button mdl-js-ripple-effect'  tabindex='1'>{{ok}}</button>";
+                        this.dialogs.buttons.cancel = "<button class='cancel mdl-button mdl-js-button mdl-js-ripple-effect' tabindex='2'>{{cancel}}</button>";
+                        this.dialogs.input = "<div class='mdl-textfield mdl-js-textfield'><input class='mdl-textfield__input'><label class='md-textfield__label'></label></div>";
+                        break;
+                    case "angular-material":
+                        this.dialogs.buttons.ok = "<button class='ok md-primary md-button' tabindex='1'>{{ok}}</button>";
+                        this.dialogs.buttons.cancel = "<button class='cancel md-button' tabindex='2'>{{cancel}}</button>";
+                        this.dialogs.input = "<div layout='column'><md-input-container md-no-float><input type='text'></md-input-container></div>";
+                        break;
+                    case "default":
+                    default:
+                        this.dialogs.buttons.ok = this.defaultDialogs.buttons.ok;
+                        this.dialogs.buttons.cancel = this.defaultDialogs.buttons.cancel;
+                        this.dialogs.input = this.defaultDialogs.input;
+                        break;
                 }
             },
 
-            reset: function() {
+            reset: function () {
                 this.theme("default");
                 this.okBtn(this.defaultOkLabel);
                 this.cancelBtn(this.defaultCancelLabel);
@@ -395,7 +417,7 @@
                 this.setLogPosition("bottom left");
             },
 
-            injectCSS: function() {
+            injectCSS: function () {
                 if (!document.querySelector("#alertifyCSS")) {
                     var head = document.getElementsByTagName("head")[0];
                     var css = document.createElement("style");
@@ -406,7 +428,7 @@
                 }
             },
 
-            removeCSS: function() {
+            removeCSS: function () {
                 var css = document.querySelector("#alertifyCSS");
                 if (css && css.parentNode) {
                     css.parentNode.removeChild(css);
@@ -419,64 +441,76 @@
 
         return {
             _$$alertify: _alertify,
-            reset: function() {
+            reset: function () {
                 _alertify.reset();
                 return this;
             },
-            alert: function(message, onOkay, onCancel) {
+            alert: function (message, onOkay, onCancel) {
                 return _alertify.dialog(message, "alert", onOkay, onCancel) || this;
             },
-            confirm: function(message, onOkay, onCancel) {
+            confirm: function (message, onOkay, onCancel) {
                 return _alertify.dialog(message, "confirm", onOkay, onCancel) || this;
             },
-            prompt: function(message, onOkay, onCancel) {
+            prompt: function (message, onOkay, onCancel) {
                 return _alertify.dialog(message, "prompt", onOkay, onCancel) || this;
             },
-            log: function(message, click) {
+            log: function (message, click) {
                 _alertify.log(message, "default", click);
                 return this;
             },
-            theme: function(themeStr) {
+            theme: function (themeStr) {
                 _alertify.theme(themeStr);
                 return this;
             },
-            success: function(message, click) {
+            success: function (message, click) {
                 _alertify.log(message, "success", click);
                 return this;
             },
-            error: function(message, click) {
+            error: function (message, click) {
                 _alertify.log(message, "error", click);
                 return this;
             },
-            cancelBtn: function(label) {
+            cancelBtn: function (label) {
                 _alertify.cancelBtn(label);
                 return this;
             },
-            okBtn: function(label) {
+            okBtn: function (label) {
                 _alertify.okBtn(label);
                 return this;
             },
-            delay: function(time) {
+            okBtnStyle: function (className) {
+                _alertify.okBtnStyle(className);
+                return this;
+            },
+            cancelBtnStyle: function (className) {
+                _alertify.cancelBtnStyle(className);
+                return this;
+            },
+            setClaseDialog: function (val) {
+                _alertify.setClaseDialog(val);
+                return this;
+            },
+            delay: function (time) {
                 _alertify.setDelay(time);
                 return this;
             },
-            placeholder: function(str) {
+            placeholder: function (str) {
                 _alertify.promptPlaceholder = str;
                 return this;
             },
-            defaultValue: function(str) {
+            defaultValue: function (str) {
                 _alertify.promptValue = str;
                 return this;
             },
-            maxLogItems: function(num) {
+            maxLogItems: function (num) {
                 _alertify.setMaxLogItems(num);
                 return this;
             },
-            closeLogOnClick: function(bool) {
-                _alertify.setCloseLogOnClick(!! bool);
+            closeLogOnClick: function (bool) {
+                _alertify.setCloseLogOnClick(!!bool);
                 return this;
             },
-            logPosition: function(str) {
+            logPosition: function (str) {
                 _alertify.setLogPosition(str || "");
                 return this;
             }
@@ -484,10 +518,10 @@
     }
 
     // AMD, window, and NPM support
-    if ("undefined" !== typeof module && !! module && !! module.exports) {
+    if ("undefined" !== typeof module && !!module && !!module.exports) {
         module.exports = Alertify;
     } else if (typeof define === "function" && define.amd) {
-        define(function() {
+        define(function () {
             return new Alertify();
         });
     } else {
