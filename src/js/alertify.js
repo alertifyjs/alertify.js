@@ -83,7 +83,7 @@
             build: function (item) {
 
                 var btnTxt = this.dialogs.buttons.ok;
-                var html = "<div class='dialog'>" + "<div> " + (this.hasCloseDialog ? "<a href='#' class='pull-right cancel' style='margin-top: -15px; margin-right: -5px;'><h4><i class='zmdi zmdi-close' data-id='78' data-bind='click: removeNote'></i></h4></a>" : " ") + this.dialogs.message.replace("{{message}}", item.message);
+                var html = "<div class='dialog'>" + "<div> " + (this.hasCloseDialog ? "<a href='#' class='pull-right closeDialog' style='margin-top: -15px; margin-right: -5px;'><h4><i class='zmdi zmdi-close' data-id='78' data-bind='click: removeNote'></i></h4></a>" : " ") + this.dialogs.message.replace("{{message}}", item.message);
 
                 if (item.type === "confirm" || item.type === "prompt") {
                     btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
@@ -250,6 +250,8 @@
                 var btnCancel = el.querySelector(".cancel");
                 var input = el.querySelector("input");
                 var label = el.querySelector("label");
+				var btnClose = el.querySelector(".closeDialog");
+				 var hasCloseDialog = this.hasCloseDialog;
 
                 // Set default value/placeholder of input
                 if (input) {
@@ -301,6 +303,21 @@
 
                     if (btnCancel) {
                         btnCancel.addEventListener("click", function (ev) {
+                            if (item.onCancel && "function" === typeof item.onCancel) {
+                                item.onCancel(ev);
+                            }
+
+                            resolve({
+                                buttonClicked: "cancel",
+                                event: ev
+                            });
+
+                            hideElement(el);
+                        });
+                    }
+					
+					if (hasCloseDialog) {
+                        btnClose.addEventListener("click", function (ev) {
                             if (item.onCancel && "function" === typeof item.onCancel) {
                                 item.onCancel(ev);
                             }
