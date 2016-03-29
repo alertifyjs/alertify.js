@@ -115,7 +115,7 @@
 
                 if (this.closeLogOnClick) {
                     elem.addEventListener("click", function(ev) {
-                        hideElement(ev.srcElement);
+                        hideElement(ev.target);
                     });
                 }
 
