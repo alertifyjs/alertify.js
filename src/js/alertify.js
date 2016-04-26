@@ -518,7 +518,9 @@
             return new Alertify();
         });
     } else {
-        window.alertify = new Alertify();
+        window.onload = function(){
+            window.alertify = new Alertify();
+        }
     }
 
 }());
