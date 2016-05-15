@@ -312,6 +312,14 @@
                             hideElement(el);
                         });
                     }
+
+                    if (input) {
+                        input.addEventListener("keyup", function(ev) {
+                            if(ev.which === 13) {
+                                btnOK.click();
+                            }
+                        });
+                    }
                 }
 
                 var promise;
