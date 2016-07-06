@@ -1,3 +1,7 @@
+.alertify-logs > div{
+    transition: .2s all;
+    display: block !important;
+}
 .alertify-logs > * {
   padding: 12px 24px;
   color: #fff;
