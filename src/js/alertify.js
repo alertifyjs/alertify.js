@@ -265,10 +265,11 @@
                     }
                 }
 
-                function setupHandlers(resolve) {
+                function setupHandlers(resolve, reject) {
                     if ("function" !== typeof resolve) {
                         // promises are not available so resolve is a no-op
                         resolve = function () {};
+                        reject = function () {};
                     }
 
                     if (btnOK) {
@@ -304,7 +305,7 @@
                                 item.onCancel(ev);
                             }
 
-                            resolve({
+                            reject({
                                 buttonClicked: "cancel",
                                 event: ev
                             });
