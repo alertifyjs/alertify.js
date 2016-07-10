@@ -79,8 +79,13 @@ $border-radius: 1px;
           margin: 0;
           text-align: left;
         }
-
-        input:not(.form-control){
+        
+	select:not(.form-control) {
+	  border: 1px solid #eaeaea;
+    	  height: 40px;
+	}
+	
+        select:not(.form-control), input:not(.form-control){
             margin-bottom: 15px;
             width: 100%;
             font-size: 100%;

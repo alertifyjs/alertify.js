@@ -55,6 +55,7 @@
                     cancel: "<button class='cancel' tabindex='2'>{{cancel}}</button>"
                 },
                 input: "<input type='text'>",
+                select: "<select>",
                 message: "<p class='msg'>{{message}}</p>",
                 log: "<div class='{{class}}'>{{message}}</div>"
             },
@@ -66,6 +67,7 @@
                     cancel: "<button class='cancel' tabindex='2'>{{cancel}}</button>"
                 },
                 input: "<input type='text'>",
+                select: "<select>",
                 message: "<p class='msg'>{{message}}</p>",
                 log: "<div class='{{class}}'>{{message}}</div>"
             },
@@ -82,12 +84,27 @@
                 var btnTxt = this.dialogs.buttons.ok;
                 var html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
 
-                if(item.type === "confirm" || item.type === "prompt") {
+                if(["confirm", "prompt", "password", "select"].indexOf(item.type) >= 0) {
                     btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
                 }
 
                 if (item.type === "prompt") {
                     html += this.dialogs.input;
+                }
+
+                if (item.type === "password") {
+                    html += this.dialogs.input.replace("type='text'", "type='password'");
+                }
+
+                if (item.type == 'select') {
+                    var select = this.dialogs.select;
+
+                    for(var key in item.selectOptions) {
+                        select += '<option value="' + key + '">' + item.selectOptions[key] + '</option>';
+                    }
+
+                    select += '</select>';
+                    html += select;
                 }
 
                 html = (html + this.dialogs.buttons.holder + "</div>" + "</div>")
@@ -141,12 +158,13 @@
              *
              * @return {Object}
              */
-            dialog: function(message, type, onOkay, onCancel) {
+            dialog: function(message, type, onOkay, onCancel, selectOptions) {
                 return this.setup({
                     type: type,
                     message: message,
                     onOkay: onOkay,
-                    onCancel: onCancel
+                    onCancel: onCancel,
+                    selectOptions: selectOptions
                 });
             },
 
@@ -247,7 +265,7 @@
 
                 var btnOK = el.querySelector(".ok");
                 var btnCancel = el.querySelector(".cancel");
-                var input = el.querySelector("input");
+                var input = el.querySelector("input,select");
                 var label = el.querySelector("label");
 
                 // Set default value/placeholder of input
@@ -333,7 +351,7 @@
                 this.parent.appendChild(el);
                 setTimeout(function() {
                     el.classList.remove("hide");
-                    if(input && item.type && item.type === "prompt") {
+                    if(input && item.type && (item.type === "prompt" || item.type === "password")) {
                         input.select();
                         input.focus();
                     } else {
@@ -372,6 +390,7 @@
                     this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
                     this.dialogs.buttons.cancel = "<button class='cancel btn btn-default' tabindex='2'>{{cancel}}</button>";
                     this.dialogs.input = "<input type='text' class='form-control'>";
+                    this.dialogs.select = "<select class='form-comtrol'>";
                     break;
                 case "purecss":
                     this.dialogs.buttons.ok = "<button class='ok pure-button' tabindex='1'>{{ok}}</button>";
@@ -393,6 +412,7 @@
                     this.dialogs.buttons.ok = this.defaultDialogs.buttons.ok;
                     this.dialogs.buttons.cancel = this.defaultDialogs.buttons.cancel;
                     this.dialogs.input = this.defaultDialogs.input;
+                    this.dialogs.select = this.defaultDialogs.select;
                     break;
                 }
             },
@@ -448,8 +468,14 @@
             confirm: function(message, onOkay, onCancel) {
                 return _alertify.dialog(message, "confirm", onOkay, onCancel) || this;
             },
+            password: function(message, onOkay, onCancel) {
+                return _alertify.dialog(message, "password", onOkay, onCancel) || this;
+            },
             prompt: function(message, onOkay, onCancel) {
                 return _alertify.dialog(message, "prompt", onOkay, onCancel) || this;
+            },
+            select: function(message, selectOptions, onOkay, onCancel) {
+                return _alertify.dialog(message, "select", onOkay, onCancel, selectOptions) || this;
             },
             log: function(message, click) {
                 _alertify.log(message, "default", click);
