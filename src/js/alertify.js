@@ -249,6 +249,22 @@
                 var input = el.querySelector("input");
                 var label = el.querySelector("label");
 
+                function handleEscKey(event) {
+                    // 27 = Esc key
+                    if (event.which === 27) {
+                        // prompt/confirm have a cancel button
+                        if(btnCancel) {
+                            btnCancel.click();
+                        }
+                        // alert only has ok button
+                        else {
+                            btnOK.click();
+                        }
+                        document.removeEventListener("keyup", handleEscKey);
+                    }
+                }
+                document.addEventListener("keyup", handleEscKey);
+
                 // Set default value/placeholder of input
                 if (input) {
                     if (typeof this.promptPlaceholder === "string") {
