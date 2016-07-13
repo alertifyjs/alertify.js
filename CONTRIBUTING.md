@@ -8,7 +8,7 @@
 
 #### **Did you write a patch that fixes a bug?**
 
-* Open a new GitHub pull request with the patch. Use the [develop branch](https://github.com/alertifyjs/alertify.js/tree/develop), not the master branch.
+* Open a new GitHub pull request with the patch. Use the [develop branch](https://github.com/alertifyjs/alertify.js/tree/development), not the master branch.
 
 * Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
 

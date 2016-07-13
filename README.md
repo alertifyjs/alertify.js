@@ -16,6 +16,7 @@
 [![npm version](https://img.shields.io/npm/v/alertify.js.svg?style=flat-square)](https://www.npmjs.com/package/alertify.js)
 [![npm license](https://img.shields.io/npm/l/alertify.js.svg?style=flat-square)](https://www.npmjs.com/package/alertify.js)
 
+[![Known Vulnerabilities](https://snyk.io/test/npm/alertify.js/badge.svg)](https://snyk.io/test/npm/alertify.js)
 [![Dependency Status](https://david-dm.org/alertifyjs/alertify.js.svg)](https://david-dm.org/alertifyjs/alertify.js)
 [![Dev Dependency status](https://david-dm.org/alertifyjs/alertify.js/dev-status.svg)](https://david-dm.org/alertifyjs/alertify.js#info=devDependencies&view=table)
 

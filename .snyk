@@ -1,0 +1,12 @@
+version: v1
+ignore: {}
+patch:
+  'npm:request:20160119':
+    - karma-coveralls > coveralls > request:
+        patched: '2016-05-16T13:07:14.415Z'
+    - protractor > request:
+        patched: '2016-05-16T13:07:14.415Z'
+    - gulp-protractor > protractor > request:
+        patched: '2016-05-16T13:07:14.415Z'
+    - karma-sauce-launcher > wd > request:
+        patched: '2016-05-16T13:07:14.415Z'

@@ -33,7 +33,7 @@
         var _alertify = {
 
             parent: document.body,
-            version: "1.0.11",
+            version: "1.0.12",
             defaultOkLabel: "Ok",
             okLabel: "Ok",
             defaultCancelLabel: "Cancel",
@@ -138,15 +138,17 @@
              * @param  {String}   type         Type of dialog to create
              * @param  {Function} onOkay       [Optional] Callback function when clicked okay.
              * @param  {Function} onCancel     [Optional] Callback function when cancelled.
+             * @param  {Function} isValid      [Optional] Validate function for prompts
              *
              * @return {Object}
              */
-            dialog: function(message, type, onOkay, onCancel) {
+            dialog: function(message, type, onOkay, onCancel, isValid) {
                 return this.setup({
-                    type: type,
                     message: message,
+                    type: type,
                     onOkay: onOkay,
-                    onCancel: onCancel
+                    onCancel: onCancel,
+                    isValid: isValid
                 });
             },
 
@@ -250,6 +252,22 @@
                 var input = el.querySelector("input");
                 var label = el.querySelector("label");
 
+                function handleEscKey(event) {
+                    // 27 = Esc key
+                    if (event.which === 27) {
+                        // prompt/confirm have a cancel button
+                        if(btnCancel) {
+                            btnCancel.click();
+                        }
+                        // alert only has ok button
+                        else {
+                            btnOK.click();
+                        }
+                        document.removeEventListener("keyup", handleEscKey);
+                    }
+                }
+                document.addEventListener("keyup", handleEscKey);
+
                 // Set default value/placeholder of input
                 if (input) {
                     if (typeof this.promptPlaceholder === "string") {
@@ -265,6 +283,14 @@
                     }
                 }
 
+                function isPrompt () {
+                    return (
+                        input &&
+                        item.type &&
+                        item.type === "prompt"
+                    );
+                }
+
                 function setupHandlers(resolve) {
                     if ("function" !== typeof resolve) {
                         // promises are not available so resolve is a no-op
@@ -273,6 +299,14 @@
 
                     if (btnOK) {
                         btnOK.addEventListener("click", function(ev) {
+
+                            if (isPrompt() && item.isValid && "function" === typeof item.isValid) {
+                                if (!item.isValid(input.value)) {
+                                    input.classList.add("invalid");
+                                    return;
+                                }
+                            }
+
                             if (item.onOkay && "function" === typeof item.onOkay) {
                                 if (input) {
                                     item.onOkay(input.value, ev);
@@ -333,7 +367,7 @@
                 this.parent.appendChild(el);
                 setTimeout(function() {
                     el.classList.remove("hide");
-                    if(input && item.type && item.type === "prompt") {
+                    if(isPrompt()) {
                         input.select();
                         input.focus();
                     } else {
@@ -448,8 +482,8 @@
             confirm: function(message, onOkay, onCancel) {
                 return _alertify.dialog(message, "confirm", onOkay, onCancel) || this;
             },
-            prompt: function(message, onOkay, onCancel) {
-                return _alertify.dialog(message, "prompt", onOkay, onCancel) || this;
+            prompt: function(message, onOkay, onCancel, isValid) {
+                return _alertify.dialog(message, "prompt", onOkay, onCancel, isValid) || this;
             },
             log: function(message, click) {
                 _alertify.log(message, "default", click);

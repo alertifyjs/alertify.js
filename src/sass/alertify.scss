@@ -88,6 +88,9 @@ $border-radius: 1px;
             &:focus {
                 outline-offset: -2px;
             }
+            &.invalid {
+                border-left: 2px solid $danger-color;
+            }
         }
         nav {
 
@@ -211,7 +214,7 @@ $border-radius: 1px;
         position: relative;
         clear: both;
         backface-visibility: hidden;
-	    perspective: 1000;
+        perspective: 1000;
 
         & {
             max-height: 0;
