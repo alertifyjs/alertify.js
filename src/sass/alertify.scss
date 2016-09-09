@@ -208,6 +208,28 @@ $border-radius: 1px;
         }
     }
 
+    &.center {
+        left: 0;
+        width: 100%;
+        > {
+            .default, .success, .error {
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+            }
+        }
+    }
+
+    &.middle {
+        height: 100%;
+        > {
+            .default, .success, .error {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+
     > * {
         box-sizing: border-box;
         transition: all .4s cubic-bezier(.25, .8, .25, 1);
