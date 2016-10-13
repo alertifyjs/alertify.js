@@ -159,7 +159,7 @@
              *
              * @return {Object}
              */
-            log: function(message, type, click) {
+            log: function(message, type, click, delay) {
 
                 var existing = document.querySelectorAll(".alertify-logs > div");
                 if (existing) {
@@ -171,7 +171,7 @@
                     }
                 }
 
-                this.notify(message, type, click);
+                this.notify(message, type, click, delay);
             },
 
             setLogPosition: function(str) {
@@ -208,7 +208,7 @@
              *
              * @return {undefined}
              */
-            notify: function(message, type, click) {
+            notify: function(message, type, click, delay) {
 
                 var elLog = this.setupLogContainer();
                 var log = document.createElement("div");
@@ -230,7 +230,7 @@
                     log.className += " show";
                 }, 10);
 
-                this.close(log, this.delay);
+                this.close(log, delay || this.delay);
 
             },
 
@@ -451,20 +451,20 @@
             prompt: function(message, onOkay, onCancel) {
                 return _alertify.dialog(message, "prompt", onOkay, onCancel) || this;
             },
-            log: function(message, click) {
-                _alertify.log(message, "default", click);
+            log: function(message, click, delay) {
+                _alertify.log(message, "default", click, delay);
                 return this;
             },
             theme: function(themeStr) {
                 _alertify.theme(themeStr);
                 return this;
             },
-            success: function(message, click) {
-                _alertify.log(message, "success", click);
+            success: function(message, click, delay) {
+                _alertify.log(message, "success", click, delay);
                 return this;
             },
-            error: function(message, click) {
-                _alertify.log(message, "error", click);
+            error: function(message, click, delay) {
+                _alertify.log(message, "error", click, delay);
                 return this;
             },
             cancelBtn: function(label) {
