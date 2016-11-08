@@ -4,6 +4,7 @@
   "version": "1.0.11",
   "homepage": "https://alertifyjs.org/",
   "main": "dist/js/alertify.js",
+  "types": "alertify-js.d.ts",
   "author": "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",
   "contributors": [
     "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",
