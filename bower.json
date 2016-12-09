@@ -44,6 +44,7 @@
     "test",
     "example",
     ".travis.yml",
-    "Contributors.md"
+    "Contributors.md",
+    "website"
   ]
 }
