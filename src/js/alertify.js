@@ -185,7 +185,7 @@
                 if (! elLog) {
                     elLog = document.createElement("div");
                     elLog.className = className;
-                    this.parent.appendChild(elLog);
+                    this.getParent().appendChild(elLog);
                 }
 
                 // Make sure it's positioned properly.
@@ -330,7 +330,7 @@
                     setupHandlers();
                 }
 
-                this.parent.appendChild(el);
+                this.getParent().appendChild(el);
                 setTimeout(function() {
                     el.classList.remove("hide");
                     if(input && item.type && item.type === "prompt") {
@@ -427,6 +427,14 @@
                 if (css && css.parentNode) {
                     css.parentNode.removeChild(css);
                 }
+            },
+
+            getParent: function() {
+                if (!this.parent) {
+                    this.parent = document.body;
+                }
+
+                return this.parent;
             }
 
         };
