@@ -185,7 +185,13 @@
                 if (! elLog) {
                     elLog = document.createElement("div");
                     elLog.className = className;
-                    this.parent.appendChild(elLog);
+                    
+                    // fix if alertifyjs js file is added to head instead of body
+                    if (! this.parent) {
+                        document.body.appendChild(elLog);
+                    } else {
+                        this.parent.appendChild(elLog);
+                    }
                 }
 
                 // Make sure it's positioned properly.
