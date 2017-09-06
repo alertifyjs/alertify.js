@@ -40,6 +40,7 @@
             cancelLabel: "Cancel",
             defaultMaxLogItems: 2,
             maxLogItems: 2,
+            element: false,
             promptValue: "",
             promptPlaceholder: "",
             closeLogOnClick: false,
@@ -191,6 +192,14 @@
                 // Make sure it's positioned properly.
                 if (elLog.className !== className) {
                     elLog.className = className;
+                }
+                
+                if (this.element && 'object' == typeof(this.element)) {
+                    var rect = this.element.getBoundingClientRect();
+
+                    elLog.style.top = (this.element.offsetTop + rect.height) + 'px';
+                    elLog.style.left = rect.left + 'px';
+                    elLog.style.position = 'absolute';
                 }
 
                 return elLog;
@@ -365,6 +374,10 @@
             setMaxLogItems: function(num) {
                 this.maxLogItems = parseInt(num || this.defaultMaxLogItems);
             },
+            
+            setElement: function (elm) {
+                this.element = elm;
+            },
 
             theme: function(themeStr) {
                 switch(themeStr.toLowerCase()) {
@@ -489,6 +502,10 @@
             },
             maxLogItems: function(num) {
                 _alertify.setMaxLogItems(num);
+                return this;
+            },
+            element: function (elm) {
+                _alertify.setElement(elm);
                 return this;
             },
             closeLogOnClick: function(bool) {
