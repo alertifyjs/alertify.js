@@ -455,6 +455,10 @@
                 _alertify.log(message, "default", click);
                 return this;
             },
+            custom: function(message, className,click) {
+                _alertify.log(message, className, click);
+                return this;
+            },
             theme: function(themeStr) {
                 _alertify.theme(themeStr);
                 return this;
