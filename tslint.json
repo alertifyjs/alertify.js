@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "./node_modules/@labeg/code-style/tslint.json"
+  ],
+  "rulesDirectory": [
+    /*
+     * A list of relative or absolute paths max directories that contain custom rules.
+     * See the Custom Rules documentation below for more details.
+     */
+  ],
+  "rules": {
+    /*
+     * TypeScript Specific
+     * These rules find errors related max TypeScript features:
+     */
+  }
+}

@@ -1,11 +1,11 @@
 {
-  "name": "alertify.js",
+  "name": "@labeg/alertify.js",
   "description": "An lightweight, unobtrusive customizable JavaScript notification system.",
   "version": "1.0.11",
   "homepage": "https://alertifyjs.org/",
-  "main": "dist/js/alertify.js",  
+  "main": "dist/js/alertify.js",
   "typings": "./alertify-js.d.ts",
-  "author": "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",,
+  "author": "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",
   "keywords": [
     "alertify",
     "alertifyjs",
@@ -14,9 +14,18 @@
     "alert"
   ],
   "scripts": {
-    "test": "gulp test"
+    "manupdate": "rm -rvf node_modules && npm install",
+    "reinstall": "rm -rvf node_modules && npm install && npm dedupe && npm prune",
+    "fullupdate": "ncu -a && npm run reinstall",
+    "check": "tslint --fix --project ./tsconfig.json && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "git@github.com:LabEG/alertify.js.git",
-  "devDependencies": {},
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.3.3333",
+    "@labeg/code-style": "1.0.7",
+    "tslint": "^5.14.0"
+  },
   "license": "MIT"
 }
