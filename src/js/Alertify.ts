@@ -1,30 +1,18 @@
 
-const TRANSITION_FALLBACK_DURATION = 500;
-const hideElement = function (el: Element) {
-
-    if (!el) {
-        return;
-    }
-
-    const removeThis = function () {
-        if (el && el.parentNode) {
-            el.parentNode.removeChild(el);
-        }
-    };
-
-    el.classList.remove("show");
-    el.classList.add("hide");
-    el.addEventListener("transitionend", removeThis);
-
-    // Fallback for no transitions.
-    setTimeout(removeThis, TRANSITION_FALLBACK_DURATION);
-};
+interface IAlertifyItem {
+    type: string;
+    message: string;
+    onOkay: Function;
+    onCancel: Function;
+}
 
 /**
  * Alertify private object
  * @type {Object}
  */
 class Alertify {
+
+    public static readonly TRANSITION_FALLBACK_DURATION: number = 500;
 
     public parent: HTMLElement = document.body;
     public version: string = "1.0.11";
@@ -73,7 +61,7 @@ class Alertify {
      *
      * @return {String}         An HTML string of the message box
      */
-    public build(item: { type: string; message: string }): string {
+    public build(item: IAlertifyItem): string {
 
         let btnTxt = this.dialogs.buttons.ok;
         let html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
@@ -110,19 +98,15 @@ class Alertify {
     public close(elem: HTMLElement, wait: number): void {
 
         if (this.closeLogOnClick) {
-            elem.addEventListener("click", function () {
-                hideElement(elem);
-            });
+            elem.addEventListener("click", () => this.hideElement(elem));
         }
 
         wait = wait && !isNaN(+wait) ? +wait : this.delay;
 
         if (wait < 0) {
-            hideElement(elem);
+            this.hideElement(elem);
         } else if (wait > 0) {
-            setTimeout(function () {
-                hideElement(elem);
-            }, wait);
+            setTimeout(() => this.hideElement(elem), wait);
         }
 
     }
@@ -157,7 +141,7 @@ class Alertify {
      */
     public log(message: string, type: string, click: EventListenerOrEventListenerObject): void {
 
-        const existing = document.querySelectorAll(".alertify-logs > div");
+        const existing: NodeListOf<HTMLDivElement> = document.querySelectorAll(".alertify-logs > div");
         if (existing) {
             const diff = existing.length - this.maxLogItems;
             if (diff >= 0) {
@@ -235,13 +219,13 @@ class Alertify {
      *
      * @return {undefined}
      */
-    public setup(item: { type: string; message: string }): Promise<void> {
+    public setup(item: IAlertifyItem): Promise<object> | void {
 
         const el = document.createElement("div");
         el.className = "alertify hide";
         el.innerHTML = this.build(item);
 
-        const btnOK = el.querySelector(".ok");
+        const btnOK: HTMLElement | null = el.querySelector(".ok");
         const btnCancel = el.querySelector(".cancel");
         const input = el.querySelector("input");
         const label = el.querySelector("label");
@@ -261,69 +245,12 @@ class Alertify {
             }
         }
 
-        function setupHandlers(resolve) {
-            if ("function" !== typeof resolve) {
-                // promises are not available so resolve is a no-op
-                resolve = function () { };
-            }
-
-            if (btnOK) {
-                btnOK.addEventListener("click", function (ev) {
-                    if (item.onOkay && "function" === typeof item.onOkay) {
-                        if (input) {
-                            item.onOkay(input.value, ev);
-                        } else {
-                            item.onOkay(ev);
-                        }
-                    }
-
-                    if (input) {
-                        resolve({
-                            buttonClicked: "ok",
-                            inputValue: input.value,
-                            event: ev
-                        });
-                    } else {
-                        resolve({
-                            buttonClicked: "ok",
-                            event: ev
-                        });
-                    }
-
-                    hideElement(el);
-                });
-            }
-
-            if (btnCancel) {
-                btnCancel.addEventListener("click", function (ev) {
-                    if (item.onCancel && "function" === typeof item.onCancel) {
-                        item.onCancel(ev);
-                    }
-
-                    resolve({
-                        buttonClicked: "cancel",
-                        event: ev
-                    });
-
-                    hideElement(el);
-                });
-            }
-
-            if (input) {
-                input.addEventListener("keyup", function (ev) {
-                    if (ev.which === 13) {
-                        btnOK.click();
-                    }
-                });
-            }
-        }
-
         let promise;
 
         if (typeof Promise === "function") {
-            promise = new Promise(setupHandlers);
+            promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
         } else {
-            setupHandlers();
+            this.setupHandlers(() => null, el, item);
         }
 
         this.parent.appendChild(el);
@@ -424,25 +351,84 @@ class Alertify {
             css.parentNode.removeChild(css);
         }
     }
+
+    private hideElement(el: Element) {
+        if (!el) {
+            return;
+        }
+
+        const removeThis = () => {
+            if (el && el.parentNode) {
+                el.parentNode.removeChild(el);
+            }
+        };
+
+        el.classList.remove("show");
+        el.classList.add("hide");
+        el.addEventListener("transitionend", removeThis);
+
+        // Fallback for no transitions.
+        setTimeout(removeThis, Alertify.TRANSITION_FALLBACK_DURATION);
+    };
+
+    private setupHandlers(resolve: Function, el: HTMLElement, item: IAlertifyItem) {
+
+        const btnOK: HTMLElement | null = el.querySelector(".ok");
+        const btnCancel = el.querySelector(".cancel");
+        const input = el.querySelector("input");
+        const label = el.querySelector("label");
+
+        if (btnOK) {
+            btnOK.addEventListener("click", (ev) => {
+                if (item.onOkay && "function" === typeof item.onOkay) {
+                    if (input) {
+                        item.onOkay(input.value, ev);
+                    } else {
+                        item.onOkay(ev);
+                    }
+                }
+
+                if (input) {
+                    resolve({
+                        buttonClicked: "ok",
+                        inputValue: input.value,
+                        event: ev
+                    });
+                } else {
+                    resolve({
+                        buttonClicked: "ok",
+                        event: ev
+                    });
+                }
+
+                this.hideElement(el);
+            });
+        }
+
+        if (btnCancel) {
+            btnCancel.addEventListener("click", (ev) => {
+                if (item.onCancel && "function" === typeof item.onCancel) {
+                    item.onCancel(ev);
+                }
+
+                resolve({
+                    buttonClicked: "cancel",
+                    event: ev
+                });
+
+                this.hideElement(el);
+            });
+        }
+
+        if (input) {
+            input.addEventListener("keyup", (ev) => {
+                if (btnOK && ev.which === 13) {
+                    btnOK.click();
+                }
+            });
+        }
+    }
 }
 
 const _alertify = new Alertify();
 _alertify.injectCSS();
-
-// AMD, window, and NPM support
-if ("undefined" !== typeof module && !!module && !!module.exports) {
-    // Preserve backwards compatibility
-    module.exports = function () {
-        return new Alertify();
-    };
-    let obj = new Alertify();
-    for (let key in obj) {
-        module.exports[key] = obj[key];
-    }
-} else if (typeof define === "function" && define.amd) {
-    define(function () {
-        return new Alertify();
-    });
-} else {
-    window.alertify = new Alertify();
-}

@@ -24,7 +24,7 @@
   "dependencies": {},
   "devDependencies": {
     "typescript": "^3.3.3333",
-    "@labeg/code-style": "1.0.7",
+    "@labeg/code-style": "^1.0.7",
     "tslint": "^5.14.0"
   },
   "license": "MIT"
