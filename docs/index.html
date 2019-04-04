@@ -21,7 +21,7 @@
             <a class="mdl-navigation__link" href="#getting-started">Getting Started</a>
             <a class="mdl-navigation__link" href="#performance">Performance</a>
             <a class="mdl-navigation__link" href="#usage">Usage</a>
-            <a class="mdl-navigation__link" href="https://github.com/alertifyjs/alertify.js">View on GitHub</a>
+            <a class="mdl-navigation__link" href="https://github.com/LabEG/alertify.js">View on GitHub</a>
           </nav>
         </div>
       </header>
@@ -31,14 +31,14 @@
           <a class="mdl-navigation__link" href="#getting-started">Getting Started</a>
           <a class="mdl-navigation__link" href="#performance">Performance</a>
           <a class="mdl-navigation__link" href="#usage">Usage</a>
-          <a class="mdl-navigation__link" href="https://github.com/alertifyjs/alertify.js">View on GitHub</a>
+          <a class="mdl-navigation__link" href="https://github.com/LabEG/alertify.js">View on GitHub</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
         <div class="container text-center">
             <h1 class="mdl-typography--display-4">alertify.js</h1>
             <h3 class="mdl-typography--display-2">Simple browser dialogs <small>v1.0.11</small></h3>
-            <a href="https://github.com/alertifyjs/alertify.js/archive/master.zip"
+            <a href="https://github.com/LabEG/alertify.js/archive/master.zip"
                class="mdl-button mdl-button--large mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect">
               <i class="material-icons md-24">file_download</i>
               Download Now
@@ -64,12 +64,7 @@
               <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-desktop left-col">
                 <h4 class="mdl-typeograph--headline">Notes</h4>
                 <p>
-                  We're working to get the latest version on all major public CDN's
-                  but until then, you'll need to either use a GitHub raw service,
-                  download it, or install via NPM or Bower.
-                </p>
-                <p>
-                  Obviously, if you're installing via Bower or NPM, you'll need
+                  Obviously, if you're installing via NPM, you'll need
                   to include the files in the "dist" directory in your
                   HTML for everything to work. But you knew that already.
                 </p>
@@ -90,8 +85,6 @@
 &lt;-- angular module --&gt;
 &lt;script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.11/dist/js/ngAlertify.js"&gt;&lt;/script&gt;
 </pre>
-                  <h4 class="mdl-typeograph--headline">Via Bower</h4>
-                  <pre>bower install --save alertifyjs</pre>
                   <h4 class="mdl-typeograph--headline">Via NPM</h4>
                   <pre>npm install --save alertify.js</pre>
 
@@ -106,31 +99,6 @@
       href="/path/to/custom/styles.css"
       id="alertifyCSS"&gt;
 &lt;script src="/path/to/alertify.js"&gt;&lt;/script&gt;</pre>
-              </div>
-            </div>
-            <div class="mdl-grid">
-              <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-desktop left-col">
-                <h4 class="mdl-typeograph--headline">AngularJS</h4>
-                <p>
-                  An AngularJS module is also included. It's in the
-                  "ngAlertify.js" file, so use that instead if you're building
-                  an AngularJS app.
-                </p>
-                <p>
-                    If you want to check out a live demo of log messages with
-                    ngAlertify, <a href="/angular.html">click here</a>.
-                </p>
-              </div>
-              <div class="mdl-cell mdl-cell--8-col mdl-cell--7-col-desktop right-col">
-                <h4 class="mdl-typeograph--headline">Initialize ngAlertify</h4>
-<pre>
-// Make sure to include the ngAlertify.js file.
-angular
-    .module("myApp", ["ngAlertify"])
-    .controller("myController", function($scope, alertify) {
-        alertify.success("Welcome to alertify!");
-    });
-</pre>
               </div>
             </div>
           </div>
