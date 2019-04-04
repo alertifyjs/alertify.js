@@ -10,7 +10,7 @@ interface IAlertifyItem {
  * Alertify private object
  * @type {Object}
  */
-class Alertify {
+export class Alertify {
 
     public static readonly TRANSITION_FALLBACK_DURATION: number = 500;
 
@@ -53,6 +53,10 @@ class Alertify {
         message: "<p class='msg'>{{message}}</p>",
         log: "<div class='{{class}}'>{{message}}</div>"
     };
+
+    constructor(){
+        this.injectCSS();
+    }
 
     /**
      * Build the proper message box
@@ -194,8 +198,8 @@ class Alertify {
         const log = document.createElement("div");
 
         log.className = (type || "default");
-        if (_alertify.logTemplateMethod) {
-            log.innerHTML = _alertify.logTemplateMethod(message);
+        if (alertify.logTemplateMethod) {
+            log.innerHTML = alertify.logTemplateMethod(message);
         } else {
             log.innerHTML = message;
         }
@@ -226,7 +230,6 @@ class Alertify {
         el.innerHTML = this.build(item);
 
         const btnOK: HTMLElement | null = el.querySelector(".ok");
-        const btnCancel = el.querySelector(".cancel");
         const input = el.querySelector("input");
         const label = el.querySelector("label");
 
@@ -376,7 +379,6 @@ class Alertify {
         const btnOK: HTMLElement | null = el.querySelector(".ok");
         const btnCancel = el.querySelector(".cancel");
         const input = el.querySelector("input");
-        const label = el.querySelector("label");
 
         if (btnOK) {
             btnOK.addEventListener("click", (ev) => {
@@ -430,5 +432,4 @@ class Alertify {
     }
 }
 
-const _alertify = new Alertify();
-_alertify.injectCSS();
+export const alertify = new Alertify();
