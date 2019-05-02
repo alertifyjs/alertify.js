@@ -9,23 +9,23 @@ var alertify = (function (exports) {
      */
     class Alertify {
         constructor() {
-            this.parent = document.body;
-            this.version = "1.0.11";
-            this.defaultOkLabel = "Ok";
-            this.okLabel = "Ok";
-            this.defaultCancelLabel = "Cancel";
-            this.cancelLabel = "Cancel";
-            this.defaultMaxLogItems = 2;
-            this.maxLogItems = 2;
-            this.promptValue = "";
-            this.promptPlaceholder = "";
-            this.closeLogOnClick = false;
-            this.closeLogOnClickDefault = false;
-            this.delay = 5000;
-            this.defaultDelay = 5000;
-            this.logContainerClass = "alertify-logs";
-            this.logContainerDefaultClass = "alertify-logs";
-            this.logTemplateMethod = null;
+            this._parent = document.body;
+            this._version = "1.0.11";
+            this._defaultOkLabel = "Ok";
+            this._okLabel = "Ok";
+            this._defaultCancelLabel = "Cancel";
+            this._cancelLabel = "Cancel";
+            this._defaultMaxLogItems = 2;
+            this._maxLogItems = 2;
+            this._promptValue = "";
+            this._promptPlaceholder = "";
+            this._closeLogOnClick = false;
+            this._closeLogOnClickDefault = false;
+            this._delay = 5000;
+            this._defaultDelay = 5000;
+            this._logContainerClass = "alertify-logs";
+            this._logContainerDefaultClass = "alertify-logs";
+            this._logTemplateMethod = null;
             this.dialogs = {
                 buttons: {
                     holder: "<nav>{{buttons}}</nav>",
@@ -46,7 +46,79 @@ var alertify = (function (exports) {
                 message: "<p class='msg'>{{message}}</p>",
                 log: "<div class='{{class}}'>{{message}}</div>"
             };
-            this.injectCSS();
+            this._injectCSS();
+        }
+        parent(elem) {
+            this._parent = elem;
+        }
+        reset() {
+            this._reset();
+            return this;
+        }
+        alert(message, onOkay, onCancel) {
+            return this._dialog(message, "alert", onOkay, onCancel) || this;
+        }
+        confirm(message, onOkay, onCancel) {
+            return this._dialog(message, "confirm", onOkay, onCancel) || this;
+        }
+        prompt(message, onOkay, onCancel) {
+            return this._dialog(message, "prompt", onOkay, onCancel) || this;
+        }
+        log(message, click) {
+            this._log(message, "default", click);
+            return this;
+        }
+        theme(themeStr) {
+            this._theme(themeStr);
+            return this;
+        }
+        success(message, click) {
+            this._log(message, "success", click);
+            return this;
+        }
+        error(message, click) {
+            this._log(message, "error", click);
+            return this;
+        }
+        cancelBtn(label) {
+            this._cancelBtn(label);
+            return this;
+        }
+        okBtn(label) {
+            this._okBtn(label);
+            return this;
+        }
+        delay(time) {
+            this._setDelay(time);
+            return this;
+        }
+        placeholder(str) {
+            this._promptPlaceholder = str;
+            return this;
+        }
+        defaultValue(str) {
+            this._promptValue = str;
+            return this;
+        }
+        maxLogItems(num) {
+            this._setMaxLogItems(num);
+            return this;
+        }
+        closeLogOnClick(bool) {
+            this._setCloseLogOnClick(!!bool);
+            return this;
+        }
+        logPosition(str) {
+            this._setLogPosition(str || "");
+            return this;
+        }
+        setLogTemplate(templateMethod) {
+            this._logTemplateMethod = templateMethod;
+            return this;
+        }
+        clearLogs() {
+            this._setupLogContainer().innerHTML = "";
+            return this;
         }
         /**
          * Build the proper message box
@@ -55,7 +127,7 @@ var alertify = (function (exports) {
          *
          * @return {String}         An HTML string of the message box
          */
-        build(item) {
+        _build(item) {
             let btnTxt = this.dialogs.buttons.ok;
             let html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
             if (item.type === "confirm" || item.type === "prompt") {
@@ -66,12 +138,12 @@ var alertify = (function (exports) {
             }
             html = (html + this.dialogs.buttons.holder + "</div>" + "</div>")
                 .replace("{{buttons}}", btnTxt)
-                .replace("{{ok}}", this.okLabel)
-                .replace("{{cancel}}", this.cancelLabel);
+                .replace("{{ok}}", this._okLabel)
+                .replace("{{cancel}}", this._cancelLabel);
             return html;
         }
-        setCloseLogOnClick(bool) {
-            this.closeLogOnClick = !!bool;
+        _setCloseLogOnClick(bool) {
+            this._closeLogOnClick = !!bool;
         }
         /**
          * Close the log messages
@@ -81,16 +153,16 @@ var alertify = (function (exports) {
          *
          * @return {undefined}
          */
-        close(elem, wait = 0) {
+        _close(elem, wait = 0) {
             if (this.closeLogOnClick) {
-                elem.addEventListener("click", () => this.hideElement(elem));
+                elem.addEventListener("click", () => this._hideElement(elem));
             }
-            wait = wait && !isNaN(+wait) ? +wait : this.delay;
+            wait = wait && !isNaN(+wait) ? +wait : this._delay;
             if (wait < 0) {
-                this.hideElement(elem);
+                this._hideElement(elem);
             }
             else if (wait > 0) {
-                setTimeout(() => this.hideElement(elem), wait);
+                setTimeout(() => this._hideElement(elem), wait);
             }
         }
         /**
@@ -103,8 +175,8 @@ var alertify = (function (exports) {
          *
          * @return {Object}
          */
-        dialog(message, type, onOkay, onCancel) {
-            return this.setup({
+        _dialog(message, type, onOkay, onCancel) {
+            return this._setup({
                 type,
                 message,
                 onOkay,
@@ -120,28 +192,28 @@ var alertify = (function (exports) {
          *
          * @return {Object}
          */
-        log(message, type, click) {
+        _log(message, type, click) {
             const existing = document.querySelectorAll(".alertify-logs > div");
             if (existing) {
-                const diff = existing.length - this.maxLogItems;
+                const diff = existing.length - this._maxLogItems;
                 if (diff >= 0) {
                     for (let i = 0, _i = diff + 1; i < _i; i++) {
-                        this.close(existing[i], -1);
+                        this._close(existing[i], -1);
                     }
                 }
             }
-            this.notify(message, type, click);
+            this._notify(message, type, click);
         }
-        setLogPosition(str) {
-            this.logContainerClass = "alertify-logs " + str;
+        _setLogPosition(str) {
+            this._logContainerClass = "alertify-logs " + str;
         }
-        setupLogContainer() {
+        _setupLogContainer() {
             let elLog = document.querySelector(".alertify-logs");
-            const className = this.logContainerClass;
+            const className = this._logContainerClass;
             if (!elLog) {
                 elLog = document.createElement("div");
                 elLog.className = className;
-                this.parent.appendChild(elLog);
+                this._parent.appendChild(elLog);
             }
             // Make sure it's positioned properly.
             if (elLog.className !== className) {
@@ -160,12 +232,12 @@ var alertify = (function (exports) {
          *
          * @return {undefined}
          */
-        notify(message, type, click) {
-            const elLog = this.setupLogContainer();
+        _notify(message, type, click) {
+            const elLog = this._setupLogContainer();
             const log = document.createElement("div");
             log.className = (type || "default");
-            log.innerHTML = alertify.logTemplateMethod ?
-                alertify.logTemplateMethod(message) : message;
+            log.innerHTML = alertify._logTemplateMethod ?
+                alertify._logTemplateMethod(message) : message;
             // Add the click handler, if specified.
             if ("function" === typeof click) {
                 log.addEventListener("click", click);
@@ -174,43 +246,43 @@ var alertify = (function (exports) {
             setTimeout(function () {
                 log.className += " show";
             }, 10);
-            this.close(log, this.delay);
+            this._close(log, this._delay);
         }
         /**
          * Initiate all the required pieces for the dialog box
          *
          * @return {undefined}
          */
-        setup(item) {
+        _setup(item) {
             const el = document.createElement("div");
             el.className = "alertify hide";
-            el.innerHTML = this.build(item);
+            el.innerHTML = this._build(item);
             const btnOK = el.querySelector(".ok");
             const input = el.querySelector("input");
             const label = el.querySelector("label");
             // Set default value/placeholder of input
             if (input) {
-                if (typeof this.promptPlaceholder === "string") {
+                if (typeof this._promptPlaceholder === "string") {
                     // Set the label, if available, for MDL, etc.
                     if (label) {
-                        label.textContent = this.promptPlaceholder;
+                        label.textContent = this._promptPlaceholder;
                     }
                     else {
-                        input.placeholder = this.promptPlaceholder;
+                        input.placeholder = this._promptPlaceholder;
                     }
                 }
-                if (typeof this.promptValue === "string") {
-                    input.value = this.promptValue;
+                if (typeof this._promptValue === "string") {
+                    input.value = this._promptValue;
                 }
             }
             let promise;
             if (Reflect.has(window, "Promise")) {
-                promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
+                promise = new Promise((resolve) => this._setupHandlers(resolve, el, item));
             }
             else {
-                this.setupHandlers(() => null, el, item);
+                this._setupHandlers(() => null, el, item);
             }
-            this.parent.appendChild(el);
+            this._parent.appendChild(el);
             setTimeout(function () {
                 el.classList.remove("hide");
                 if (input && item.type && item.type === "prompt") {
@@ -225,22 +297,22 @@ var alertify = (function (exports) {
             }, 100);
             return promise;
         }
-        okBtn(label) {
-            this.okLabel = label;
+        _okBtn(label) {
+            this._okLabel = label;
             return this;
         }
-        setDelay(time = 0) {
-            this.delay = isNaN(time) ? this.defaultDelay : time;
+        _setDelay(time = 0) {
+            this._delay = isNaN(time) ? this._defaultDelay : time;
             return this;
         }
-        cancelBtn(str) {
-            this.cancelLabel = str;
+        _cancelBtn(str) {
+            this._cancelLabel = str;
             return this;
         }
-        setMaxLogItems(num) {
-            this.maxLogItems = num || this.defaultMaxLogItems;
+        _setMaxLogItems(num) {
+            this._maxLogItems = num || this._defaultMaxLogItems;
         }
-        theme(themeStr) {
+        _theme(themeStr) {
             switch (themeStr.toLowerCase()) {
                 case "bootstrap":
                     this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
@@ -270,20 +342,20 @@ var alertify = (function (exports) {
                     break;
             }
         }
-        reset() {
-            this.parent = document.body;
+        _reset() {
+            this._parent = document.body;
             this.theme("default");
-            this.okBtn(this.defaultOkLabel);
-            this.cancelBtn(this.defaultCancelLabel);
-            this.setMaxLogItems();
-            this.promptValue = "";
-            this.promptPlaceholder = "";
-            this.delay = this.defaultDelay;
-            this.setCloseLogOnClick(this.closeLogOnClickDefault);
-            this.setLogPosition("bottom left");
-            this.logTemplateMethod = null;
+            this.okBtn(this._defaultOkLabel);
+            this.cancelBtn(this._defaultCancelLabel);
+            this._setMaxLogItems();
+            this._promptValue = "";
+            this._promptPlaceholder = "";
+            this._delay = this._defaultDelay;
+            this._setCloseLogOnClick(this._closeLogOnClickDefault);
+            this._setLogPosition("bottom left");
+            this._logTemplateMethod = null;
         }
-        injectCSS() {
+        _injectCSS() {
             if (!document.querySelector("#alertifyCSS")) {
                 const head = document.getElementsByTagName("head")[0];
                 const css$1 = document.createElement("style");
@@ -298,7 +370,7 @@ var alertify = (function (exports) {
                 css.parentNode.removeChild(css);
             }
         }
-        hideElement(el) {
+        _hideElement(el) {
             if (!el) {
                 return;
             }
@@ -313,8 +385,7 @@ var alertify = (function (exports) {
             // Fallback for no transitions.
             setTimeout(removeThis, Alertify.TRANSITION_FALLBACK_DURATION);
         }
-        ;
-        setupHandlers(resolve, el, item) {
+        _setupHandlers(resolve, el, item) {
             const btnOK = el.querySelector(".ok");
             const btnCancel = el.querySelector(".cancel");
             const input = el.querySelector("input");
@@ -341,7 +412,7 @@ var alertify = (function (exports) {
                             event: ev
                         });
                     }
-                    this.hideElement(el);
+                    this._hideElement(el);
                 });
             }
             if (btnCancel) {
@@ -353,7 +424,7 @@ var alertify = (function (exports) {
                         buttonClicked: "cancel",
                         event: ev
                     });
-                    this.hideElement(el);
+                    this._hideElement(el);
                 });
             }
             if (input) {
