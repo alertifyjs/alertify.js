@@ -19,7 +19,7 @@ function getPlugins(config) {
                 {
                     "target": config.target,
                     "module": "ES2015",
-                    "declaration": false
+                    "declaration": config.target === "esnext"
                 }
             }
         }),

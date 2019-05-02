@@ -10,7 +10,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "target": "es5",
-        "allowJs": true,
+        "allowJs": false,
         "allowSyntheticDefaultImports": true,
         "checkJs": false,
         "diagnostics": true,
