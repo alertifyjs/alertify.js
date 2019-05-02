@@ -8,33 +8,24 @@ interface IAlertifyItem {
     onCancel: Function;
 }
 
+export enum LogTypes {
+    default = "default",
+    success = "success",
+    error = "error"
+}
+
 /**
  * Alertify private object
  * @type {Object}
  */
 export class Alertify {
 
-    public static readonly TRANSITION_FALLBACK_DURATION: number = 500;
-
-    protected _parent: HTMLElement = document.body;
-    protected _version: string = "1.0.11";
-    protected _defaultOkLabel: string = "Ok";
-    protected _okLabel: string = "Ok";
-    protected _defaultCancelLabel: string = "Cancel";
-    protected _cancelLabel: string = "Cancel";
-    protected _defaultMaxLogItems: number = 2;
-    protected _maxLogItems: number = 2;
-    protected _promptValue: string = "";
-    protected _promptPlaceholder: string = "";
-    protected _closeLogOnClick: boolean = false;
-    protected _closeLogOnClickDefault: boolean = false;
-    protected _delay: number = 5000;
-    protected _defaultDelay: number = 5000;
-    protected _logContainerClass: string = "alertify-logs";
-    protected _logContainerDefaultClass: string = "alertify-logs";
-    protected _logTemplateMethod: Function | null = null;
-
-    protected dialogs = {
+    public static transitionFallbackDuration: number = 500;
+    public static defaultDelay: number = 5000;
+    public static defaultMaxLogItems: number = 2;
+    public static defaultOkLabel: string = "Ok";
+    public static defaultCancelLabel: string = "Cancel";
+    public static defaultDialogs = {
         buttons: {
             holder: "<nav>{{buttons}}</nav>",
             ok: "<button class='ok' tabindex='1'>{{ok}}</button>",
@@ -45,7 +36,21 @@ export class Alertify {
         log: "<div class='{{class}}'>{{message}}</div>"
     };
 
-    protected defaultDialogs = {
+    protected parent: HTMLElement = document.body;
+    protected version: string = "1.0.11";
+    protected _okLabel: string = "Ok";
+    protected _cancelLabel: string = "Cancel";
+    protected maxLogItems: number = 2;
+    protected _promptValue: string = "";
+    protected _promptPlaceholder: string = "";
+    protected closeLogOnClick: boolean = false;
+    protected _closeLogOnClickDefault: boolean = false;
+    protected delay: number = 5000;
+    protected logContainerClass: string = "alertify-logs";
+    protected _logContainerDefaultClass: string = "alertify-logs";
+    protected logTemplateMethod: Function | null = null;
+
+    protected dialogs = {
         buttons: {
             holder: "<nav>{{buttons}}</nav>",
             ok: "<button class='ok' tabindex='1'>{{ok}}</button>",
@@ -60,14 +65,74 @@ export class Alertify {
         this._injectCSS();
     }
 
-    public parent(elem: HTMLElement) {
-        this._parent = elem;
-    }
-
-    public reset() {
-        this._reset();
+    public setParent(elem: HTMLElement): this {
+        this.parent = elem;
         return this;
     }
+
+    public reset(): this {
+        this.parent = document.body;
+        this._theme("default");
+        this._okBtn(Alertify.defaultOkLabel);
+        this._cancelBtn(Alertify.defaultCancelLabel);
+        this.setMaxLogItems(Alertify.defaultMaxLogItems);
+        this._promptValue = "";
+        this._promptPlaceholder = "";
+        this.delay = Alertify.defaultDelay;
+        this.setCloseLogOnClick(this._closeLogOnClickDefault);
+        this.setLogPosition("bottom left");
+        this.logTemplateMethod = null;
+        return this;
+    }
+
+    // notify
+
+    public log(message: string, click: EventListenerOrEventListenerObject): this {
+        this.prepareNotify(message, LogTypes.default, click);
+        return this;
+    }
+
+    public success(message: string, click: EventListenerOrEventListenerObject): this {
+        this.prepareNotify(message, LogTypes.success, click);
+        return this;
+    }
+
+    public error(message: string, click: EventListenerOrEventListenerObject): this {
+        this.prepareNotify(message, LogTypes.error, click);
+        return this;
+    }
+
+    public setDelay(time: number = 0): this {
+        this.delay = isNaN(time) ? Alertify.defaultDelay : time;
+        return this;
+    }
+
+    public setMaxLogItems(num: number): this {
+        this.maxLogItems = Number(num) || Alertify.defaultMaxLogItems;
+        return this;
+    }
+
+    public setCloseLogOnClick(bool: boolean): this {
+        this.closeLogOnClick = Boolean(bool);
+        return this;
+    }
+
+    public setLogPosition(str: string): this {
+        this.logContainerClass = `alertify-logs ${str || ""}`;
+        return this;
+    }
+
+    public setLogTemplate(templateMethod: Function): this {
+        this.logTemplateMethod = templateMethod;
+        return this;
+    }
+
+    public clearLogs(): this {
+        this.setupLogContainer().innerHTML = "";
+        return this;
+    }
+
+    // dialog
 
     public alert(message: string, onOkay: Function, onCancel: Function) {
         return this._dialog(message, "alert", onOkay, onCancel) || this;
@@ -81,23 +146,8 @@ export class Alertify {
         return this._dialog(message, "prompt", onOkay, onCancel) || this;
     }
 
-    public log(message: string, click: EventListenerOrEventListenerObject) {
-        this._log(message, "default", click);
-        return this;
-    }
-
     public theme(themeStr: string) {
         this._theme(themeStr);
-        return this;
-    }
-
-    public success(message: string, click: EventListenerOrEventListenerObject) {
-        this._log(message, "success", click);
-        return this;
-    }
-
-    public error(message: string, click: EventListenerOrEventListenerObject) {
-        this._log(message, "error", click);
         return this;
     }
 
@@ -111,11 +161,6 @@ export class Alertify {
         return this;
     }
 
-    public delay(time: number) {
-        this._setDelay(time);
-        return this;
-    }
-
     public placeholder(str: string) {
         this._promptPlaceholder = str;
         return this;
@@ -123,31 +168,6 @@ export class Alertify {
 
     public defaultValue(str: string) {
         this._promptValue = str;
-        return this;
-    }
-
-    public maxLogItems(num: number) {
-        this._setMaxLogItems(num);
-        return this;
-    }
-
-    public closeLogOnClick(bool: boolean) {
-        this._setCloseLogOnClick(!!bool);
-        return this;
-    }
-
-    public logPosition(str: string) {
-        this._setLogPosition(str || "");
-        return this;
-    }
-
-    public setLogTemplate(templateMethod: Function) {
-        this._logTemplateMethod = templateMethod;
-        return this;
-    }
-
-    public clearLogs() {
-        this._setupLogContainer().innerHTML = "";
         return this;
     }
 
@@ -180,10 +200,6 @@ export class Alertify {
 
     }
 
-    protected _setCloseLogOnClick(bool: boolean): void {
-        this._closeLogOnClick = !!bool;
-    }
-
     /**
      * Close the log messages
      *
@@ -198,7 +214,7 @@ export class Alertify {
             elem.addEventListener("click", () => this._hideElement(elem));
         }
 
-        wait = wait && !isNaN(+wait) ? +wait : this._delay;
+        wait = wait && !isNaN(+wait) ? +wait : this.delay;
 
         if (wait < 0) {
             this._hideElement(elem);
@@ -236,33 +252,30 @@ export class Alertify {
      *
      * @return {Object}
      */
-    protected _log(message: string, type: string, click: EventListenerOrEventListenerObject): void {
+    protected prepareNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
 
         const existing: NodeListOf<HTMLDivElement> = document.querySelectorAll(".alertify-logs > div");
         if (existing) {
-            const diff = existing.length - this._maxLogItems;
+            const diff = existing.length - this.maxLogItems;
             if (diff >= 0) {
-                for (let i = 0, _i = diff + 1; i < _i; i++) {
+                const j = diff + 1;
+                for (let i = 0; i < j; i += 1) {
                     this._close(existing[i], -1);
                 }
             }
         }
 
-        this._notify(message, type, click);
+        this.showNotify(message, type, click);
     }
 
-    protected _setLogPosition(str: string): void {
-        this._logContainerClass = "alertify-logs " + str;
-    }
-
-    protected _setupLogContainer(): Element {
+    protected setupLogContainer(): Element {
 
         let elLog = document.querySelector(".alertify-logs");
-        const className = this._logContainerClass;
+        const className = this.logContainerClass;
         if (!elLog) {
             elLog = document.createElement("div");
             elLog.className = className;
-            this._parent.appendChild(elLog);
+            this.parent.appendChild(elLog);
         }
 
         // Make sure it's positioned properly.
@@ -284,14 +297,14 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected _notify(message: string, type: string, click: EventListenerOrEventListenerObject): void {
+    protected showNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
 
-        const elLog = this._setupLogContainer();
+        const elLog = this.setupLogContainer();
         const log = document.createElement("div");
 
         log.className = (type || "default");
-        log.innerHTML = alertify._logTemplateMethod ?
-            alertify._logTemplateMethod(message) : message;
+        log.innerHTML = alertify.logTemplateMethod ?
+            alertify.logTemplateMethod(message) : message;
 
         // Add the click handler, if specified.
         if ("function" === typeof click) {
@@ -306,7 +319,7 @@ export class Alertify {
             10
         );
 
-        this._close(log, this._delay);
+        this._close(log, this.delay);
 
     }
 
@@ -348,7 +361,7 @@ export class Alertify {
             this._setupHandlers(() => null, el, item);
         }
 
-        this._parent.appendChild(el);
+        this.parent.appendChild(el);
         setTimeout(
             function () {
                 el.classList.remove("hide");
@@ -372,18 +385,9 @@ export class Alertify {
         return this;
     }
 
-    protected _setDelay(time: number = 0): this {
-        this._delay = isNaN(time) ? this._defaultDelay : time;
-        return this;
-    }
-
     protected _cancelBtn(str: string): this {
         this._cancelLabel = str;
         return this;
-    }
-
-    protected _setMaxLogItems(num?: number): void {
-        this._maxLogItems = num || this._defaultMaxLogItems;
     }
 
     protected _theme(themeStr: string): void {
@@ -410,25 +414,11 @@ export class Alertify {
                 break;
             case "default":
             default:
-                this.dialogs.buttons.ok = this.defaultDialogs.buttons.ok;
-                this.dialogs.buttons.cancel = this.defaultDialogs.buttons.cancel;
-                this.dialogs.input = this.defaultDialogs.input;
+                this.dialogs.buttons.ok = Alertify.defaultDialogs.buttons.ok;
+                this.dialogs.buttons.cancel = Alertify.defaultDialogs.buttons.cancel;
+                this.dialogs.input = Alertify.defaultDialogs.input;
                 break;
         }
-    }
-
-    protected _reset(): void {
-        this._parent = document.body;
-        this.theme("default");
-        this.okBtn(this._defaultOkLabel);
-        this.cancelBtn(this._defaultCancelLabel);
-        this._setMaxLogItems();
-        this._promptValue = "";
-        this._promptPlaceholder = "";
-        this._delay = this._defaultDelay;
-        this._setCloseLogOnClick(this._closeLogOnClickDefault);
-        this._setLogPosition("bottom left");
-        this._logTemplateMethod = null;
     }
 
     protected _injectCSS() {
@@ -464,7 +454,7 @@ export class Alertify {
         el.addEventListener("transitionend", removeThis);
 
         // Fallback for no transitions.
-        setTimeout(removeThis, Alertify.TRANSITION_FALLBACK_DURATION);
+        setTimeout(removeThis, Alertify.transitionFallbackDuration);
     }
 
     private _setupHandlers(resolve: Function, el: HTMLElement, item: IAlertifyItem) {
