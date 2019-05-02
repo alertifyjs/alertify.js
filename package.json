@@ -4,7 +4,7 @@
   "version": "1.0.11",
   "homepage": "https://alertifyjs.org/",
   "main": "dist/js/alertify.js",
-  "typings": "./alertify-js.d.ts",
+  "typings": "dist/js/alertify.d.ts",
   "author": "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",
   "keywords": [
     "alertify",
@@ -16,16 +16,33 @@
   "scripts": {
     "manupdate": "rm -rvf node_modules && npm install",
     "reinstall": "rm -rvf node_modules && npm install && npm dedupe && npm prune",
-    "fullupdate": "ncu -a && npm run reinstall",
+    "fullupdate": "ncu -u && npm run reinstall",
     "check": "tslint --fix --project ./tsconfig.json && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
   },
   "repository": "git@github.com:LabEG/alertify.js.git",
   "dependencies": {},
   "devDependencies": {
-    "typescript": "^3.3.3333",
+    "typescript": "^3.4.5",
     "@labeg/code-style": "^1.0.7",
-    "tslint": "^5.14.0"
+    "tslint": "^5.16.0",
+    "rollup": "^1.10.1",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-typescript2": "^0.21.0",
+    "rollup-plugin-less-modules": "^0.1.11",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-terser": "^4.0.4",
+    "karma": "^4.1.0",
+    "karma-browserify": "^6.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-commonjs": "1.0.0",
+    "karma-coverage": "^1.1.2",
+    "karma-coveralls": "^2.1.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-sauce-launcher": "^2.0"
   },
   "license": "MIT"
 }

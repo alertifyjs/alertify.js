@@ -5,8 +5,8 @@ var alertify = (function (exports) {
      * Alertify private object
      * @type {Object}
      */
-    var Alertify = /** @class */ (function () {
-        function Alertify() {
+    class Alertify {
+        constructor() {
             this.parent = document.body;
             this.version = "1.0.11";
             this.defaultOkLabel = "Ok";
@@ -53,9 +53,9 @@ var alertify = (function (exports) {
          *
          * @return {String}         An HTML string of the message box
          */
-        Alertify.prototype.build = function (item) {
-            var btnTxt = this.dialogs.buttons.ok;
-            var html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
+        build(item) {
+            let btnTxt = this.dialogs.buttons.ok;
+            let html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
             if (item.type === "confirm" || item.type === "prompt") {
                 btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
             }
@@ -67,10 +67,10 @@ var alertify = (function (exports) {
                 .replace("{{ok}}", this.okLabel)
                 .replace("{{cancel}}", this.cancelLabel);
             return html;
-        };
-        Alertify.prototype.setCloseLogOnClick = function (bool) {
+        }
+        setCloseLogOnClick(bool) {
             this.closeLogOnClick = !!bool;
-        };
+        }
         /**
          * Close the log messages
          *
@@ -79,19 +79,18 @@ var alertify = (function (exports) {
          *
          * @return {undefined}
          */
-        Alertify.prototype.close = function (elem, wait) {
-            var _this = this;
+        close(elem, wait) {
             if (this.closeLogOnClick) {
-                elem.addEventListener("click", function () { return _this.hideElement(elem); });
+                elem.addEventListener("click", () => this.hideElement(elem));
             }
             wait = wait && !isNaN(+wait) ? +wait : this.delay;
             if (wait < 0) {
                 this.hideElement(elem);
             }
             else if (wait > 0) {
-                setTimeout(function () { return _this.hideElement(elem); }, wait);
+                setTimeout(() => this.hideElement(elem), wait);
             }
-        };
+        }
         /**
          * Create a dialog box
          *
@@ -102,14 +101,14 @@ var alertify = (function (exports) {
          *
          * @return {Object}
          */
-        Alertify.prototype.dialog = function (message, type, onOkay, onCancel) {
+        dialog(message, type, onOkay, onCancel) {
             return this.setup({
-                type: type,
-                message: message,
-                onOkay: onOkay,
-                onCancel: onCancel
+                type,
+                message,
+                onOkay,
+                onCancel
             });
-        };
+        }
         /**
          * Show a new log message box
          *
@@ -119,24 +118,24 @@ var alertify = (function (exports) {
          *
          * @return {Object}
          */
-        Alertify.prototype.log = function (message, type, click) {
-            var existing = document.querySelectorAll(".alertify-logs > div");
+        log(message, type, click) {
+            const existing = document.querySelectorAll(".alertify-logs > div");
             if (existing) {
-                var diff = existing.length - this.maxLogItems;
+                const diff = existing.length - this.maxLogItems;
                 if (diff >= 0) {
-                    for (var i = 0, _i = diff + 1; i < _i; i++) {
+                    for (let i = 0, _i = diff + 1; i < _i; i++) {
                         this.close(existing[i], -1);
                     }
                 }
             }
             this.notify(message, type, click);
-        };
-        Alertify.prototype.setLogPosition = function (str) {
+        }
+        setLogPosition(str) {
             this.logContainerClass = "alertify-logs " + str;
-        };
-        Alertify.prototype.setupLogContainer = function () {
-            var elLog = document.querySelector(".alertify-logs");
-            var className = this.logContainerClass;
+        }
+        setupLogContainer() {
+            let elLog = document.querySelector(".alertify-logs");
+            const className = this.logContainerClass;
             if (!elLog) {
                 elLog = document.createElement("div");
                 elLog.className = className;
@@ -147,7 +146,7 @@ var alertify = (function (exports) {
                 elLog.className = className;
             }
             return elLog;
-        };
+        }
         /**
          * Add new log message
          * If a type is passed, a class name "{type}" will get added.
@@ -159,9 +158,9 @@ var alertify = (function (exports) {
          *
          * @return {undefined}
          */
-        Alertify.prototype.notify = function (message, type, click) {
-            var elLog = this.setupLogContainer();
-            var log = document.createElement("div");
+        notify(message, type, click) {
+            const elLog = this.setupLogContainer();
+            const log = document.createElement("div");
             log.className = (type || "default");
             if (alertify.logTemplateMethod) {
                 log.innerHTML = alertify.logTemplateMethod(message);
@@ -178,20 +177,19 @@ var alertify = (function (exports) {
                 log.className += " show";
             }, 10);
             this.close(log, this.delay);
-        };
+        }
         /**
          * Initiate all the required pieces for the dialog box
          *
          * @return {undefined}
          */
-        Alertify.prototype.setup = function (item) {
-            var _this = this;
-            var el = document.createElement("div");
+        setup(item) {
+            const el = document.createElement("div");
             el.className = "alertify hide";
             el.innerHTML = this.build(item);
-            var btnOK = el.querySelector(".ok");
-            var input = el.querySelector("input");
-            var label = el.querySelector("label");
+            const btnOK = el.querySelector(".ok");
+            const input = el.querySelector("input");
+            const label = el.querySelector("label");
             // Set default value/placeholder of input
             if (input) {
                 if (typeof this.promptPlaceholder === "string") {
@@ -207,12 +205,12 @@ var alertify = (function (exports) {
                     input.value = this.promptValue;
                 }
             }
-            var promise;
+            let promise;
             if (typeof Promise === "function") {
-                promise = new Promise(function (resolve) { return _this.setupHandlers(resolve, el, item); });
+                promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
             }
             else {
-                this.setupHandlers(function () { return null; }, el, item);
+                this.setupHandlers(() => null, el, item);
             }
             this.parent.appendChild(el);
             setTimeout(function () {
@@ -228,24 +226,24 @@ var alertify = (function (exports) {
                 }
             }, 100);
             return promise;
-        };
-        Alertify.prototype.okBtn = function (label) {
+        }
+        okBtn(label) {
             this.okLabel = label;
             return this;
-        };
-        Alertify.prototype.setDelay = function (time) {
+        }
+        setDelay(time) {
             time = time || 0;
             this.delay = isNaN(time) ? this.defaultDelay : time;
             return this;
-        };
-        Alertify.prototype.cancelBtn = function (str) {
+        }
+        cancelBtn(str) {
             this.cancelLabel = str;
             return this;
-        };
-        Alertify.prototype.setMaxLogItems = function (num) {
+        }
+        setMaxLogItems(num) {
             this.maxLogItems = num || this.defaultMaxLogItems;
-        };
-        Alertify.prototype.theme = function (themeStr) {
+        }
+        theme(themeStr) {
             switch (themeStr.toLowerCase()) {
                 case "bootstrap":
                     this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
@@ -274,8 +272,8 @@ var alertify = (function (exports) {
                     this.dialogs.input = this.defaultDialogs.input;
                     break;
             }
-        };
-        Alertify.prototype.reset = function () {
+        }
+        reset() {
             this.parent = document.body;
             this.theme("default");
             this.okBtn(this.defaultOkLabel);
@@ -287,28 +285,28 @@ var alertify = (function (exports) {
             this.setCloseLogOnClick(this.closeLogOnClickDefault);
             this.setLogPosition("bottom left");
             this.logTemplateMethod = null;
-        };
-        Alertify.prototype.injectCSS = function () {
+        }
+        injectCSS() {
             if (!document.querySelector("#alertifyCSS")) {
-                var head = document.getElementsByTagName("head")[0];
-                var css = document.createElement("style");
+                const head = document.getElementsByTagName("head")[0];
+                const css = document.createElement("style");
                 css.type = "text/css";
                 css.id = "alertifyCSS";
                 css.innerHTML = "/* style.css */";
                 head.insertBefore(css, head.firstChild);
             }
-        };
-        Alertify.prototype.removeCSS = function () {
-            var css = document.querySelector("#alertifyCSS");
+        }
+        removeCSS() {
+            let css = document.querySelector("#alertifyCSS");
             if (css && css.parentNode) {
                 css.parentNode.removeChild(css);
             }
-        };
-        Alertify.prototype.hideElement = function (el) {
+        }
+        hideElement(el) {
             if (!el) {
                 return;
             }
-            var removeThis = function () {
+            const removeThis = () => {
                 if (el && el.parentNode) {
                     el.parentNode.removeChild(el);
                 }
@@ -318,14 +316,14 @@ var alertify = (function (exports) {
             el.addEventListener("transitionend", removeThis);
             // Fallback for no transitions.
             setTimeout(removeThis, Alertify.TRANSITION_FALLBACK_DURATION);
-        };
-        Alertify.prototype.setupHandlers = function (resolve, el, item) {
-            var _this = this;
-            var btnOK = el.querySelector(".ok");
-            var btnCancel = el.querySelector(".cancel");
-            var input = el.querySelector("input");
+        }
+        ;
+        setupHandlers(resolve, el, item) {
+            const btnOK = el.querySelector(".ok");
+            const btnCancel = el.querySelector(".cancel");
+            const input = el.querySelector("input");
             if (btnOK) {
-                btnOK.addEventListener("click", function (ev) {
+                btnOK.addEventListener("click", (ev) => {
                     if (item.onOkay && "function" === typeof item.onOkay) {
                         if (input) {
                             item.onOkay(input.value, ev);
@@ -347,11 +345,11 @@ var alertify = (function (exports) {
                             event: ev
                         });
                     }
-                    _this.hideElement(el);
+                    this.hideElement(el);
                 });
             }
             if (btnCancel) {
-                btnCancel.addEventListener("click", function (ev) {
+                btnCancel.addEventListener("click", (ev) => {
                     if (item.onCancel && "function" === typeof item.onCancel) {
                         item.onCancel(ev);
                     }
@@ -359,21 +357,20 @@ var alertify = (function (exports) {
                         buttonClicked: "cancel",
                         event: ev
                     });
-                    _this.hideElement(el);
+                    this.hideElement(el);
                 });
             }
             if (input) {
-                input.addEventListener("keyup", function (ev) {
+                input.addEventListener("keyup", (ev) => {
                     if (btnOK && ev.which === 13) {
                         btnOK.click();
                     }
                 });
             }
-        };
-        Alertify.TRANSITION_FALLBACK_DURATION = 500;
-        return Alertify;
-    }());
-    var alertify = new Alertify();
+        }
+    }
+    Alertify.TRANSITION_FALLBACK_DURATION = 500;
+    const alertify = new Alertify();
 
     exports.Alertify = Alertify;
     exports.alertify = alertify;
