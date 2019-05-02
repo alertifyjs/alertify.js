@@ -21,7 +21,7 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
 
     function reset (ev) {
         ev.preventDefault();
-        alertify.reset();
+        alertify.alertify.reset();
     }
 
     function logDemo(selector) {
@@ -44,28 +44,28 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
     // ==============================
     // Standard Dialogs
     demo("#alert", function (ev) {
-        alertify.alert("This is an alert dialog");
+        alertify.alertify.alert("This is an alert dialog");
         return false;
     });
 
     demo("#confirm", function (ev) {
-        alertify.confirm("This is a confirm dialog", function (ev) {
+        alertify.alertify.confirm("This is a confirm dialog", function (ev) {
             ev.preventDefault();
-            alertify.success("You've clicked OK");
+            alertify.alertify.success("You've clicked OK");
         }, function(ev) {
             ev.preventDefault();
-            alertify.error("You've clicked Cancel");
+            alertify.alertify.error("You've clicked Cancel");
         });
     });
 
     demo("#click-to-close", function (ev) {
-        alertify
+        alertify.alertify
           .closeLogOnClick(true)
           .log("Click me to close!");
     });
 
     demo("#disable-click-to-close", function (ev) {
-        alertify
+        alertify.alertify
             .closeLogOnClick(true)
             .log("Click me to close!")
             .closeLogOnClick(false)
@@ -73,50 +73,50 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
     });
 
     demo("#reset", function (ev) {
-        alertify
+        alertify.alertify
             .okBtn("Go For It!")
             .reset(ev)
             .alert("Custom values were reset");
     });
 
     demo("#log-template", function (ev) {
-        alertify
+        alertify.alertify
             .setLogTemplate(function (input) { return 'log message: ' + input; })
             .log("This is the message");
     });
 
     demo("#max-log-items", function (ev) {
-        alertify
+        alertify.alertify
             .maxLogItems(1)
             .log("This is the first message");
 
         // The timeout is just for visual effect.
         setTimeout(function() {
-            alertify.log("The second message will force the first to close.");
+            alertify.alertify.log("The second message will force the first to close.");
         }, 1000);
     });
 
     demo("#prompt", function (ev) {
-        alertify
+        alertify.alertify
             .defaultValue("Default value")
             .prompt("This is a prompt dialog", function (str, ev) {
                 ev.preventDefault();
-                alertify.success("You've clicked OK and typed: " + str);
+                alertify.alertify.success("You've clicked OK and typed: " + str);
             }, function(ev) {
                 ev.preventDefault();
-                alertify.error("You've clicked Cancel");
+                alertify.alertify.error("You've clicked Cancel");
             });
     });
 
     // ==============================
     // Ajax
     demo("#ajax", function (ev) {
-        alertify.confirm("Confirm?", function(ev) {
+        alertify.alertify.confirm("Confirm?", function(ev) {
             ev.preventDefault();
-            alertify.alert("Successful AJAX after OK");
+            alertify.alertify.alert("Successful AJAX after OK");
         }, function(ev) {
             ev.preventDefault();
-            alertify.alert("Successful AJAX after Cancel");
+            alertify.alertify.alert("Successful AJAX after Cancel");
         });
     });
 
@@ -124,102 +124,102 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
     // Promise Aware
     demo("#promise", function (ev) {
         if ("function" !== typeof Promise) {
-            alertify.alert("Your browser doesn't support promises");
+            alertify.alertify.alert("Your browser doesn't support promises");
             return;
         }
 
-        alertify.confirm("Confirm?").then(function (resolvedValue) {
+        alertify.alertify.confirm("Confirm?").then(function (resolvedValue) {
             // The click event is in the
             // event variable, so you can use
             // it here.
             resolvedValue.event.preventDefault();
-            alertify.alert("You clicked the " + resolvedValue.buttonClicked + " button!");
+            alertify.alertify.alert("You clicked the " + resolvedValue.buttonClicked + " button!");
         });
     });
 
     // ==============================
     // Standard Dialogs
     demo("#notification", function (ev) {
-        alertify.log("Standard log message");
+        alertify.alertify.log("Standard log message");
     });
 
     demo("#notification-html", function (ev) {
-        alertify.log("<img src='https://placehold.it/256x128'><h3>This is HTML</h3><p>It's great, right?</p>");
+        alertify.alertify.log("<img src='https://placehold.it/256x128'><h3>This is HTML</h3><p>It's great, right?</p>");
     });
 
     demo("#notification-callback", function(ev) {
-        alertify.log("Standard log message with callback", function(ev) {
+        alertify.alertify.log("Standard log message with callback", function(ev) {
             ev.preventDefault();
-            alertify.log("You clicked the notification");
+            alertify.alertify.log("You clicked the notification");
         });
     });
 
     demo("#success", function (ev) {
-        alertify.success("Success log message");
+        alertify.alertify.success("Success log message");
     });
 
     demo("#success-callback", function(ev) {
-        alertify.success("Standard log message with callback", function() {
-            alertify.success("You clicked the notification");
+        alertify.alertify.success("Standard log message with callback", function() {
+            alertify.alertify.success("You clicked the notification");
         });
     });
 
     demo("#error", function (ev) {
-        alertify.error("Error log message");
+        alertify.alertify.error("Error log message");
     });
 
     demo("#error-callback", function(ev) {
-        alertify.error("Standard log message with callback", function(ev) {
+        alertify.alertify.error("Standard log message with callback", function(ev) {
             ev.preventDefault();
-            alertify.error("You clicked the notification");
+            alertify.alertify.error("You clicked the notification");
         });
     });
 
     // ==============================
     // Custom Properties
     demo("#delay", function (ev) {
-        alertify
+        alertify.alertify
             .delay(10000)
             .log("Hiding in 10 seconds");
     });
 
     demo("#forever", function (ev) {
-        alertify
+        alertify.alertify
             .delay(0)
             .log("Will stay until clicked");
     });
 
     demo("#labels", function (ev) {
-        alertify
+        alertify.alertify
             .okBtn("Accept")
             .cancelBtn("Deny")
             .confirm("Confirm dialog with custom button labels", function (ev) {
                 ev.preventDefault();
-                alertify.success("You've clicked OK");
+                alertify.alertify.success("You've clicked OK");
             }, function(ev) {
                 ev.preventDefault();
-                alertify.error("You've clicked Cancel");
+                alertify.alertify.error("You've clicked Cancel");
             });
     });
 
     demo("#log-position", function() {
-        alertify.delay(1000); // This is just to make the demo go faster.
-        alertify.log("Default bottom left position");
+        alertify.alertify.delay(1000); // This is just to make the demo go faster.
+        alertify.alertify.log("Default bottom left position");
         setTimeout(function() {
-            alertify.logPosition("top left");
-            alertify.log("top left");
+            alertify.alertify.logPosition("top left");
+            alertify.alertify.log("top left");
         }, 1500);
         setTimeout(function() {
-            alertify.logPosition("top right");
-            alertify.log("top right");
+            alertify.alertify.logPosition("top right");
+            alertify.alertify.log("top right");
         }, 3000);
         setTimeout(function() {
-            alertify.logPosition("bottom right");
-            alertify.log("bottom right");
+            alertify.alertify.logPosition("bottom right");
+            alertify.alertify.log("bottom right");
         }, 4500);
         setTimeout(function() {
-            alertify.reset(); // Puts the message back to default position.
-            alertify.log("Back to default");
+            alertify.alertify.reset(); // Puts the message back to default position.
+            alertify.alertify.log("Back to default");
         }, 6000);
     });
 
