@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "manupdate": "rm -rvf node_modules && npm install",
-    "reinstall": "rm -rvf node_modules && npm install && npm dedupe && npm prune",
+    "reinstall": "rm -rvf node_modules && npm install && npm dedupe && npm prune && npm shrinkwrap",
     "fullupdate": "ncu -u && npm run reinstall",
     "check": "tslint --fix --project ./tsconfig.json && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -31,18 +31,20 @@
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-typescript2": "^0.21.0",
-    "rollup-plugin-less-modules": "^0.1.11",
     "rollup-plugin-html": "^0.2.1",
     "rollup-plugin-terser": "^4.0.4",
     "karma": "^4.1.0",
     "karma-browserify": "^6.0.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-commonjs": "1.0.0",
+    "karma-commonjs": "^1.0.0",
     "karma-coverage": "^1.1.2",
     "karma-coveralls": "^2.1.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^2.0.1",
-    "karma-sauce-launcher": "^2.0"
+    "karma-sauce-launcher": "^2.0.2",
+    "rollup-plugin-postcss": "^2.0.3",
+    "node-sass": "^4.12.0",
+    "autoprefixer": "^9.5.1"
   },
   "license": "MIT"
 }

@@ -1,4 +1,6 @@
 
+import style from "./../sass/alertify.scss";
+
 interface IAlertifyItem {
     type: string;
     message: string;
@@ -54,7 +56,7 @@ export class Alertify {
         log: "<div class='{{class}}'>{{message}}</div>"
     };
 
-    constructor(){
+    constructor() {
         this.injectCSS();
     }
 
@@ -99,7 +101,7 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    public close(elem: HTMLElement, wait: number): void {
+    public close(elem: HTMLElement, wait: number = 0): void {
 
         if (this.closeLogOnClick) {
             elem.addEventListener("click", () => this.hideElement(elem));
@@ -178,7 +180,6 @@ export class Alertify {
         }
 
         return elLog;
-
     }
 
     /**
@@ -198,11 +199,8 @@ export class Alertify {
         const log = document.createElement("div");
 
         log.className = (type || "default");
-        if (alertify.logTemplateMethod) {
-            log.innerHTML = alertify.logTemplateMethod(message);
-        } else {
-            log.innerHTML = message;
-        }
+        log.innerHTML = alertify.logTemplateMethod ?
+            alertify.logTemplateMethod(message) : message;
 
         // Add the click handler, if specified.
         if ("function" === typeof click) {
@@ -210,9 +208,12 @@ export class Alertify {
         }
 
         elLog.appendChild(log);
-        setTimeout(function () {
-            log.className += " show";
-        }, 10);
+        setTimeout(
+            function () {
+                log.className += " show";
+            },
+            10
+        );
 
         this.close(log, this.delay);
 
@@ -250,24 +251,27 @@ export class Alertify {
 
         let promise;
 
-        if (typeof Promise === "function") {
+        if (Reflect.has(window, "Promise")) {
             promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
         } else {
             this.setupHandlers(() => null, el, item);
         }
 
         this.parent.appendChild(el);
-        setTimeout(function () {
-            el.classList.remove("hide");
-            if (input && item.type && item.type === "prompt") {
-                input.select();
-                input.focus();
-            } else {
-                if (btnOK) {
-                    btnOK.focus();
+        setTimeout(
+            function () {
+                el.classList.remove("hide");
+                if (input && item.type && item.type === "prompt") {
+                    input.select();
+                    input.focus();
+                } else {
+                    if (btnOK) {
+                        btnOK.focus();
+                    }
                 }
-            }
-        }, 100);
+            },
+            100
+        );
 
         return promise;
     }
@@ -277,8 +281,7 @@ export class Alertify {
         return this;
     }
 
-    public setDelay(time?: number): this {
-        time = time || 0;
+    public setDelay(time: number = 0): this {
         this.delay = isNaN(time) ? this.defaultDelay : time;
         return this;
     }
@@ -341,15 +344,14 @@ export class Alertify {
         if (!document.querySelector("#alertifyCSS")) {
             const head = document.getElementsByTagName("head")[0];
             const css = document.createElement("style");
-            css.type = "text/css";
             css.id = "alertifyCSS";
-            css.innerHTML = "/* style.css */";
+            css.innerHTML = style;
             head.insertBefore(css, head.firstChild);
         }
     }
 
     public removeCSS() {
-        let css = document.querySelector("#alertifyCSS");
+        const css = document.querySelector("#alertifyCSS");
         if (css && css.parentNode) {
             css.parentNode.removeChild(css);
         }
