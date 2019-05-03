@@ -2,7 +2,7 @@
 import style from "./../sass/alertify.scss";
 
 interface IAlertifyItem {
-    type: string;
+    type: DialogTypes;
     message: string;
     onOkay: Function;
     onCancel: Function;
@@ -12,6 +12,12 @@ export enum LogTypes {
     default = "default",
     success = "success",
     error = "error"
+}
+
+export enum DialogTypes {
+    alert = "alert",
+    confirm = "confirm",
+    prompt = "prompt"
 }
 
 /**
@@ -25,6 +31,8 @@ export class Alertify {
     public static defaultMaxLogItems: number = 2;
     public static defaultOkLabel: string = "Ok";
     public static defaultCancelLabel: string = "Cancel";
+    public static defaultCloseLogOnClick: boolean = false;
+    public static defaultLogContainerClass: string = "alertify-logs";
     public static defaultDialogs = {
         buttons: {
             holder: "<nav>{{buttons}}</nav>",
@@ -38,16 +46,14 @@ export class Alertify {
 
     protected parent: HTMLElement = document.body;
     protected version: string = "1.0.11";
-    protected _okLabel: string = "Ok";
-    protected _cancelLabel: string = "Cancel";
+    protected okLabel: string = "Ok";
+    protected cancelLabel: string = "Cancel";
     protected maxLogItems: number = 2;
-    protected _promptValue: string = "";
-    protected _promptPlaceholder: string = "";
+    protected promptValue: string = "";
+    protected promptPlaceholder: string = "";
     protected closeLogOnClick: boolean = false;
-    protected _closeLogOnClickDefault: boolean = false;
     protected delay: number = 5000;
     protected logContainerClass: string = "alertify-logs";
-    protected _logContainerDefaultClass: string = "alertify-logs";
     protected logTemplateMethod: Function | null = null;
 
     protected dialogs = {
@@ -62,7 +68,7 @@ export class Alertify {
     };
 
     constructor() {
-        this._injectCSS();
+        this.injectCSS();
     }
 
     public setParent(elem: HTMLElement): this {
@@ -72,14 +78,13 @@ export class Alertify {
 
     public reset(): this {
         this.parent = document.body;
-        this._theme("default");
-        this._okBtn(Alertify.defaultOkLabel);
-        this._cancelBtn(Alertify.defaultCancelLabel);
+        this.okBtn(Alertify.defaultOkLabel);
+        this.cancelBtn(Alertify.defaultCancelLabel);
         this.setMaxLogItems(Alertify.defaultMaxLogItems);
-        this._promptValue = "";
-        this._promptPlaceholder = "";
+        this.promptValue = "";
+        this.promptPlaceholder = "";
         this.delay = Alertify.defaultDelay;
-        this.setCloseLogOnClick(this._closeLogOnClickDefault);
+        this.setCloseLogOnClick(Alertify.defaultCloseLogOnClick);
         this.setLogPosition("bottom left");
         this.logTemplateMethod = null;
         return this;
@@ -132,74 +137,6 @@ export class Alertify {
         return this;
     }
 
-    // dialog
-
-    public alert(message: string, onOkay: Function, onCancel: Function) {
-        return this._dialog(message, "alert", onOkay, onCancel) || this;
-    }
-
-    public confirm(message: string, onOkay: Function, onCancel: Function) {
-        return this._dialog(message, "confirm", onOkay, onCancel) || this;
-    }
-
-    public prompt(message: string, onOkay: Function, onCancel: Function) {
-        return this._dialog(message, "prompt", onOkay, onCancel) || this;
-    }
-
-    public theme(themeStr: string) {
-        this._theme(themeStr);
-        return this;
-    }
-
-    public cancelBtn(label: string) {
-        this._cancelBtn(label);
-        return this;
-    }
-
-    public okBtn(label: string) {
-        this._okBtn(label);
-        return this;
-    }
-
-    public placeholder(str: string) {
-        this._promptPlaceholder = str;
-        return this;
-    }
-
-    public defaultValue(str: string) {
-        this._promptValue = str;
-        return this;
-    }
-
-    /**
-     * Build the proper message box
-     *
-     * @param  {Object} item    Current object in the queue
-     *
-     * @return {String}         An HTML string of the message box
-     */
-    protected _build(item: IAlertifyItem): string {
-
-        let btnTxt = this.dialogs.buttons.ok;
-        let html = "<div class='dialog'>" + "<div>" + this.dialogs.message.replace("{{message}}", item.message);
-
-        if (item.type === "confirm" || item.type === "prompt") {
-            btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
-        }
-
-        if (item.type === "prompt") {
-            html += this.dialogs.input;
-        }
-
-        html = (html + this.dialogs.buttons.holder + "</div>" + "</div>")
-            .replace("{{buttons}}", btnTxt)
-            .replace("{{ok}}", this._okLabel)
-            .replace("{{cancel}}", this._cancelLabel);
-
-        return html;
-
-    }
-
     /**
      * Close the log messages
      *
@@ -208,20 +145,34 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected _close(elem: HTMLElement, wait: number = 0): void {
+    public close(elem: HTMLElement, wait: number = 0): void {
 
         if (this.closeLogOnClick) {
-            elem.addEventListener("click", () => this._hideElement(elem));
+            elem.addEventListener("click", () => this.hideElement(elem));
         }
 
-        wait = wait && !isNaN(+wait) ? +wait : this.delay;
+        const delay = wait && !isNaN(+wait) ? +wait : this.delay;
 
-        if (wait < 0) {
-            this._hideElement(elem);
-        } else if (wait > 0) {
-            setTimeout(() => this._hideElement(elem), wait);
+        if (delay < 0) {
+            this.hideElement(elem);
+        } else if (delay > 0) {
+            setTimeout(() => this.hideElement(elem), delay);
         }
 
+    }
+
+    // dialog
+
+    public alert(message: string, onOkay: Function, onCancel: Function) {
+        return this.dialog(message, DialogTypes.alert, onOkay, onCancel) || this;
+    }
+
+    public confirm(message: string, onOkay: Function, onCancel: Function) {
+        return this.dialog(message, DialogTypes.confirm, onOkay, onCancel) || this;
+    }
+
+    public prompt(message: string, onOkay: Function, onCancel: Function) {
+        return this.dialog(message, DialogTypes.prompt, onOkay, onCancel) || this;
     }
 
     /**
@@ -232,15 +183,35 @@ export class Alertify {
      * @param  {Function} onOkay       [Optional] Callback function when clicked okay.
      * @param  {Function} onCancel     [Optional] Callback function when cancelled.
      *
-     * @return {Object}
+     * @return {Promise<object> | void}
      */
-    protected _dialog(message: string, type: string, onOkay: Function, onCancel: Function) {
-        return this._setup({
+    public dialog(message: string, type: DialogTypes, onOkay: Function, onCancel: Function): Promise<object> | void {
+        return this.setupDialog({
             type,
             message,
             onOkay,
             onCancel
         });
+    }
+
+    public cancelBtn(label: string) {
+        this.cancelLabel = label;
+        return this;
+    }
+
+    public okBtn(label: string) {
+        this.okLabel = label;
+        return this;
+    }
+
+    public placeholder(str: string) {
+        this.promptPlaceholder = str;
+        return this;
+    }
+
+    public defaultValue(str: string) {
+        this.promptValue = str;
+        return this;
     }
 
     /**
@@ -260,12 +231,47 @@ export class Alertify {
             if (diff >= 0) {
                 const j = diff + 1;
                 for (let i = 0; i < j; i += 1) {
-                    this._close(existing[i], -1);
+                    this.close(existing[i], -1);
                 }
             }
         }
 
         this.showNotify(message, type, click);
+    }
+
+    /**
+     * Add new log message
+     * If a type is passed, a class name "{type}" will get added.
+     * This allows for custom look and feel for various types of notifications.
+     *
+     * @param  {String} message    The message passed from the callee
+     * @param  {String} type       [Optional] Type of log message
+     * @param  {Number} wait       [Optional] Time (in ms) to wait before auto-hiding
+     *
+     * @return {undefined}
+     */
+    protected showNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
+
+        const elLog = this.setupLogContainer();
+        const log = document.createElement("div");
+
+        log.className = (type || "default");
+        log.innerHTML = this.logTemplateMethod ? this.logTemplateMethod(message) : message;
+
+        // Add the click handler, if specified.
+        if ("function" === typeof click) {
+            log.addEventListener("click", click);
+        }
+
+        elLog.appendChild(log);
+        setTimeout(
+            function () {
+                log.className += " show";
+            },
+            10
+        );
+
+        this.close(log, this.delay);
     }
 
     protected setupLogContainer(): Element {
@@ -287,39 +293,31 @@ export class Alertify {
     }
 
     /**
-     * Add new log message
-     * If a type is passed, a class name "{type}" will get added.
-     * This allows for custom look and feel for various types of notifications.
+     * Build the proper message box
      *
-     * @param  {String} message    The message passed from the callee
-     * @param  {String} type       [Optional] Type of log message
-     * @param  {Number} wait       [Optional] Time (in ms) to wait before auto-hiding
+     * @param  {Object} item    Current object in the queue
      *
-     * @return {undefined}
+     * @return {String}         An HTML string of the message box
      */
-    protected showNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
+    protected buildDialog(item: IAlertifyItem): string {
 
-        const elLog = this.setupLogContainer();
-        const log = document.createElement("div");
+        let btnTxt = this.dialogs.buttons.ok;
+        let html = `<div class="dialog"><div>${this.dialogs.message.replace("{{message}}", item.message)}`;
 
-        log.className = (type || "default");
-        log.innerHTML = alertify.logTemplateMethod ?
-            alertify.logTemplateMethod(message) : message;
-
-        // Add the click handler, if specified.
-        if ("function" === typeof click) {
-            log.addEventListener("click", click);
+        if (item.type === "confirm" || item.type === "prompt") {
+            btnTxt = this.dialogs.buttons.cancel + this.dialogs.buttons.ok;
         }
 
-        elLog.appendChild(log);
-        setTimeout(
-            function () {
-                log.className += " show";
-            },
-            10
-        );
+        if (item.type === "prompt") {
+            html += this.dialogs.input;
+        }
 
-        this._close(log, this.delay);
+        html = (`${html}${this.dialogs.buttons.holder}</div></div>`)
+            .replace("{{buttons}}", btnTxt)
+            .replace("{{ok}}", this.okLabel)
+            .replace("{{cancel}}", this.cancelLabel);
+
+        return html;
 
     }
 
@@ -328,11 +326,11 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected _setup(item: IAlertifyItem): Promise<object> | void {
+    protected setupDialog(item: IAlertifyItem): Promise<object> | void {
 
         const el = document.createElement("div");
         el.className = "alertify hide";
-        el.innerHTML = this._build(item);
+        el.innerHTML = this.buildDialog(item);
 
         const btnOK: HTMLElement | null = el.querySelector(".ok");
         const input = el.querySelector("input");
@@ -340,16 +338,16 @@ export class Alertify {
 
         // Set default value/placeholder of input
         if (input) {
-            if (typeof this._promptPlaceholder === "string") {
+            if (typeof this.promptPlaceholder === "string") {
                 // Set the label, if available, for MDL, etc.
                 if (label) {
-                    label.textContent = this._promptPlaceholder;
+                    label.textContent = this.promptPlaceholder;
                 } else {
-                    input.placeholder = this._promptPlaceholder;
+                    input.placeholder = this.promptPlaceholder;
                 }
             }
-            if (typeof this._promptValue === "string") {
-                input.value = this._promptValue;
+            if (typeof this.promptValue === "string") {
+                input.value = this.promptValue;
             }
         }
 
@@ -380,48 +378,7 @@ export class Alertify {
         return promise;
     }
 
-    protected _okBtn(label: string): this {
-        this._okLabel = label;
-        return this;
-    }
-
-    protected _cancelBtn(str: string): this {
-        this._cancelLabel = str;
-        return this;
-    }
-
-    protected _theme(themeStr: string): void {
-        switch (themeStr.toLowerCase()) {
-            case "bootstrap":
-                this.dialogs.buttons.ok = "<button class='ok btn btn-primary' tabindex='1'>{{ok}}</button>";
-                this.dialogs.buttons.cancel = "<button class='cancel btn btn-default' tabindex='2'>{{cancel}}</button>";
-                this.dialogs.input = "<input type='text' class='form-control'>";
-                break;
-            case "purecss":
-                this.dialogs.buttons.ok = "<button class='ok pure-button' tabindex='1'>{{ok}}</button>";
-                this.dialogs.buttons.cancel = "<button class='cancel pure-button' tabindex='2'>{{cancel}}</button>";
-                break;
-            case "mdl":
-            case "material-design-light":
-                this.dialogs.buttons.ok = "<button class='ok mdl-button mdl-js-button mdl-js-ripple-effect'  tabindex='1'>{{ok}}</button>";
-                this.dialogs.buttons.cancel = "<button class='cancel mdl-button mdl-js-button mdl-js-ripple-effect' tabindex='2'>{{cancel}}</button>";
-                this.dialogs.input = "<div class='mdl-textfield mdl-js-textfield'><input class='mdl-textfield__input'><label class='md-textfield__label'></label></div>";
-                break;
-            case "angular-material":
-                this.dialogs.buttons.ok = "<button class='ok md-primary md-button' tabindex='1'>{{ok}}</button>";
-                this.dialogs.buttons.cancel = "<button class='cancel md-button' tabindex='2'>{{cancel}}</button>";
-                this.dialogs.input = "<div layout='column'><md-input-container md-no-float><input type='text'></md-input-container></div>";
-                break;
-            case "default":
-            default:
-                this.dialogs.buttons.ok = Alertify.defaultDialogs.buttons.ok;
-                this.dialogs.buttons.cancel = Alertify.defaultDialogs.buttons.cancel;
-                this.dialogs.input = Alertify.defaultDialogs.input;
-                break;
-        }
-    }
-
-    protected _injectCSS() {
+    protected injectCSS() {
         if (!document.querySelector("#alertifyCSS")) {
             const head = document.getElementsByTagName("head")[0];
             const css = document.createElement("style");
@@ -438,7 +395,7 @@ export class Alertify {
         }
     }
 
-    private _hideElement(el: Element) {
+    private hideElement(el: Element) {
         if (!el) {
             return;
         }
@@ -486,7 +443,7 @@ export class Alertify {
                     });
                 }
 
-                this._hideElement(el);
+                this.hideElement(el);
             });
         }
 
@@ -501,7 +458,7 @@ export class Alertify {
                     event: ev
                 });
 
-                this._hideElement(el);
+                this.hideElement(el);
             });
         }
 
@@ -514,5 +471,3 @@ export class Alertify {
         }
     }
 }
-
-export const alertify = new Alertify();

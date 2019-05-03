@@ -1,32 +1,52 @@
 interface IAlertifyItem {
-    type: string;
+    type: DialogTypes;
     message: string;
     onOkay: Function;
     onCancel: Function;
+}
+export declare enum LogTypes {
+    default = "default",
+    success = "success",
+    error = "error"
+}
+export declare enum DialogTypes {
+    alert = "alert",
+    confirm = "confirm",
+    prompt = "prompt"
 }
 /**
  * Alertify private object
  * @type {Object}
  */
 export declare class Alertify {
-    static readonly TRANSITION_FALLBACK_DURATION: number;
-    protected _parent: HTMLElement;
-    protected _version: string;
-    protected _defaultOkLabel: string;
-    protected _okLabel: string;
-    protected _defaultCancelLabel: string;
-    protected _cancelLabel: string;
-    protected _defaultMaxLogItems: number;
-    protected _maxLogItems: number;
-    protected _promptValue: string;
-    protected _promptPlaceholder: string;
-    protected _closeLogOnClick: boolean;
-    protected _closeLogOnClickDefault: boolean;
-    protected _delay: number;
-    protected _defaultDelay: number;
-    protected _logContainerClass: string;
-    protected _logContainerDefaultClass: string;
-    protected _logTemplateMethod: Function | null;
+    static transitionFallbackDuration: number;
+    static defaultDelay: number;
+    static defaultMaxLogItems: number;
+    static defaultOkLabel: string;
+    static defaultCancelLabel: string;
+    static defaultCloseLogOnClick: boolean;
+    static defaultLogContainerClass: string;
+    static defaultDialogs: {
+        buttons: {
+            holder: string;
+            ok: string;
+            cancel: string;
+        };
+        input: string;
+        message: string;
+        log: string;
+    };
+    protected parent: HTMLElement;
+    protected version: string;
+    protected okLabel: string;
+    protected cancelLabel: string;
+    protected maxLogItems: number;
+    protected promptValue: string;
+    protected promptPlaceholder: string;
+    protected closeLogOnClick: boolean;
+    protected delay: number;
+    protected logContainerClass: string;
+    protected logTemplateMethod: Function | null;
     protected dialogs: {
         buttons: {
             holder: string;
@@ -37,45 +57,18 @@ export declare class Alertify {
         message: string;
         log: string;
     };
-    protected defaultDialogs: {
-        buttons: {
-            holder: string;
-            ok: string;
-            cancel: string;
-        };
-        input: string;
-        message: string;
-        log: string;
-    };
     constructor();
-    parent(elem: HTMLElement): void;
+    setParent(elem: HTMLElement): this;
     reset(): this;
-    alert(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
-    confirm(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
-    prompt(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
     log(message: string, click: EventListenerOrEventListenerObject): this;
-    theme(themeStr: string): this;
     success(message: string, click: EventListenerOrEventListenerObject): this;
     error(message: string, click: EventListenerOrEventListenerObject): this;
-    cancelBtn(label: string): this;
-    okBtn(label: string): this;
-    delay(time: number): this;
-    placeholder(str: string): this;
-    defaultValue(str: string): this;
-    maxLogItems(num: number): this;
-    closeLogOnClick(bool: boolean): this;
-    logPosition(str: string): this;
+    setDelay(time?: number): this;
+    setMaxLogItems(num: number): this;
+    setCloseLogOnClick(bool: boolean): this;
+    setLogPosition(str: string): this;
     setLogTemplate(templateMethod: Function): this;
     clearLogs(): this;
-    /**
-     * Build the proper message box
-     *
-     * @param  {Object} item    Current object in the queue
-     *
-     * @return {String}         An HTML string of the message box
-     */
-    protected _build(item: IAlertifyItem): string;
-    protected _setCloseLogOnClick(bool: boolean): void;
     /**
      * Close the log messages
      *
@@ -84,7 +77,10 @@ export declare class Alertify {
      *
      * @return {undefined}
      */
-    protected _close(elem: HTMLElement, wait?: number): void;
+    close(elem: HTMLElement, wait?: number): void;
+    alert(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
+    confirm(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
+    prompt(message: string, onOkay: Function, onCancel: Function): this | Promise<object>;
     /**
      * Create a dialog box
      *
@@ -93,9 +89,13 @@ export declare class Alertify {
      * @param  {Function} onOkay       [Optional] Callback function when clicked okay.
      * @param  {Function} onCancel     [Optional] Callback function when cancelled.
      *
-     * @return {Object}
+     * @return {Promise<object> | void}
      */
-    protected _dialog(message: string, type: string, onOkay: Function, onCancel: Function): void | Promise<object>;
+    dialog(message: string, type: DialogTypes, onOkay: Function, onCancel: Function): Promise<object> | void;
+    cancelBtn(label: string): this;
+    okBtn(label: string): this;
+    placeholder(str: string): this;
+    defaultValue(str: string): this;
     /**
      * Show a new log message box
      *
@@ -105,9 +105,7 @@ export declare class Alertify {
      *
      * @return {Object}
      */
-    protected _log(message: string, type: string, click: EventListenerOrEventListenerObject): void;
-    protected _setLogPosition(str: string): void;
-    protected _setupLogContainer(): Element;
+    protected prepareNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
     /**
      * Add new log message
      * If a type is passed, a class name "{type}" will get added.
@@ -119,23 +117,25 @@ export declare class Alertify {
      *
      * @return {undefined}
      */
-    protected _notify(message: string, type: string, click: EventListenerOrEventListenerObject): void;
+    protected showNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
+    protected setupLogContainer(): Element;
+    /**
+     * Build the proper message box
+     *
+     * @param  {Object} item    Current object in the queue
+     *
+     * @return {String}         An HTML string of the message box
+     */
+    protected buildDialog(item: IAlertifyItem): string;
     /**
      * Initiate all the required pieces for the dialog box
      *
      * @return {undefined}
      */
-    protected _setup(item: IAlertifyItem): Promise<object> | void;
-    protected _okBtn(label: string): this;
-    protected _setDelay(time?: number): this;
-    protected _cancelBtn(str: string): this;
-    protected _setMaxLogItems(num?: number): void;
-    protected _theme(themeStr: string): void;
-    protected _reset(): void;
-    protected _injectCSS(): void;
+    protected setupDialog(item: IAlertifyItem): Promise<object> | void;
+    protected injectCSS(): void;
     protected removeCSS(): void;
-    private _hideElement;
+    private hideElement;
     private _setupHandlers;
 }
-export declare const alertify: Alertify;
 export {};

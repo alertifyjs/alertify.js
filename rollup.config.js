@@ -38,7 +38,7 @@ function getPlugins(config) {
                 minifyJS: true
             }
         }),
-        // terser()
+        terser()
     ];
 }
 
