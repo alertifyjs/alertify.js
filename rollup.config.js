@@ -1,10 +1,10 @@
-import nodeResolve from 'rollup-plugin-node-resolve';
-import commonJs from 'rollup-plugin-commonjs';
-import typeScript from 'rollup-plugin-typescript2';
-import html from 'rollup-plugin-html';
-import postcss from 'rollup-plugin-postcss';
-import autoprefixer from 'autoprefixer';
-import { terser } from 'rollup-plugin-terser';
+import nodeResolve from "rollup-plugin-node-resolve";
+import commonJs from "rollup-plugin-commonjs";
+import typeScript from "rollup-plugin-typescript2";
+import html from "rollup-plugin-html";
+import postcss from "rollup-plugin-postcss";
+import autoprefixer from "autoprefixer";
+import { terser } from "rollup-plugin-terser";
 
 const isSourceMap = false;
 
@@ -27,10 +27,10 @@ function getPlugins(config) {
             minimize: { safe: true },
             inject: false,
             sourceMap: isSourceMap,
-            plugins: [autoprefixer({ browsers: ['ie >= 9', 'last 4 version', '> 1%'] })]
+            plugins: [autoprefixer({ browsers: ["ie >= 9", "last 4 version", "> 1%"] })]
         }),
         html({
-            include: '**/*.html',
+            include: "**/*.html",
             htmlMinifierOptions: {
                 collapseWhitespace: true,
                 collapseBooleanAttributes: true,
@@ -44,27 +44,27 @@ function getPlugins(config) {
 
 export default [
     {
-        input: 'src/ts/Alertify.ts',
+        input: "src/ts/Alertify.ts",
         output: [{
-            file: 'dist/js/alertify.js',
-            format: 'iife',
+            file: "dist/js/alertify.js",
+            format: "iife",
             sourcemap: isSourceMap,
-            name: 'alertify'
+            name: "alertify"
         },{
-            file: 'docs/js/alertify.js',
-            format: 'iife',
+            file: "docs/js/alertify.js",
+            format: "iife",
             sourcemap: isSourceMap,
-            name: 'alertify'
+            name: "alertify"
         }],
         plugins: getPlugins({ target: "es5" })
     },
     {
-        input: 'src/ts/Alertify.ts',
+        input: "src/ts/Alertify.ts",
         output: [{
-            file: 'dist/js/alertify.mjs',
-            format: 'iife',
+            file: "dist/js/alertify.mjs",
+            format: "iife",
             sourcemap: isSourceMap,
-            name: 'alertify'
+            name: "alertify"
         }],
         plugins: getPlugins({ target: "esnext" })
     }
