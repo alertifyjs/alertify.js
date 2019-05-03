@@ -89,7 +89,7 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
 
     demo("#max-log-items", function (ev) {
         alertify
-            .maxLogItems(1)
+            .setMaxLogItems(1)
             .log("This is the first message");
 
         // The timeout is just for visual effect.
