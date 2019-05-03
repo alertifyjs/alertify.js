@@ -4,14 +4,14 @@
 
 ## 1.0.6
 
--  Fixes issue with closing log on link, issue #56
--  Improved Bootstrap button theming, issue #52
+- Fixes issue with closing log on link, issue #56
+- Improved Bootstrap button theming, issue #52
 
 ## 1.0.5
 
-- Adds option for positioning of log elements: issue #49
-- Adds more theming: issue #52, issue #50
-- Adds ability to disable injection of css issue #53
+  - Adds option for positioning of log elements: issue #49
+  -  Adds more theming: issue #52, issue #50
+    -   Adds ability to disable injection of css issue #53
 
 ## 1.0.4
 
