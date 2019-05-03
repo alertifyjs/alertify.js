@@ -62,15 +62,15 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
 
     demo("#click-to-close", function (ev) {
         alertify
-          .closeLogOnClick(true)
+          .setCloseLogOnClick(true)
           .log("Click me to close!");
     });
 
     demo("#disable-click-to-close", function (ev) {
         alertify
-            .closeLogOnClick(true)
+            .setCloseLogOnClick(true)
             .log("Click me to close!")
-            .closeLogOnClick(false)
+            .setCloseLogOnClick(false)
             .log("You can't click to close this!");
     });
 
