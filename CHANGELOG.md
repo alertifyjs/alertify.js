@@ -4,8 +4,8 @@
 
 ## 1.0.6
 
--  Fixes issue with closing log on link, issue #56
--  Improved Bootstrap button theming, issue #52
+- Fixes issue with closing log on link, issue #56
+- Improved Bootstrap button theming, issue #52
 
 ## 1.0.5
 
