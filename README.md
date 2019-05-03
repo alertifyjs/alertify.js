@@ -16,7 +16,7 @@ concrete example is your best way to get our attention! Not to say that we won't
 
 ## Usage and Examples
 
-For code examples, stop by the [website at alertifyjs.org](https://labeg.github.io/alertify.js/)
+For code examples, stop by the [website at github page](https://labeg.github.io/alertify.js/)
 
 ## Contributing
 
