@@ -208,15 +208,15 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
         alertify.setDelay(1000); // This is just to make the demo go faster.
         alertify.log("Default bottom left position");
         setTimeout(function() {
-            alertify.logPosition("top left");
+            alertify.setLogPosition("top left");
             alertify.log("top left");
         }, 1500);
         setTimeout(function() {
-            alertify.logPosition("top right");
+            alertify.setLogPosition("top right");
             alertify.log("top right");
         }, 3000);
         setTimeout(function() {
-            alertify.logPosition("bottom right");
+            alertify.setLogPosition("bottom right");
             alertify.log("bottom right");
         }, 4500);
         setTimeout(function() {
