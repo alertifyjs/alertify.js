@@ -181,13 +181,13 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
     // Custom Properties
     demo("#delay", function (ev) {
         alertify
-            .delay(10000)
+            .setDelay(10000)
             .log("Hiding in 10 seconds");
     });
 
     demo("#forever", function (ev) {
         alertify
-            .delay(0)
+            .setDelay(0)
             .log("Will stay until clicked");
     });
 
@@ -205,7 +205,7 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
     });
 
     demo("#log-position", function() {
-        alertify.delay(1000); // This is just to make the demo go faster.
+        alertify.setDelay(1000); // This is just to make the demo go faster.
         alertify.log("Default bottom left position");
         setTimeout(function() {
             alertify.logPosition("top left");
