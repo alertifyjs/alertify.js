@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1407ee60ef1542efb5fe703c93669b18)](https://www.codacy.com/app/LabEG/alertify.js?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LabEG/alertify.js&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1407ee60ef1542efb5fe703c93669b18)](https://www.codacy.com/app/LabEG/alertify.js?utm_source=github.com&utm_medium=referral&utm_content=LabEG/alertify.js&utm_campaign=Badge_Grade)
 ![David](https://img.shields.io/david/LabEG/alertify.js.svg)
 ![David](https://img.shields.io/david/dev/LabEG/alertify.js.svg)
 ![GitHub](https://img.shields.io/github/license/LabEG/alertify.js.svg)
@@ -29,23 +29,23 @@ test, we should be able to get a reasonable amount of coverage quickly.
 Alertify uses the following JavaScript which may not work in anything
 less than Internet Explorer 10, so you'll need to polyfill it.
 
-- `element.classList` (Less than IE 10 needs polyfill)
-- `document.querySelector` (Less than IE 7 needs polyfill)
-- `element.addEventListener` (Less than IE 9 needs polyfill)
-- `Array.prototype.map` (Less than IE 9 needs polyfill)
-- `Array.prototype.forEach` (Less than IE 9 needs polyfill)
+-   `element.classList` (Less than IE 10 needs polyfill)
+-   `document.querySelector` (Less than IE 7 needs polyfill)
+-   `element.addEventListener` (Less than IE 9 needs polyfill)
+-   `Array.prototype.map` (Less than IE 9 needs polyfill)
+-   `Array.prototype.forEach` (Less than IE 9 needs polyfill)
 
 It should work on Opera Mini, but since Opera Mini doesn't support
 transitions, the hiding of elements is not very pretty.
 
 It's being tested on:
 
-- Android 4.0 and Latest (should work on 2.1 and newer, though)
-- Chrome (Latest)
-- Firefox (Latest)
-- Internet Explorer (Latest)
-- Internet Explorer 10
-- Safari (desktop and iOS)
+-   Android 4.0 and Latest (should work on 2.1 and newer, though)
+-   Chrome (Latest)
+-   Firefox (Latest)
+-   Internet Explorer (Latest)
+-   Internet Explorer 10
+-   Safari (desktop and iOS)
 
 ## License
 
