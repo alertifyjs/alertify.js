@@ -20,6 +20,7 @@ export enum DialogTypes {
     prompt = "prompt"
 }
 
+
 /**
  * Alertify private object
  * @type {Object}
