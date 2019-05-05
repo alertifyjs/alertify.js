@@ -5,13 +5,15 @@
 
 describe("commonjs test suite", function() {
 
-    var Alertify = require("alertify");
+    // todo: return origin var Alertify = require("alertify");
+    var Alertify = window.alertify.Alertify;
+    var alertify = new window.alertify.Alertify();
 
     it("should be a function", function() {
         expect(typeof Alertify).toBe("function");
     });
 
-    [ Alertify, new Alertify(), Alertify() ].forEach(function(alertify) {
+    [ new Alertify() ].forEach(function(alertify) {
         it("should define the public methods", function() {
             expect(typeof alertify.reset).toBe("function");
             expect(typeof alertify.alert).toBe("function");
@@ -22,35 +24,35 @@ describe("commonjs test suite", function() {
             expect(typeof alertify.error).toBe("function");
             expect(typeof alertify.cancelBtn).toBe("function");
             expect(typeof alertify.okBtn).toBe("function");
-            expect(typeof alertify.delay).toBe("function");
+            expect(typeof alertify.setDelay).toBe("function");
             expect(typeof alertify.placeholder).toBe("function");
             expect(typeof alertify.defaultValue).toBe("function");
-            expect(typeof alertify.maxLogItems).toBe("function");
-            expect(typeof alertify.closeLogOnClick).toBe("function");
+            expect(typeof alertify.setMaxLogItems).toBe("function");
+            expect(typeof alertify.setCloseLogOnClick).toBe("function");
         });
     });
 
     it("should be different instances", function() {
-        var alertify = new Alertify();
-        alertify.defaultValue("foo");
-        expect(alertify._$$alertify).not.toEqual(Alertify._$$alertify);
+        var alertify2 = new Alertify();
+        alertify2.defaultValue("foo");
+        expect(alertify2).not.toEqual(alertify);
     });
 
     it("should default to document.body as parent element", function() {
-        expect(alertify._$$alertify.parent === document.body).toBe(true);
+        expect(alertify.parent === document.body).toBe(true);
     });
 
     it("should allow parent element to be updated", function() {
         var newElem = document.createElement("div");
-        alertify.parent(newElem);
-        expect(alertify._$$alertify.parent === newElem).toBe(true);
+        alertify.setParent(newElem);
+        expect(alertify.parent === newElem).toBe(true);
     });
 
     it("should reset the parent element", function() {
         var newElem = document.createElement("div");
-        alertify.parent(newElem);
+        alertify.setParent(newElem);
         alertify.reset();
-        expect(alertify._$$alertify.parent === document.body).toBe(true);
+        expect(alertify.parent === document.body).toBe(true);
     });
 
 });

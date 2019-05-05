@@ -1,11 +1,11 @@
 /* eslint-env karma, jasmine */
 /* eslint strict: [2, false] */
 describe("Dialog Unit Tests:", function () {
-    var $alertify;
+
+    var alertify = new window.alertify.Alertify();
 
     beforeEach(function() {
         alertify.reset();
-        $alertify = alertify._$$alertify;
     });
 
     describe("Setting button values", function() {
@@ -39,7 +39,7 @@ describe("Dialog Unit Tests:", function () {
             // Mock Promise global
             Promise = function () {};
 
-            var promise = $alertify.setup({
+            var promise = alertify.setupDialog({
                 type: "alert",
                 message: "Test",
                 onOkay: function () {},
@@ -53,7 +53,7 @@ describe("Dialog Unit Tests:", function () {
             // Mock Promise global
             delete Promise;
 
-            var promise = $alertify.setup({
+            var promise = alertify.setupDialog({
                 type: "alert",
                 message: "Test",
                 onOkay: function () {},

@@ -1,12 +1,12 @@
 /* eslint-env karma, jasmine */
 /* eslint strict: [2, false] */
 describe("Dialog Unit Tests:", function () {
-    var $alertify;
+
+    var alertify = new window.alertify.Alertify();
 
     beforeEach(function() {
         alertify.reset();
         alertify.clearLogs();
-        $alertify = alertify._$$alertify;
     });
 
     describe("Creating logs", function() {
@@ -40,7 +40,7 @@ describe("Dialog Unit Tests:", function () {
                 return input + ' sang kowalski';
             });
             alertify.reset();
-            expect(alertify._$$alertify.logTemplateMethod).toBe(null);
+            expect(alertify.logTemplateMethod).toBe(null);
 
         });
 
