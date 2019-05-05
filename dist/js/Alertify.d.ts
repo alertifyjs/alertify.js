@@ -63,7 +63,7 @@ export declare class Alertify {
     log(message: string, click: EventListenerOrEventListenerObject): this;
     success(message: string, click: EventListenerOrEventListenerObject): this;
     error(message: string, click: EventListenerOrEventListenerObject): this;
-    setDelay(time?: number): this;
+    setDelay(time: number): this;
     setMaxLogItems(num: number): this;
     setCloseLogOnClick(bool: boolean): this;
     setLogPosition(str: string): this;

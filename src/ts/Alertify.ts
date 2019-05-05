@@ -108,8 +108,8 @@ export class Alertify {
         return this;
     }
 
-    public setDelay(time: number = 0): this {
-        this.delay = isNaN(time) ? Alertify.defaultDelay : time;
+    public setDelay(time: number): this {
+        this.delay = Number(time) || Alertify.defaultDelay;
         return this;
     }
 

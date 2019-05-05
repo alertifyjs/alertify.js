@@ -5,6 +5,7 @@
 describe("settings unit tests", function() {
 
     var alertify = new window.alertify.Alertify();
+    var Alertify = window.alertify.Alertify;
 
     beforeEach(function() {
         alertify.reset();
@@ -134,6 +135,6 @@ describe("settings unit tests", function() {
         // should be reset to the default delay
         alertify.setDelay("a");
         expect(alertify.delay).not.toBe(undefined);
-        expect(alertify.delay).toBe(alertify.defaultDelay);
+        expect(alertify.delay).toBe(Alertify.defaultDelay);
     });
 });
