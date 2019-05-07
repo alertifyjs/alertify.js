@@ -4,6 +4,11 @@ interface IAlertifyItem {
     onOkay: Function;
     onCancel: Function;
 }
+interface IAlertifyDialogResult {
+    buttonClicked: string;
+    inputValue?: string;
+    event: Event;
+}
 export declare enum LogTypes {
     default = "default",
     success = "success",
@@ -132,10 +137,11 @@ export declare class Alertify {
      *
      * @return {undefined}
      */
-    protected setupDialog(item: IAlertifyItem): Promise<object> | void;
+    protected setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult> | void;
     protected injectCSS(): void;
     protected removeCSS(): void;
     private hideElement;
-    private _setupHandlers;
+    private setupHandlers;
 }
+export declare const alertify: Alertify;
 export {};

@@ -2,7 +2,7 @@
 /* eslint strict: [2, false] */
 describe("Dialog Unit Tests:", function () {
 
-    var alertify = new window.alertify.Alertify();
+    var alertify = new alertifyjs.Alertify();
 
     beforeEach(function() {
         alertify.reset();

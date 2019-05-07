@@ -4,8 +4,8 @@
 
 describe("settings unit tests", function() {
 
-    var alertify = new window.alertify.Alertify();
-    var Alertify = window.alertify.Alertify;
+    var alertify = new alertifyjs.Alertify();
+    var Alertify = alertifyjs.Alertify;
 
     beforeEach(function() {
         alertify.reset();

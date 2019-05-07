@@ -8,6 +8,12 @@ interface IAlertifyItem {
     onCancel: Function;
 }
 
+interface IAlertifyDialogResult {
+    buttonClicked: string;
+    inputValue?: string;
+    event: Event;
+}
+
 export enum LogTypes {
     default = "default",
     success = "success",
@@ -266,7 +272,7 @@ export class Alertify {
 
         elLog.appendChild(log);
         setTimeout(
-            function() {
+            function () {
                 log.className += " show";
             },
             10
@@ -327,7 +333,7 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected setupDialog(item: IAlertifyItem): Promise<object> | void {
+    protected setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult> | void {
 
         const el = document.createElement("div");
         el.className = "alertify hide";
@@ -352,17 +358,17 @@ export class Alertify {
             }
         }
 
-        let promise;
+        let promise: Promise<IAlertifyDialogResult> | void;
 
         if (Reflect.has(window, "Promise")) {
-            promise = new Promise((resolve) => this._setupHandlers(resolve, el, item));
+            promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
         } else {
-            this._setupHandlers(() => null, el, item);
+            this.setupHandlers(() => null, el, item);
         }
 
         this.parent.appendChild(el);
         setTimeout(
-            function() {
+            function () {
                 el.classList.remove("hide");
                 if (input && item.type && item.type === "prompt") {
                     input.select();
@@ -415,7 +421,11 @@ export class Alertify {
         setTimeout(removeThis, Alertify.transitionFallbackDuration);
     }
 
-    private _setupHandlers(resolve: Function, el: HTMLElement, item: IAlertifyItem) {
+    private setupHandlers(
+        resolve: (result: IAlertifyDialogResult) => void,
+        el: HTMLElement,
+        item: IAlertifyItem
+    ): void {
 
         const btnOK: HTMLElement | null = el.querySelector(".ok");
         const btnCancel = el.querySelector(".cancel");
@@ -472,3 +482,5 @@ export class Alertify {
         }
     }
 }
+
+export const alertify: Alertify = new Alertify();

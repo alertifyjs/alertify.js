@@ -6,8 +6,8 @@
 describe("commonjs test suite", function() {
 
     // todo: return origin var Alertify = require("alertify");
-    var Alertify = window.alertify.Alertify;
-    var alertify = new window.alertify.Alertify();
+    var Alertify = alertifyjs.Alertify;
+    var alertify = new alertifyjs.Alertify();
 
     it("should be a function", function() {
         expect(typeof Alertify).toBe("function");

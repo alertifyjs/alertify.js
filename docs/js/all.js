@@ -15,7 +15,7 @@ this.setActionHidden_(!1)),this.textElement_.textContent=this.message_,this.elem
 
 (function() {
 
-    var alertify = new window.alertify.Alertify();
+    var alertify = new alertifyjs.Alertify();
 
     function $(selector) {
         return document.querySelector(selector);

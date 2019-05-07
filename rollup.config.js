@@ -49,12 +49,12 @@ export default [
             file: "dist/js/alertify.js",
             format: "iife",
             sourcemap: isSourceMap,
-            name: "alertify"
+            name: "alertifyjs"
         },{
             file: "docs/js/alertify.js",
             format: "iife",
             sourcemap: isSourceMap,
-            name: "alertify"
+            name: "alertifyjs"
         }],
         plugins: getPlugins({ target: "es5" })
     },
@@ -64,7 +64,7 @@ export default [
             file: "dist/js/alertify.mjs",
             format: "iife",
             sourcemap: isSourceMap,
-            name: "alertify"
+            name: "alertifyjs"
         }],
         plugins: getPlugins({ target: "esnext" })
     }
