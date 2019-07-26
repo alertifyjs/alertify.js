@@ -24,7 +24,7 @@
   "repository": "git@github.com:LabEG/alertify.js.git",
   "dependencies": {},
   "devDependencies": {
-    "@labeg/code-style": "^1.0.9",
+    "@labeg/code-style": "^1.0.10",
     "autoprefixer": "^9.6.1",
     "karma": "^4.2.0",
     "karma-chrome-launcher": "^3.0.0",
