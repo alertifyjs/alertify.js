@@ -26,7 +26,6 @@ export enum DialogTypes {
     prompt = "prompt"
 }
 
-
 /**
  * Alertify private object
  * @type {Object}
@@ -272,7 +271,7 @@ export class Alertify {
 
         elLog.appendChild(log);
         setTimeout(
-            function () {
+            function() {
                 log.className += " show";
             },
             10
@@ -368,7 +367,7 @@ export class Alertify {
 
         this.parent.appendChild(el);
         setTimeout(
-            function () {
+            function() {
                 el.classList.remove("hide");
                 if (input && item.type && item.type === "prompt") {
                     input.select();
