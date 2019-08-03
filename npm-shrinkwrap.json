@@ -289,9 +289,9 @@
       }
     },
     "@labeg/code-style": {
-      "version": "1.0.12",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.12.tgz",
-      "integrity": "sha512-NWbngIOjMD4qafbBubFhtfQVIpt/CWqDpyzL39nKJWRnvT/3SfUWp9rfiae2YV0XErXxfuhY4eHsZIyGYTqwpw==",
+      "version": "1.0.13",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.13.tgz",
+      "integrity": "sha512-t0DKmRo2HMM7p1OLi25YG5t/gQRp6dAA1SzBSB9R9GW2qv64TE5wHHd6ezMj6A0uT1E5QgxD0m9tzr4V/TNkaA==",
       "dev": true,
       "requires": {
         "stylelint-config-standard": "^18.3.0",
@@ -6407,20 +6407,20 @@
       }
     },
     "rollup": {
-      "version": "1.17.0",
-      "resolved": "https://registry.npmjs.org/rollup/-/rollup-1.17.0.tgz",
-      "integrity": "sha512-k/j1m0NIsI4SYgCJR4MWPstGJOWfJyd6gycKoMhyoKPVXxm+L49XtbUwZyFsrSU2YXsOkM4u1ll9CS/ZgJBUpw==",
+      "version": "1.18.0",
+      "resolved": "https://registry.npmjs.org/rollup/-/rollup-1.18.0.tgz",
+      "integrity": "sha512-MBAWr6ectF948gW/bs/yfi0jW7DzwI8n0tEYG/ZMQutmK+blF/Oazyhg3oPqtScCGV8bzCtL9KzlzPtTriEOJA==",
       "dev": true,
       "requires": {
         "@types/estree": "0.0.39",
-        "@types/node": "^12.6.2",
+        "@types/node": "^12.6.3",
         "acorn": "^6.2.0"
       }
     },
     "rollup-plugin-commonjs": {
-      "version": "10.0.1",
-      "resolved": "https://registry.npmjs.org/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.0.1.tgz",
-      "integrity": "sha512-x0PcCVdEc4J8igv1qe2vttz8JKAKcTs3wfIA3L8xEty3VzxgORLrzZrNWaVMc+pBC4U3aDOb9BnWLAQ8J11vkA==",
+      "version": "10.0.2",
+      "resolved": "https://registry.npmjs.org/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.0.2.tgz",
+      "integrity": "sha512-DxeR4QXTgTOFseYls1V7vgKbrSJmPYNdEMOs0OvH+7+89C3GiIonU9gFrE0u39Vv1KWm3wepq8KAvKugtoM2Zw==",
       "dev": true,
       "requires": {
         "estree-walker": "^0.6.1",
@@ -6437,9 +6437,9 @@
           "dev": true
         },
         "resolve": {
-          "version": "1.11.1",
-          "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.11.1.tgz",
-          "integrity": "sha512-vIpgF6wfuJOZI7KKKSP+HmiKggadPQAdsp5HiC1mvqnfp0gF1vdwgBWZIdrVft9pgqoMFQN+R7BSWZiBxx+BBw==",
+          "version": "1.12.0",
+          "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.12.0.tgz",
+          "integrity": "sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==",
           "dev": true,
           "requires": {
             "path-parse": "^1.0.6"
