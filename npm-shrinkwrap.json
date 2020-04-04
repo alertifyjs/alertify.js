@@ -265,9 +265,9 @@
       }
     },
     "@labeg/code-style": {
-      "version": "1.0.26",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.26.tgz",
-      "integrity": "sha512-rfH8qatfXkEgxLa9ehhe1zyIIqfB/AmrU3rkbz3mnDlVW86zd7FC9L5D6KZKUHNAHKxTyzDT3YZaAkJPZnUaUw==",
+      "version": "1.0.29",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.29.tgz",
+      "integrity": "sha512-ThZsh0h4JHSSL5Llu//1QC+RBqLXVJO8CGMFs009e2YPHcZVId0qWgLTa31wiudOEfwaS9bz3krw9Z1Sd7bekA==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^2.26.0",
@@ -275,7 +275,7 @@
         "eslint": "^6.8.0",
         "eslint-plugin-react": "^7.19.0",
         "react": "^16.13.1",
-        "stylelint": "^13.2.1",
+        "stylelint": "^13.3.0",
         "stylelint-config-standard": "^20.0.0",
         "tslib": "^1.11.1",
         "tslint": "^6.1.1",
