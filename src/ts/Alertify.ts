@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 
 import style from "./../sass/alertify.scss";
 
@@ -39,6 +40,7 @@ export class Alertify {
     public static defaultCancelLabel: string = "Cancel";
     public static defaultCloseLogOnClick: boolean = false;
     public static defaultLogContainerClass: string = "alertify-logs";
+    // eslint-disable-next-line @typescript-eslint/typedef
     public static defaultDialogs = {
         buttons: {
             holder: "<nav>{{buttons}}</nav>",
@@ -62,6 +64,7 @@ export class Alertify {
     protected logContainerClass: string = "alertify-logs";
     protected logTemplateMethod: Function | null = null;
 
+    // eslint-disable-next-line @typescript-eslint/typedef
     protected dialogs = {
         buttons: {
             holder: "<nav>{{buttons}}</nav>",
@@ -379,6 +382,7 @@ export class Alertify {
 
     protected injectCSS(): void {
         if (!document.querySelector("#alertifyCSS")) {
+            // eslint-disable-next-line prefer-destructuring
             const head = document.getElementsByTagName("head")[0];
             const css = document.createElement("style");
             css.id = "alertifyCSS";
