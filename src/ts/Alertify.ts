@@ -152,33 +152,30 @@ export class Alertify {
      * @return {undefined}
      */
     public close(elem: HTMLElement, wait: number = 0): void {
-
         if (this.closeLogOnClick) {
             elem.addEventListener("click", () => this.hideElement(elem));
         }
 
-        const delay = wait && !isNaN(+wait) ? +wait : this.delay;
+        const delay = wait && !isNaN(Number(wait)) ? Number(wait) : this.delay;
 
         if (delay < 0) {
             this.hideElement(elem);
         } else if (delay > 0) {
             setTimeout(() => this.hideElement(elem), delay);
         }
-
     }
 
     // dialog
-
-    public alert(message: string, onOkay: Function, onCancel: Function) {
-        return this.dialog(message, DialogTypes.alert, onOkay, onCancel) || this;
+    public async alert(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+        return await this.dialog(message, DialogTypes.alert, onOkay, onCancel);
     }
 
-    public confirm(message: string, onOkay: Function, onCancel: Function) {
-        return this.dialog(message, DialogTypes.confirm, onOkay, onCancel) || this;
+    public async confirm(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+        return await this.dialog(message, DialogTypes.confirm, onOkay, onCancel);
     }
 
-    public prompt(message: string, onOkay: Function, onCancel: Function) {
-        return this.dialog(message, DialogTypes.prompt, onOkay, onCancel) || this;
+    public async prompt(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+        return await this.dialog(message, DialogTypes.prompt, onOkay, onCancel);
     }
 
     /**
@@ -191,8 +188,8 @@ export class Alertify {
      *
      * @return {Promise<object> | void}
      */
-    public dialog(message: string, type: DialogTypes, onOkay: Function, onCancel: Function): Promise<object> | void {
-        return this.setupDialog({
+    public async dialog(message: string, type: DialogTypes, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+        return await this.setupDialog({
             type,
             message,
             onOkay,
@@ -200,22 +197,22 @@ export class Alertify {
         });
     }
 
-    public cancelBtn(label: string) {
+    public cancelBtn(label: string): this {
         this.cancelLabel = label;
         return this;
     }
 
-    public okBtn(label: string) {
+    public okBtn(label: string): this {
         this.okLabel = label;
         return this;
     }
 
-    public placeholder(str: string) {
+    public placeholder(str: string): this {
         this.promptPlaceholder = str;
         return this;
     }
 
-    public defaultValue(str: string) {
+    public defaultValue(str: string): this {
         this.promptValue = str;
         return this;
     }
@@ -230,7 +227,6 @@ export class Alertify {
      * @return {Object}
      */
     protected prepareNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
-
         const existing: NodeListOf<HTMLDivElement> = document.querySelectorAll(".alertify-logs > div");
         if (existing) {
             const diff = existing.length - this.maxLogItems;
@@ -256,22 +252,25 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected showNotify(message: string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
-
+    protected showNotify(
+        message: string,
+        type: LogTypes = LogTypes.default,
+        click?: EventListenerOrEventListenerObject
+    ): void {
         const elLog = this.setupLogContainer();
         const log = document.createElement("div");
 
-        log.className = (type || "default");
+        log.className = type;
         log.innerHTML = this.logTemplateMethod ? this.logTemplateMethod(message) : message;
 
         // Add the click handler, if specified.
-        if ("function" === typeof click) {
+        if (typeof click === "function") {
             log.addEventListener("click", click);
         }
 
         elLog.appendChild(log);
         setTimeout(
-            function() {
+            () => {
                 log.className += " show";
             },
             10
@@ -281,7 +280,6 @@ export class Alertify {
     }
 
     protected setupLogContainer(): Element {
-
         let elLog = document.querySelector(".alertify-logs");
         const className = this.logContainerClass;
         if (!elLog) {
@@ -306,7 +304,6 @@ export class Alertify {
      * @return {String}         An HTML string of the message box
      */
     protected buildDialog(item: IAlertifyItem): string {
-
         let btnTxt = this.dialogs.buttons.ok;
         let html = `<div class="dialog"><div>${this.dialogs.message.replace("{{message}}", item.message)}`;
 
@@ -324,7 +321,6 @@ export class Alertify {
             .replace("{{cancel}}", this.cancelLabel);
 
         return html;
-
     }
 
     /**
@@ -332,8 +328,7 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult> | void {
-
+    protected async setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult | void> {
         const el = document.createElement("div");
         el.className = "alertify hide";
         el.innerHTML = this.buildDialog(item);
@@ -357,34 +352,32 @@ export class Alertify {
             }
         }
 
-        let promise: Promise<IAlertifyDialogResult> | void;
+        let promise: Promise<IAlertifyDialogResult> | void = void 0;
 
         if (Reflect.has(window, "Promise")) {
-            promise = new Promise((resolve) => this.setupHandlers(resolve, el, item));
+            promise = new Promise((resolve: () => void) => this.setupHandlers(resolve, el, item));
         } else {
             this.setupHandlers(() => null, el, item);
         }
 
         this.parent.appendChild(el);
         setTimeout(
-            function() {
+            () => {
                 el.classList.remove("hide");
                 if (input && item.type && item.type === "prompt") {
                     input.select();
                     input.focus();
-                } else {
-                    if (btnOK) {
-                        btnOK.focus();
-                    }
+                } else if (btnOK) {
+                    btnOK.focus();
                 }
             },
             100
         );
 
-        return promise;
+        return await promise;
     }
 
-    protected injectCSS() {
+    protected injectCSS(): void {
         if (!document.querySelector("#alertifyCSS")) {
             const head = document.getElementsByTagName("head")[0];
             const css = document.createElement("style");
@@ -394,9 +387,9 @@ export class Alertify {
         }
     }
 
-    protected removeCSS() {
+    protected removeCSS(): void {
         const css = document.querySelector("#alertifyCSS");
-        if (css && css.parentNode) {
+        if (css?.parentNode) {
             css.parentNode.removeChild(css);
         }
     }
@@ -407,7 +400,7 @@ export class Alertify {
         }
 
         const removeThis = () => {
-            if (el && el.parentNode) {
+            if (el?.parentNode) {
                 el.parentNode.removeChild(el);
             }
         };
@@ -425,14 +418,13 @@ export class Alertify {
         el: HTMLElement,
         item: IAlertifyItem
     ): void {
-
         const btnOK: HTMLElement | null = el.querySelector(".ok");
         const btnCancel = el.querySelector(".cancel");
         const input = el.querySelector("input");
 
         if (btnOK) {
-            btnOK.addEventListener("click", (ev) => {
-                if (item.onOkay && "function" === typeof item.onOkay) {
+            btnOK.addEventListener("click", (ev: Event) => {
+                if (item.onOkay && typeof item.onOkay === "function") {
                     if (input) {
                         item.onOkay(input.value, ev);
                     } else {
@@ -458,8 +450,8 @@ export class Alertify {
         }
 
         if (btnCancel) {
-            btnCancel.addEventListener("click", (ev) => {
-                if (item.onCancel && "function" === typeof item.onCancel) {
+            btnCancel.addEventListener("click", (ev: Event) => {
+                if (item.onCancel && typeof item.onCancel === "function") {
                     item.onCancel(ev);
                 }
 
@@ -473,13 +465,14 @@ export class Alertify {
         }
 
         if (input) {
-            input.addEventListener("keyup", (ev) => {
+            input.addEventListener("keyup", (ev: KeyboardEvent) => {
                 if (btnOK && ev.which === 13) {
                     btnOK.click();
                 }
             });
         }
     }
+
 }
 
 export const alertify: Alertify = new Alertify();

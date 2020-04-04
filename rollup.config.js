@@ -27,7 +27,7 @@ function getPlugins(config) {
             minimize: { safe: true },
             inject: false,
             sourceMap: isSourceMap,
-            plugins: [autoprefixer({ browsers: ["ie >= 9", "last 4 version", "> 1%"] })]
+            plugins: [autoprefixer()]
         }),
         html({
             include: "**/*.html",
@@ -66,6 +66,6 @@ export default [
             sourcemap: isSourceMap,
             name: "alertifyjs"
         }],
-        plugins: getPlugins({ target: "esnext" })
+        plugins: getPlugins({ target: "es2015" })
     }
 ];

@@ -14,17 +14,19 @@
     "alert"
   ],
   "scripts": {
-    "manupdate": "rm -rvf node_modules && npm install",
-    "reinstall": "rm -rvf node_modules && npm install && npm dedupe && npm prune && npm shrinkwrap",
-    "fullupdate": "ncu -u && npm run reinstall",
-    "check": "tslint --fix --project ./tsconfig.json && stylelint --fix src/**/*.scss && tsc",
+    "packages:manupdate": "rm -rvf node_modules && npm install",
+    "packages:reinstall": "rm -rvf npm-shrinkwrap.json && rm -rvf node_modules && npm install && npm dedupe && npm prune && npm shrinkwrap",
+    "packages:fullupdate": "ncu -u && npm run packages:reinstall",
+    "cs:eslint": "eslint --fix -c .eslintrc.js --ext .tsx,.ts,.jsx,.js ./src/",
+    "cs:stylelint": "stylelint --fix ./src/**/*.scss",
+    "cs": "concurrently \"npm run cs:eslint\" \"npm run cs:stylelint\"",
     "test": "karma start karma.conf.js",
     "build": "rollup -c"
   },
   "repository": "git@github.com:LabEG/alertify.js.git",
   "dependencies": {},
   "devDependencies": {
-    "@labeg/code-style": "^1.0.18",
+    "@labeg/code-style": "^1.0.26",
     "autoprefixer": "^9.7.5",
     "karma": "^4.4.1",
     "karma-chrome-launcher": "^3.1.0",
@@ -35,6 +37,7 @@
     "karma-jasmine": "^3.1.1",
     "karma-sauce-launcher": "^4.1.2",
     "node-sass": "^4.13.1",
+    "concurrently": "^5.1.0",
     "rollup": "^2.3.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-html": "^0.2.1",
@@ -42,9 +45,6 @@
     "rollup-plugin-postcss": "^2.5.0",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
-    "stylelint": "^13.2.1",
-    "stylelint-config-standard": "^20.0.0",
-    "tslint": "^6.1.0",
     "typescript": "^3.8.3"
   },
   "license": "MIT"
