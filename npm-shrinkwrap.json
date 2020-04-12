@@ -251,9 +251,9 @@
       }
     },
     "@labeg/code-style": {
-      "version": "1.0.35",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.35.tgz",
-      "integrity": "sha512-7g1kmqgbOzmNbi2NwV51GqA5c3cXwCXFX5nsU82gNQFv3aSLIvjM16UsYXfAbew7N2AmSeMtqoV2ZIt8ttd1hA==",
+      "version": "1.0.36",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.36.tgz",
+      "integrity": "sha512-OiRVqN9VrRN0UKJxdpJczF1i+hw+0Gw6F1abgQsAsgAC+H+feLeKBBYMn/8IuujnoR1zPYC+tzafFosn8wMjFg==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^2.27.0",
@@ -296,12 +296,14 @@
       }
     },
     "@rollup/pluginutils": {
-      "version": "3.0.8",
-      "resolved": "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.0.8.tgz",
-      "integrity": "sha512-rYGeAc4sxcZ+kPG/Tw4/fwJODC3IXHYDH4qusdN/b6aLw5LPUbzpecYbEJh4sVQGPFJxd2dBU4kc1H3oy9/bnw==",
+      "version": "3.0.9",
+      "resolved": "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.0.9.tgz",
+      "integrity": "sha512-TLZavlfPAZYI7v33wQh4mTP6zojne14yok3DNSLcjoG/Hirxfkonn6icP5rrNWRn8nZsirJBFFpijVOJzkUHDg==",
       "dev": true,
       "requires": {
-        "estree-walker": "^1.0.1"
+        "@types/estree": "0.0.39",
+        "estree-walker": "^1.0.1",
+        "micromatch": "^4.0.2"
       },
       "dependencies": {
         "estree-walker": {
