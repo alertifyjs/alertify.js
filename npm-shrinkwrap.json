@@ -257,9 +257,9 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.40",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.40.tgz",
-      "integrity": "sha512-7tl2cJasm0e2Flh1idWddPImWwY3Cr/GL/gbuXj8TNKt332Yac4aY1TajLIw8mhS9q8QRa1DYtW6ghgDeWxoLg==",
+      "version": "1.0.42",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.42.tgz",
+      "integrity": "sha512-27aWN3KF5K3ewEx4PuPRl6yT+wtkXkDPtr5XXQ4h2LOqQkPuui1K6Xsjt9Jv2K4HIMEZbM5n9h0bXNkbScy6cA==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^2.28.0",
