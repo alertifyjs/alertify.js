@@ -264,7 +264,7 @@ export class Alertify {
         const log = document.createElement("div");
 
         log.className = type;
-        log.innerHTML = this.logTemplateMethod ? this.logTemplateMethod(message) : message;
+        log.innerHTML = this.logTemplateMethod ? this.logTemplateMethod(message) as string : message;
 
         // Add the click handler, if specified.
         if (typeof click === "function") {
@@ -386,7 +386,7 @@ export class Alertify {
             const head = document.getElementsByTagName("head")[0];
             const css = document.createElement("style");
             css.id = "alertifyCSS";
-            css.innerHTML = style;
+            css.innerHTML = style as string;
             head.insertBefore(css, head.firstChild);
         }
     }
