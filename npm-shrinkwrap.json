@@ -270,9 +270,9 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.50",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.50.tgz",
-      "integrity": "sha512-xDaJ3KvSrcuJQrd1FVMz/b/23jD7ond0jJg1qjxTGHiu3NlA57Gc5X7eliRQqSR+R2BllDbmUkZmeaLwKBkPSQ==",
+      "version": "1.0.51",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.51.tgz",
+      "integrity": "sha512-C694s325ZupIa9zQukk48oYYmNmpPEkegdg/iXLmoqWRCz0j6HaQpSJBr/6WMQrc8VpcFiMhVKNpp5LGRROpGw==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^2.31.0",
