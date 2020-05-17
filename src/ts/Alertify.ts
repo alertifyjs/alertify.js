@@ -34,12 +34,19 @@ export enum DialogTypes {
 export class Alertify {
 
     public static transitionFallbackDuration: number = 500;
+
     public static defaultDelay: number = 5000;
+
     public static defaultMaxLogItems: number = 2;
+
     public static defaultOkLabel: string = "Ok";
+
     public static defaultCancelLabel: string = "Cancel";
+
     public static defaultCloseLogOnClick: boolean = false;
+
     public static defaultLogContainerClass: string = "alertify-logs";
+
     // eslint-disable-next-line @typescript-eslint/typedef
     public static defaultDialogs = {
         buttons: {
@@ -53,15 +60,25 @@ export class Alertify {
     };
 
     protected parent: HTMLElement = document.body;
+
     protected version: string = "1.0.11";
+
     protected okLabel: string = "Ok";
+
     protected cancelLabel: string = "Cancel";
+
     protected maxLogItems: number = 2;
+
     protected promptValue: string = "";
+
     protected promptPlaceholder: string = "";
+
     protected closeLogOnClick: boolean = false;
+
     protected delay: number = 5000;
+
     protected logContainerClass: string = "alertify-logs";
+
     protected logTemplateMethod: Function | null = null;
 
     // eslint-disable-next-line @typescript-eslint/typedef
