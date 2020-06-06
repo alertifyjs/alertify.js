@@ -261,9 +261,9 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.64",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.64.tgz",
-      "integrity": "sha512-vnrUo5usBGqqZ7sV2m0T1RU8XyVLjmg2hluudVIcdxhjKrejHZ8K6cI5aCB7a5jApuqhQwS48kiFdavCUhBCrw==",
+      "version": "1.0.67",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.67.tgz",
+      "integrity": "sha512-QmR2NxXnUNOqCgR7MjsKT1F1rIeD9slbh2bT8kiEvzdrALFR04UCUxac6VvMQUxeUAXYr1JjDmwmzdV/4uxKBQ==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^3.1.0",
