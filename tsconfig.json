@@ -2,9 +2,9 @@
     "compileOnSave": false,
     "compilerOptions": {
         "baseUrl": "./",
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "declaration": false,
+        "outDir": "./dist/js/",
+        "sourceMap": false,
+        "declaration": true,
         "module": "es2015",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
@@ -23,7 +23,7 @@
         "pretty": true,
         "strict": true,
         "strictFunctionTypes": false,
-        "noEmit": true,
+        "noEmit": false,
         "typeRoots": [
             "node_modules/@types"
         ],
