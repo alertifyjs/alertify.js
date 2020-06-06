@@ -5,8 +5,8 @@ import style from "./../sass/alertify.scss";
 interface IAlertifyItem {
     type: DialogTypes;
     message: string;
-    onOkay: Function;
-    onCancel: Function;
+    onOkay?: Function;
+    onCancel?: Function;
 }
 
 interface IAlertifyDialogResult {
@@ -186,15 +186,15 @@ export class Alertify {
     }
 
     // dialog
-    public async alert(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+    public async alert(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
         return await this.dialog(message, DialogTypes.alert, onOkay, onCancel);
     }
 
-    public async confirm(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+    public async confirm(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
         return await this.dialog(message, DialogTypes.confirm, onOkay, onCancel);
     }
 
-    public async prompt(message: string, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+    public async prompt(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
         return await this.dialog(message, DialogTypes.prompt, onOkay, onCancel);
     }
 
@@ -208,7 +208,7 @@ export class Alertify {
      *
      * @return {Promise<object> | void}
      */
-    public async dialog(message: string, type: DialogTypes, onOkay: Function, onCancel: Function): Promise<IAlertifyDialogResult | void> {
+    public async dialog(message: string, type: DialogTypes, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
         return await this.setupDialog({
             type,
             message,
