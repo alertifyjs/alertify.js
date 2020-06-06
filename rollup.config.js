@@ -44,7 +44,7 @@ function getPlugins(config) {
 
 export default [
     {
-        input: "src/ts/Alertify.ts",
+        input: "src/ts/alertify.ts",
         output: [{
             file: "dist/js/alertify.js",
             format: "iife",
@@ -59,7 +59,7 @@ export default [
         plugins: getPlugins({ target: "es5" })
     },
     {
-        input: "src/ts/Alertify.ts",
+        input: "src/ts/alertify.ts",
         output: [{
             file: "dist/js/alertify.mjs",
             format: "iife",
