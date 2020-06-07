@@ -53,12 +53,14 @@ export default [
             file: "dist/js/alertify.js",
             format: "umd",
             sourcemap: isSourceMap,
-            name: "alertifyjs"
+            name: "alertifyjs",
+            intro: "var document = typeof window !== undefined ? window.document : null;"
         },{
             file: "docs/js/alertify.js",
             format: "umd",
             sourcemap: isSourceMap,
-            name: "alertifyjs"
+            name: "alertifyjs",
+            intro: "var document = typeof window !== undefined ? window.document : null;"
         }],
         plugins: getPlugins({ target: "es5" })
     },
@@ -68,7 +70,8 @@ export default [
             file: "dist/js/alertify.mjs",
             format: "umd",
             sourcemap: isSourceMap,
-            name: "alertifyjs"
+            name: "alertifyjs",
+            intro: "var document = typeof window !== undefined ? window.document : null;"
         }],
         plugins: getPlugins({ target: "es2015" })
     }
