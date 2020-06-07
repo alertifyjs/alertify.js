@@ -1,4 +1,4 @@
-var alertifyjs=function(t){"use strict";
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).alertifyjs={})}(this,(function(t){"use strict";
 /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -31,4 +31,4 @@ e.innerHTML=".alertify{position:fixed;background-color:rgba(0,0,0,.3);left:0;rig
 t.insertBefore(e,t.firstChild)}},n.prototype.removeCSS=function(){var t=document.querySelector("#alertifyCSS");(null==t?void 0:t.parentNode)&&t.parentNode.removeChild(t)},n.prototype.hideElement=function(t){if(t){var e=function(){(null==t?void 0:t.parentNode)&&t.parentNode.removeChild(t)};t.classList.remove("show"),t.classList.add("hide"),t.addEventListener("transitionend",e),setTimeout(e,n.transitionFallbackDuration)}},n.prototype.setupHandlers=function(t,e,o){
 var n=this,i=e.querySelector(".ok"),r=e.querySelector(".cancel"),a=e.querySelector("input");i&&i.addEventListener("click",(function(i){o.onOkay&&"function"==typeof o.onOkay&&(a?o.onOkay(a.value,i):o.onOkay(i)),t(a?{buttonClicked:"ok",inputValue:a.value,event:i}:{buttonClicked:"ok",event:i}),n.hideElement(e)})),r&&r.addEventListener("click",(function(i){o.onCancel&&"function"==typeof o.onCancel&&o.onCancel(i),t({buttonClicked:"cancel",event:i}),n.hideElement(e)})),
 a&&a.addEventListener("keyup",(function(t){i&&13===t.which&&i.click()}))},n.transitionFallbackDuration=500,n.defaultDelay=5e3,n.defaultMaxLogItems=2,n.defaultOkLabel="Ok",n.defaultCancelLabel="Cancel",n.defaultCloseLogOnClick=!1,n.defaultLogContainerClass="alertify-logs",n.defaultDialogs={buttons:{holder:"<nav>{{buttons}}</nav>",ok:"<button class='ok' tabindex='1'>{{ok}}</button>",cancel:"<button class='cancel' tabindex='2'>{{cancel}}</button>"},input:"<input type='text'>",
-message:"<p class='msg'>{{message}}</p>",log:"<div class='{{class}}'>{{message}}</div>"},n}(),a=new r;return t.Alertify=r,t.alertify=a,t}({});
+message:"<p class='msg'>{{message}}</p>",log:"<div class='{{class}}'>{{message}}</div>"},n}(),a=new r;t.Alertify=r,t.alertify=a,Object.defineProperty(t,"__esModule",{value:!0})}));

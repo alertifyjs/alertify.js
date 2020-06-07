@@ -51,12 +51,12 @@ export default [
         input: "src/ts/alertify.ts",
         output: [{
             file: "dist/js/alertify.js",
-            format: "iife",
+            format: "umd",
             sourcemap: isSourceMap,
             name: "alertifyjs"
         },{
             file: "docs/js/alertify.js",
-            format: "iife",
+            format: "umd",
             sourcemap: isSourceMap,
             name: "alertifyjs"
         }],
@@ -66,7 +66,7 @@ export default [
         input: "src/ts/alertify.ts",
         output: [{
             file: "dist/js/alertify.mjs",
-            format: "iife",
+            format: "umd",
             sourcemap: isSourceMap,
             name: "alertifyjs"
         }],
