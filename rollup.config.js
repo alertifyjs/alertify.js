@@ -1,7 +1,6 @@
-import nodeResolve from "rollup-plugin-node-resolve";
-import commonJs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import commonJs from "@rollup/plugin-commonjs";
 import typeScript from "rollup-plugin-typescript2";
-import html from "rollup-plugin-html";
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 import { terser } from "rollup-plugin-terser";
@@ -29,16 +28,21 @@ function getPlugins(config) {
             sourceMap: isSourceMap,
             plugins: [autoprefixer()]
         }),
-        html({
-            include: "**/*.html",
-            htmlMinifierOptions: {
-                collapseWhitespace: true,
-                collapseBooleanAttributes: true,
-                conservativeCollapse: true,
-                minifyJS: true
+        terser({
+            parse: {
+                // parse options
+            },
+            compress: {
+                // compress options
+            },
+            mangle: {
+                 // mangle options
+            },
+            output: {
+                // output options
+                max_line_len: 500
             }
-        }),
-        terser()
+        })
     ];
 }
 
