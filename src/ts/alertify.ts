@@ -375,7 +375,9 @@ export class Alertify {
         let promise: Promise<IAlertifyDialogResult> | void = void 0;
 
         if (Reflect.has(window, "Promise")) {
-            promise = new Promise((resolve: () => void) => this.setupHandlers(resolve, el, item));
+            promise = new Promise((resolve: () => void) => {
+                this.setupHandlers(resolve, el, item);
+            });
         } else {
             this.setupHandlers(() => null, el, item);
         }
