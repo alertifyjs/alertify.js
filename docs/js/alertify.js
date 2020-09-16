@@ -1,4 +1,4 @@
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).alertifyjs={})}(this,(function(t){"use strict";
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t="undefined"!=typeof globalThis?globalThis:t||self).alertifyjs={})}(this,(function(t){"use strict";
 /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
