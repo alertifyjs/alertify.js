@@ -1,9 +1,9 @@
-$box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-$padding-base: 12px;
+$box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.2);
+$padding-base: 0.75em;
 $success-color: rgba(76, 175, 80, 0.9);
 $danger-color: rgba(244, 67, 54, 0.8);
 $text-color: rgba(0, 0, 0, 0.8);
-$border-radius: 1px;
+$border-radius: 0;
 
 .alertify {
     position: fixed;
@@ -33,7 +33,7 @@ $border-radius: 1px;
     }
 
     .dialog {
-        padding: 12px;
+        padding: 0.75em;
     }
 
     .dialog,
@@ -45,7 +45,7 @@ $border-radius: 1px;
         transform: translateY(-50%);
 
         > * {
-            width: 400px;
+            width: 25em;
             max-width: 95%;
             margin: 0 auto;
             text-align: center;
@@ -159,14 +159,14 @@ $border-radius: 1px;
 
     &.bottom,
     &:not(.top) {
-        bottom: 16px;
+        bottom: 1em;
     }
 
     // All left positions.
 
     &.left,
     &:not(.right) {
-        left: 16px;
+        left: 1em;
 
         > * {
             float: left;
@@ -185,7 +185,7 @@ $border-radius: 1px;
     }
 
     &.right {
-        right: 16px;
+        right: 1em;
 
         > * {
             float: right;
