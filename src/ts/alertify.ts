@@ -289,12 +289,7 @@ export class Alertify {
         }
 
         elLog.appendChild(log);
-        setTimeout(
-            () => {
-                log.className += " show";
-            },
-            10
-        );
+        requestAnimationFrame(() => log.className += " show");
 
         this.close(log, this.delay);
     }
