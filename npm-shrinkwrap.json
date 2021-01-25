@@ -9,7 +9,7 @@
       "version": "2.0.43",
       "license": "MIT",
       "devDependencies": {
-        "@labeg/code-style": "^1.0.83",
+        "@labeg/code-style": "^1.0.85",
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.1.0",
         "autoprefixer": "^10.2.3",
@@ -321,9 +321,9 @@
       }
     },
     "node_modules/@labeg/code-style": {
-      "version": "1.0.83",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.83.tgz",
-      "integrity": "sha512-fky0u2YtyO7jGAPa7/tq7blyJ5+7EDIWFg0ZfQTOeXzghA0BAfDbMCqV4ZC+szjTRP8ghFvSzFCOQDkLU9Dgfg==",
+      "version": "1.0.85",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.85.tgz",
+      "integrity": "sha512-dT3ERvbr92M7LGmqZEZWUl35IunE0mFEfbnLPJMQCohKCySzjPrcCs9fib3sIQpb5PKiVEZ8dBmJICBKm8ZpbQ==",
       "dev": true,
       "dependencies": {
         "@typescript-eslint/eslint-plugin": "^4.14.0",
@@ -13916,9 +13916,9 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.83",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.83.tgz",
-      "integrity": "sha512-fky0u2YtyO7jGAPa7/tq7blyJ5+7EDIWFg0ZfQTOeXzghA0BAfDbMCqV4ZC+szjTRP8ghFvSzFCOQDkLU9Dgfg==",
+      "version": "1.0.85",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.85.tgz",
+      "integrity": "sha512-dT3ERvbr92M7LGmqZEZWUl35IunE0mFEfbnLPJMQCohKCySzjPrcCs9fib3sIQpb5PKiVEZ8dBmJICBKm8ZpbQ==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^4.14.0",
