@@ -9,7 +9,7 @@
       "version": "2.0.44",
       "license": "MIT",
       "devDependencies": {
-        "@labeg/code-style": "^1.0.85",
+        "@labeg/code-style": "^1.0.86",
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-node-resolve": "^11.1.0",
         "autoprefixer": "^10.2.3",
@@ -321,9 +321,9 @@
       }
     },
     "node_modules/@labeg/code-style": {
-      "version": "1.0.85",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.85.tgz",
-      "integrity": "sha512-dT3ERvbr92M7LGmqZEZWUl35IunE0mFEfbnLPJMQCohKCySzjPrcCs9fib3sIQpb5PKiVEZ8dBmJICBKm8ZpbQ==",
+      "version": "1.0.86",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.86.tgz",
+      "integrity": "sha512-6S/61MV59b2JUi8J7Em6ypIvK22bG03mt9/ZnycltWg/1+KG07hI/zYMRCU3WId6iu8+14/QQQurQn/XvqjBzg==",
       "dev": true,
       "dependencies": {
         "@typescript-eslint/eslint-plugin": "^4.14.0",
@@ -12669,9 +12669,9 @@
       "dev": true
     },
     "node_modules/tsutils": {
-      "version": "3.19.1",
-      "resolved": "https://registry.npmjs.org/tsutils/-/tsutils-3.19.1.tgz",
-      "integrity": "sha512-GEdoBf5XI324lu7ycad7s6laADfnAqCw6wLGI+knxvw9vsIYBaJfYdmeCEG3FMMUiSm3OGgNb+m6utsWf5h9Vw==",
+      "version": "3.20.0",
+      "resolved": "https://registry.npmjs.org/tsutils/-/tsutils-3.20.0.tgz",
+      "integrity": "sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg==",
       "dev": true,
       "dependencies": {
         "tslib": "^1.8.1"
@@ -13916,9 +13916,9 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.85",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.85.tgz",
-      "integrity": "sha512-dT3ERvbr92M7LGmqZEZWUl35IunE0mFEfbnLPJMQCohKCySzjPrcCs9fib3sIQpb5PKiVEZ8dBmJICBKm8ZpbQ==",
+      "version": "1.0.86",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.86.tgz",
+      "integrity": "sha512-6S/61MV59b2JUi8J7Em6ypIvK22bG03mt9/ZnycltWg/1+KG07hI/zYMRCU3WId6iu8+14/QQQurQn/XvqjBzg==",
       "dev": true,
       "requires": {
         "@typescript-eslint/eslint-plugin": "^4.14.0",
@@ -23580,9 +23580,9 @@
       "dev": true
     },
     "tsutils": {
-      "version": "3.19.1",
-      "resolved": "https://registry.npmjs.org/tsutils/-/tsutils-3.19.1.tgz",
-      "integrity": "sha512-GEdoBf5XI324lu7ycad7s6laADfnAqCw6wLGI+knxvw9vsIYBaJfYdmeCEG3FMMUiSm3OGgNb+m6utsWf5h9Vw==",
+      "version": "3.20.0",
+      "resolved": "https://registry.npmjs.org/tsutils/-/tsutils-3.20.0.tgz",
+      "integrity": "sha512-RYbuQuvkhuqVeXweWT3tJLKOEJ/UUw9GjNEZGWdrLLlM+611o1gwLHBpxoFJKKl25fLprp2eVthtKs5JOrNeXg==",
       "dev": true,
       "requires": {
         "tslib": "^1.8.1"

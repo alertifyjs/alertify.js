@@ -28,7 +28,7 @@
   "repository": "git@github.com:LabEG/alertify.js.git",
   "dependencies": {},
   "devDependencies": {
-    "@labeg/code-style": "^1.0.85",
+    "@labeg/code-style": "^1.0.86",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
     "autoprefixer": "^10.2.3",
