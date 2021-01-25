@@ -282,10 +282,15 @@ export class Alertify {
 
         log.className = type;
 
-        if (this.logTemplateMethod) {
-            log.append(this.logTemplateMethod(message));
+        let htmlChild = message;
+        if (this.logTemplateMethod){
+            htmlChild = this.logTemplateMethod(message);
+        }
+
+        if (htmlChild instanceof HTMLElement) {
+            log.appendChild(htmlChild);
         } else {
-            log.append(message);
+            log.innerHTML = htmlChild;
         }
 
         // Add the click handler, if specified.
