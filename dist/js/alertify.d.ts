@@ -51,7 +51,7 @@ export declare class Alertify {
     protected closeLogOnClick: boolean;
     protected delay: number;
     protected logContainerClass: string;
-    protected logTemplateMethod: ((message: string | HTMLElement) => string | HTMLElement) | null;
+    protected logTemplateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null;
     protected dialogs: {
         buttons: {
             holder: string;
@@ -65,14 +65,14 @@ export declare class Alertify {
     constructor();
     setParent(elem: HTMLElement): this;
     reset(): this;
-    log(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this;
-    success(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this;
-    error(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this;
+    log(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this;
+    success(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this;
+    error(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this;
     setDelay(time: number): this;
     setMaxLogItems(num: number): this;
     setCloseLogOnClick(bool: boolean): this;
     setLogPosition(str: string): this;
-    setLogTemplate(templateMethod: ((message: string | HTMLElement) => string | HTMLElement) | null): this;
+    setLogTemplate(templateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null): this;
     clearLogs(): this;
     /**
      * Close the log messages
@@ -110,7 +110,7 @@ export declare class Alertify {
      *
      * @return {Object}
      */
-    protected prepareNotify(message: string | HTMLElement, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
+    protected prepareNotify(message: HTMLElement | string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
     /**
      * Add new log message
      * If a type is passed, a class name "{type}" will get added.
@@ -122,7 +122,7 @@ export declare class Alertify {
      *
      * @return {undefined}
      */
-    protected showNotify(message: string | HTMLElement, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
+    protected showNotify(message: HTMLElement | string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void;
     protected setupLogContainer(): Element;
     /**
      * Build the proper message box

@@ -79,7 +79,7 @@ export class Alertify {
 
     protected logContainerClass: string = "alertify-logs";
 
-    protected logTemplateMethod: ((message: string | HTMLElement) => string | HTMLElement) | null = null;
+    protected logTemplateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null = null;
 
     // eslint-disable-next-line @typescript-eslint/typedef
     protected dialogs = {
@@ -118,17 +118,17 @@ export class Alertify {
 
     // notify
 
-    public log(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this {
+    public log(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.default, click);
         return this;
     }
 
-    public success(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this {
+    public success(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.success, click);
         return this;
     }
 
-    public error(message: string | HTMLElement, click?: EventListenerOrEventListenerObject): this {
+    public error(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.error, click);
         return this;
     }
@@ -153,7 +153,7 @@ export class Alertify {
         return this;
     }
 
-    public setLogTemplate(templateMethod: ((message: string | HTMLElement) => string | HTMLElement) | null): this {
+    public setLogTemplate(templateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null): this {
         this.logTemplateMethod = templateMethod;
         return this;
     }
@@ -246,7 +246,7 @@ export class Alertify {
      *
      * @return {Object}
      */
-    protected prepareNotify(message: string | HTMLElement, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
+    protected prepareNotify(message: HTMLElement | string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
         const existing: NodeListOf<HTMLDivElement> = document.querySelectorAll(".alertify-logs > div");
         if (existing) {
             const diff = existing.length - this.maxLogItems;
@@ -273,7 +273,7 @@ export class Alertify {
      * @return {undefined}
      */
     protected showNotify(
-        message: string | HTMLElement,
+        message: HTMLElement | string,
         type: LogTypes = LogTypes.default,
         click?: EventListenerOrEventListenerObject
     ): void {
