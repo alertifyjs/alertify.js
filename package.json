@@ -1,7 +1,7 @@
 {
   "name": "@labeg/alertify.js",
   "description": "An lightweight, unobtrusive customizable JavaScript notification system.",
-  "version": "2.0.46",
+  "version": "2.0.47",
   "homepage": "https://labeg.github.io/alertify.js/",
   "main": "dist/js/alertify.js",
   "module": "dist/js/alertify.mjs",
