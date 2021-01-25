@@ -283,7 +283,7 @@ export class Alertify {
         log.className = type;
 
         let htmlChild = message;
-        if (this.logTemplateMethod){
+        if (this.logTemplateMethod) {
             htmlChild = this.logTemplateMethod(message);
         }
 
