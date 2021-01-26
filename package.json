@@ -4,8 +4,6 @@
   "version": "2.0.42",
   "homepage": "https://labeg.github.io/alertify.js/",
   "main": "dist/js/alertify.js",
-  "module": "dist/js/alertify.mjs",
-  "jsnext:main": "dist/js/alertify.mjs",
   "typings": "dist/js/alertify.d.ts",
   "author": "Fabien Doiron <fabien.doiron@gmail.com> (http://fabien-d.github.io/)",
   "keywords": [

@@ -61,15 +61,5 @@ export default [
             name: "alertifyjs"
         }],
         plugins: getPlugins({ target: "es5" })
-    },
-    {
-        input: "src/ts/alertify.ts",
-        output: [{
-            file: "dist/js/alertify.mjs",
-            format: "umd",
-            sourcemap: isSourceMap,
-            name: "alertifyjs"
-        }],
-        plugins: getPlugins({ target: "es2015" })
     }
 ];
