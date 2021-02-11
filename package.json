@@ -1,7 +1,7 @@
 {
   "name": "@labeg/alertify.js",
   "description": "An lightweight, unobtrusive customizable JavaScript notification system.",
-  "version": "2.0.48",
+  "version": "2.0.52",
   "homepage": "https://labeg.github.io/alertify.js/",
   "main": "dist/js/alertify.js",
   "typings": "dist/js/alertify.d.ts",
@@ -26,7 +26,7 @@
   "repository": "git@github.com:LabEG/alertify.js.git",
   "dependencies": {},
   "devDependencies": {
-    "@labeg/code-style": "^1.0.88",
+    "@labeg/code-style": "^1.0.90",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.1.1",
     "autoprefixer": "^10.2.4",

@@ -1,15 +1,15 @@
 {
   "name": "@labeg/alertify.js",
-  "version": "2.0.48",
+  "version": "2.0.52",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "@labeg/alertify.js",
-      "version": "2.0.48",
+      "version": "2.0.52",
       "license": "MIT",
       "devDependencies": {
-        "@labeg/code-style": "^1.0.88",
+        "@labeg/code-style": "^1.0.90",
         "@rollup/plugin-commonjs": "^17.1.0",
         "@rollup/plugin-node-resolve": "^11.1.1",
         "autoprefixer": "^10.2.4",
@@ -321,20 +321,20 @@
       }
     },
     "node_modules/@labeg/code-style": {
-      "version": "1.0.88",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.88.tgz",
-      "integrity": "sha512-byD/fkuzQ3E5vDyvGcEEzH7pUefZ0U+nL1yheQAUPQXg35fWzrXuOtQ4FYUMvrJtmLJ+KcEUCINtARhaz8amIA==",
+      "version": "1.0.90",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.90.tgz",
+      "integrity": "sha512-qezVL4Nft4JsTYc/wh9V4XK812tpwKI+1alYCCNyW7S/SuMZDuK1WRJftoXkLh5ZRwkkYVE04ymBdVIBtTc61A==",
       "dev": true,
       "dependencies": {
-        "@typescript-eslint/eslint-plugin": "^4.14.0",
-        "@typescript-eslint/parser": "^4.14.0",
-        "eslint": "^7.18.0",
+        "@typescript-eslint/eslint-plugin": "^4.15.0",
+        "@typescript-eslint/parser": "^4.15.0",
+        "eslint": "^7.19.0",
         "eslint-plugin-react": "^7.22.0",
         "react": "^17.0.1",
-        "stylelint": "^13.9.0",
+        "stylelint": "^13.10.0",
         "stylelint-config-standard": "^20.0.0",
         "tslib": "^2.1.0",
-        "typescript": "^4.1.3"
+        "typescript": "^4.1.5"
       }
     },
     "node_modules/@nodelib/fs.scandir": {
@@ -560,9 +560,9 @@
       "dev": true
     },
     "node_modules/@types/node": {
-      "version": "14.14.25",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.14.25.tgz",
-      "integrity": "sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ==",
+      "version": "14.14.26",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.14.26.tgz",
+      "integrity": "sha512-skWxepWOs+VArEBWd2S/VR3wUavioIIx9/HzW+UJiIjtwa6+kNXdsOeq7FfxDXf56hIcL0ieo2brwMgBJ1+lhw==",
       "dev": true
     },
     "node_modules/@types/normalize-package-data": {
@@ -13899,20 +13899,20 @@
       "dev": true
     },
     "@labeg/code-style": {
-      "version": "1.0.88",
-      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.88.tgz",
-      "integrity": "sha512-byD/fkuzQ3E5vDyvGcEEzH7pUefZ0U+nL1yheQAUPQXg35fWzrXuOtQ4FYUMvrJtmLJ+KcEUCINtARhaz8amIA==",
+      "version": "1.0.90",
+      "resolved": "https://registry.npmjs.org/@labeg/code-style/-/code-style-1.0.90.tgz",
+      "integrity": "sha512-qezVL4Nft4JsTYc/wh9V4XK812tpwKI+1alYCCNyW7S/SuMZDuK1WRJftoXkLh5ZRwkkYVE04ymBdVIBtTc61A==",
       "dev": true,
       "requires": {
-        "@typescript-eslint/eslint-plugin": "^4.14.0",
-        "@typescript-eslint/parser": "^4.14.0",
-        "eslint": "^7.18.0",
+        "@typescript-eslint/eslint-plugin": "^4.15.0",
+        "@typescript-eslint/parser": "^4.15.0",
+        "eslint": "^7.19.0",
         "eslint-plugin-react": "^7.22.0",
         "react": "^17.0.1",
-        "stylelint": "^13.9.0",
+        "stylelint": "^13.10.0",
         "stylelint-config-standard": "^20.0.0",
         "tslib": "^2.1.0",
-        "typescript": "^4.1.3"
+        "typescript": "^4.1.5"
       }
     },
     "@nodelib/fs.scandir": {
@@ -14096,9 +14096,9 @@
       "dev": true
     },
     "@types/node": {
-      "version": "14.14.25",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.14.25.tgz",
-      "integrity": "sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ==",
+      "version": "14.14.26",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.14.26.tgz",
+      "integrity": "sha512-skWxepWOs+VArEBWd2S/VR3wUavioIIx9/HzW+UJiIjtwa6+kNXdsOeq7FfxDXf56hIcL0ieo2brwMgBJ1+lhw==",
       "dev": true
     },
     "@types/normalize-package-data": {
