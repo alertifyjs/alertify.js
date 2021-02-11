@@ -1,12 +1,12 @@
 {
   "name": "@labeg/alertify.js",
-  "version": "2.0.52",
+  "version": "2.0.53",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "@labeg/alertify.js",
-      "version": "2.0.52",
+      "version": "2.0.53",
       "license": "MIT",
       "devDependencies": {
         "@labeg/code-style": "^1.0.90",
