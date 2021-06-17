@@ -1,8 +1,8 @@
 interface IAlertifyItem {
     type: DialogTypes;
     message: string;
-    onOkay?: Function;
-    onCancel?: Function;
+    onOkay?: (valueOrEvent: Event | string, event?: Event) => void;
+    onCancel?: (event: Event) => void;
 }
 interface IAlertifyDialogResult {
     buttonClicked: string;
@@ -83,9 +83,9 @@ export declare class Alertify {
      * @return {undefined}
      */
     close(elem: HTMLElement, wait?: number): void;
-    alert(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void>;
-    confirm(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void>;
-    prompt(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void>;
+    alert(message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult>;
+    confirm(message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult>;
+    prompt(message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult>;
     /**
      * Create a dialog box
      *
@@ -96,7 +96,7 @@ export declare class Alertify {
      *
      * @return {Promise<object> | void}
      */
-    dialog(message: string, type: DialogTypes, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void>;
+    dialog(message: string, type: DialogTypes, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult>;
     cancelBtn(label: string): this;
     okBtn(label: string): this;
     placeholder(str: string): this;
@@ -137,7 +137,7 @@ export declare class Alertify {
      *
      * @return {undefined}
      */
-    protected setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult | void>;
+    protected setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult>;
     protected injectCSS(): void;
     protected removeCSS(): void;
     private hideElement;

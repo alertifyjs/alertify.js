@@ -5,8 +5,8 @@ import style from "./../sass/alertify.scss";
 interface IAlertifyItem {
     type: DialogTypes;
     message: string;
-    onOkay?: Function;
-    onCancel?: Function;
+    onOkay?: (valueOrEvent: Event | string, event?: Event) => void;
+    onCancel?: (event: Event) => void;
 }
 
 interface IAlertifyDialogResult {
@@ -93,16 +93,17 @@ export class Alertify {
         log: "<div class='{{class}}'>{{message}}</div>"
     };
 
-    constructor() {
+    public constructor () {
         this.injectCSS();
     }
 
-    public setParent(elem: HTMLElement): this {
+    public setParent (elem: HTMLElement): this {
         this.parent = elem;
         return this;
     }
 
-    public reset(): this {
+    // eslint-disable-next-line max-statements
+    public reset (): this {
         this.parent = document.body;
         this.okBtn(Alertify.defaultOkLabel);
         this.cancelBtn(Alertify.defaultCancelLabel);
@@ -116,49 +117,49 @@ export class Alertify {
         return this;
     }
 
-    // notify
+    // Notify
 
-    public log(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
+    public log (message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.default, click);
         return this;
     }
 
-    public success(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
+    public success (message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.success, click);
         return this;
     }
 
-    public error(message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
+    public error (message: HTMLElement | string, click?: EventListenerOrEventListenerObject): this {
         this.prepareNotify(message, LogTypes.error, click);
         return this;
     }
 
-    public setDelay(time: number): this {
+    public setDelay (time: number): this {
         this.delay = Number(time) || Alertify.defaultDelay;
         return this;
     }
 
-    public setMaxLogItems(num: number): this {
+    public setMaxLogItems (num: number): this {
         this.maxLogItems = Number(num) || Alertify.defaultMaxLogItems;
         return this;
     }
 
-    public setCloseLogOnClick(bool: boolean): this {
+    public setCloseLogOnClick (bool: boolean): this {
         this.closeLogOnClick = Boolean(bool);
         return this;
     }
 
-    public setLogPosition(str: string): this {
+    public setLogPosition (str: string): this {
         this.logContainerClass = `alertify-logs ${str || ""}`;
         return this;
     }
 
-    public setLogTemplate(templateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null): this {
+    public setLogTemplate (templateMethod: ((message: HTMLElement | string) => HTMLElement | string) | null): this {
         this.logTemplateMethod = templateMethod;
         return this;
     }
 
-    public clearLogs(): this {
+    public clearLogs (): this {
         this.setupLogContainer().innerHTML = "";
         return this;
     }
@@ -171,7 +172,7 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    public close(elem: HTMLElement, wait: number = 0): void {
+    public close (elem: HTMLElement, wait: number = 0): void {
         if (this.closeLogOnClick) {
             elem.addEventListener("click", () => this.hideElement(elem));
         }
@@ -185,17 +186,17 @@ export class Alertify {
         }
     }
 
-    // dialog
-    public async alert(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
-        return await this.dialog(message, DialogTypes.alert, onOkay, onCancel);
+    // Dialog
+    public async alert (message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult> {
+        return this.dialog(message, DialogTypes.alert, onOkay, onCancel);
     }
 
-    public async confirm(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
-        return await this.dialog(message, DialogTypes.confirm, onOkay, onCancel);
+    public async confirm (message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult> {
+        return this.dialog(message, DialogTypes.confirm, onOkay, onCancel);
     }
 
-    public async prompt(message: string, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
-        return await this.dialog(message, DialogTypes.prompt, onOkay, onCancel);
+    public async prompt (message: string, onOkay?: () => void, onCancel?: () => void): Promise<IAlertifyDialogResult> {
+        return this.dialog(message, DialogTypes.prompt, onOkay, onCancel);
     }
 
     /**
@@ -208,8 +209,13 @@ export class Alertify {
      *
      * @return {Promise<object> | void}
      */
-    public async dialog(message: string, type: DialogTypes, onOkay?: Function, onCancel?: Function): Promise<IAlertifyDialogResult | void> {
-        return await this.setupDialog({
+    public async dialog (
+        message: string,
+        type: DialogTypes,
+        onOkay?: () => void,
+        onCancel?: () => void
+    ): Promise<IAlertifyDialogResult> {
+        return this.setupDialog({
             type,
             message,
             onOkay,
@@ -217,22 +223,22 @@ export class Alertify {
         });
     }
 
-    public cancelBtn(label: string): this {
+    public cancelBtn (label: string): this {
         this.cancelLabel = label;
         return this;
     }
 
-    public okBtn(label: string): this {
+    public okBtn (label: string): this {
         this.okLabel = label;
         return this;
     }
 
-    public placeholder(str: string): this {
+    public placeholder (str: string): this {
         this.promptPlaceholder = str;
         return this;
     }
 
-    public defaultValue(str: string): this {
+    public defaultValue (str: string): this {
         this.promptValue = str;
         return this;
     }
@@ -246,14 +252,14 @@ export class Alertify {
      *
      * @return {Object}
      */
-    protected prepareNotify(message: HTMLElement | string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
+    protected prepareNotify (message: HTMLElement | string, type?: LogTypes, click?: EventListenerOrEventListenerObject): void {
         const existing: NodeListOf<HTMLDivElement> = document.querySelectorAll(".alertify-logs > div");
-        if (existing) {
+        if (existing.length) {
             const diff = existing.length - this.maxLogItems;
             if (diff >= 0) {
-                const j = diff + 1;
-                for (let i = 0; i < j; i += 1) {
-                    this.close(existing[i], -1);
+                const total = diff + 1;
+                for (let index = 0; index < total; index += 1) {
+                    this.close(existing[index], -1);
                 }
             }
         }
@@ -272,7 +278,8 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected showNotify(
+    // eslint-disable-next-line max-statements
+    protected showNotify (
         message: HTMLElement | string,
         type: LogTypes = LogTypes.default,
         click?: EventListenerOrEventListenerObject
@@ -299,12 +306,14 @@ export class Alertify {
         }
 
         elLog.appendChild(log);
-        requestAnimationFrame(() => log.className += " show");
+        requestAnimationFrame(() => {
+            log.className += " show";
+        });
 
         this.close(log, this.delay);
     }
 
-    protected setupLogContainer(): Element {
+    protected setupLogContainer (): Element {
         let elLog = document.querySelector(".alertify-logs");
         const className = this.logContainerClass;
         if (!elLog) {
@@ -328,7 +337,7 @@ export class Alertify {
      *
      * @return {String}         An HTML string of the message box
      */
-    protected buildDialog(item: IAlertifyItem): string {
+    protected buildDialog (item: IAlertifyItem): string {
         let btnTxt = this.dialogs.buttons.ok;
         let html = `<div class="dialog"><div>${this.dialogs.message.replace("{{message}}", item.message)}`;
 
@@ -353,7 +362,8 @@ export class Alertify {
      *
      * @return {undefined}
      */
-    protected async setupDialog(item: IAlertifyItem): Promise<IAlertifyDialogResult | void> {
+    // eslint-disable-next-line max-statements
+    protected async setupDialog (item: IAlertifyItem): Promise<IAlertifyDialogResult> {
         const el = document.createElement("div");
         el.className = "alertify hide";
         el.innerHTML = this.buildDialog(item);
@@ -377,21 +387,15 @@ export class Alertify {
             }
         }
 
-        let promise: Promise<IAlertifyDialogResult> | void = void 0;
-
-        if (Reflect.has(window, "Promise")) {
-            promise = new Promise((resolve: (result: IAlertifyDialogResult) => void) => {
-                this.setupHandlers(resolve, el, item);
-            });
-        } else {
-            this.setupHandlers(() => null, el, item);
-        }
+        const promise = new Promise((resolve: (result: IAlertifyDialogResult) => void) => {
+            this.setupHandlers(resolve, el, item);
+        });
 
         this.parent.appendChild(el);
         setTimeout(
             () => {
                 el.classList.remove("hide");
-                if (input && item.type && item.type === "prompt") {
+                if (input && item.type === "prompt") {
                     input.select();
                     input.focus();
                 } else if (btnOK) {
@@ -404,7 +408,7 @@ export class Alertify {
         return await promise;
     }
 
-    protected injectCSS(): void {
+    protected injectCSS (): void {
         if (!document.querySelector("#alertifyCSS")) {
             // eslint-disable-next-line prefer-destructuring
             const head = document.getElementsByTagName("head")[0];
@@ -415,20 +419,20 @@ export class Alertify {
         }
     }
 
-    protected removeCSS(): void {
+    protected removeCSS (): void {
         const css = document.querySelector("#alertifyCSS");
         if (css?.parentNode) {
             css.parentNode.removeChild(css);
         }
     }
 
-    private hideElement(el: Element) {
+    private hideElement (el: Element | null): void {
         if (!el) {
             return;
         }
 
-        const removeThis = () => {
-            if (el?.parentNode) {
+        const removeThis = (): void => {
+            if (el.parentNode) {
                 el.parentNode.removeChild(el);
             }
         };
@@ -441,7 +445,8 @@ export class Alertify {
         setTimeout(removeThis, Alertify.transitionFallbackDuration);
     }
 
-    private setupHandlers(
+    // eslint-disable-next-line max-lines-per-function
+    private setupHandlers (
         resolve: (result: IAlertifyDialogResult) => void,
         el: HTMLElement,
         item: IAlertifyItem
