@@ -7,21 +7,18 @@ module.exports = function(config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ["browserify", "jasmine"],
+        frameworks: ["jasmine"],
 
         // list of files / patterns to load in the browser
         files: [
-            "node_modules/angular/angular.min.js",
-            "node_modules/angular-mocks/angular-mocks.js",
-            "dist/js/ngAlertify.js",
-            "src/js/alertify.js",
-            "test/**/*Spec.js"
+            "dist/js/alertify.js",
+            "tests/**/*Spec.js"
         ],
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "src/js/alertify.js": ["coverage"]
+            "dist/js/alertify.js": ["coverage"]
         },
 
         coverageReporter: {
@@ -30,16 +27,6 @@ module.exports = function(config) {
         },
 
         reporters: ["dots", "coverage", "coveralls"],
-
-        // Browserify bundle
-        browserify: {
-            debug: true,
-            configure: function(bundle) {
-                bundle.on("prebundle", function() {
-                    bundle.require("./src/js/alertify.js", { expose: "alertify" });
-                });
-            }
-        },
 
         // web server port
         port: 9876,
@@ -56,10 +43,10 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ["Chrome"],
+        browsers: ["Firefox"], 
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
+        singleRun: true
     });
 };

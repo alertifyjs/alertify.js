@@ -1,0 +1,39 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/js/",
+        "sourceMap": false,
+        "declaration": true,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "allowJs": false,
+        "allowSyntheticDefaultImports": true,
+        "checkJs": false,
+        "diagnostics": true,
+        "downlevelIteration": false,
+        "importHelpers": true,
+        "noEmitHelpers": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "preserveConstEnums": false,
+        "pretty": true,
+        "strict": true,
+        "strictFunctionTypes": false,
+        "noEmit": false,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "src/**/*",
+        "typings.d.ts"
+    ]
+}

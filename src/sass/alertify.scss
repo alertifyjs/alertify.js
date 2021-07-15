@@ -1,34 +1,13 @@
-$box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
-$padding-base: 12px;
-$success-color: rgba(76, 175, 80, .9);
-$danger-color: rgba(244, 67, 54, .8);
-$text-color: rgba(0, 0, 0, .8);
-$border-radius: 1px;
-
-.alertify-logs {
-    > * {
-        padding: $padding-base $padding-base * 2;
-        color: #fff;
-        box-shadow: $box-shadow;
-        border-radius: $border-radius;
-        transition: .2s all;
-        display: block !important;
-        &, &.default {
-            background: rgba(0, 0, 0, .8);
-        }
-        &.error {
-          background: $danger-color;
-        }
-        &.success {
-          background: $success-color;
-        }
-    }
-}
+$box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.2);
+$padding-base: 0.75em;
+$success-color: rgba(76, 175, 80, 0.9);
+$danger-color: rgba(244, 67, 54, 0.8);
+$text-color: rgba(0, 0, 0, 0.8);
+$border-radius: 0;
 
 .alertify {
-
     position: fixed;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
     left: 0;
     right: 0;
     top: 0;
@@ -42,21 +21,23 @@ $border-radius: 1px;
         pointer-events: none;
     }
 
-    &, &.show {
+    &,
+    &.show {
         box-sizing: border-box;
-        transition: all .33s cubic-bezier(.25, .8, .25, 1);
+        transition: all 0.33s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
-    &, * {
+    &,
+    * {
         box-sizing: border-box;
     }
 
     .dialog {
-       padding: 12px;
+        padding: 0.75em;
     }
 
-    .dialog, .alert {
-
+    .dialog,
+    .alert {
         width: 100%;
         margin: 0 auto;
         position: relative;
@@ -64,162 +45,107 @@ $border-radius: 1px;
         transform: translateY(-50%);
 
         > * {
-            width: 400px;
+            width: 25em;
             max-width: 95%;
             margin: 0 auto;
             text-align: center;
             padding: $padding-base;
             background: #fff;
-            box-shadow: 0 2px 4px -1px rgba(0,0,0,.14), 0 4px 5px 0 rgba(0,0,0,.098), 0 1px 10px 0 rgba(0,0,0,.084);
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098), 0 1px 10px 0 rgba(0, 0, 0, 0.084);
         }
 
         .msg {
-          padding: $padding-base;
-          margin-bottom: $padding-base;
-          margin: 0;
-          text-align: left;
+            padding: $padding-base;
+            margin: 0 0 $padding-base 0;
+            text-align: left;
         }
 
-        input:not(.form-control){
-            margin-bottom: 15px;
+        input:not(.form-control) {
+            margin-bottom: 1em;
             width: 100%;
             font-size: 100%;
             padding: $padding-base;
+
             &:focus {
-                outline-offset: -2px;
+                outline-offset: 0;
             }
         }
-        nav {
 
+        nav {
             text-align: right;
 
             button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+                background: transparent;
+                box-sizing: border-box;
+                color: rgba(0, 0, 0, 0.87);
+                position: relative;
+                outline: 0;
+                display: inline-block;
+                align-items: center;
+                padding: 0 0.75em;
+                margin: 0.25em 0.5em;
+                line-height: 2.25em;
+                min-height: 2.25em;
+                white-space: nowrap;
+                min-width: 6em;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 0.875em;
+                text-decoration: none;
+                cursor: pointer;
+                border: 1px solid transparent;
+                border-radius: 0.125em;
 
-              background: transparent;
-              box-sizing: border-box;
-              color: rgba(0,0,0,0.87);
-              position: relative;
-              outline: 0;
-              border: 0;
-              display: inline-block;
-              align-items: center;
-              padding: 0 6px;
-              margin: 6px 8px;
-              line-height: 36px;
-              min-height: 36px;
-              white-space: nowrap;
-              min-width: 88px;
-              text-align: center;
-              text-transform: uppercase;
-              font-size: 14px;
-              text-decoration: none;
-              cursor: pointer;
-              border: 1px solid transparent;
-              border-radius: 2px;
+                &:hover,
+                &:active {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
 
-              &:hover, &:active {
-                background-color: rgba(0,0,0,.05);
-              }
-
-              &:focus {
-                  border: 1px solid rgba(0, 0, 0, .1);
-              }
-
+                &:focus {
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                }
             }
 
             button.btn {
-                margin: 6px 4px;
+                margin: 0.5em 0.25em;
             }
-
         }
     }
 }
 
 .alertify-logs {
-
     position: fixed;
     z-index: 99999;
 
-    &.bottom, &:not(.top) {
-        bottom: 16px;
-        // Bottom left placement. Default. Use for transitions.
-        &.left, &:not(.right) {
-            > * {
-
-            }
-        }
-        // Top right placement
-        &.right {
-            > * {
-
-            }
-        }
-    }
-
-    // All left positions.
-    &.left, &:not(.right) {
-        left: 16px;
-        > * {
-            float: left;
-            transform: translate3d(0, 0, 0);
-            height: auto;
-
-            &.show {
-                left: 0;
-            }
-            &, &.hide {
-                left: -110%;
-            }
-        }
-    }
-
-    &.right {
-        right: 16px;
-        > * {
-            float: right;
-            transform: translate3d(0, 0, 0);
-            &.show {
-                right: 0;
-                opacity: 1;
-            }
-            &, &.hide {
-                right: -110%;
-                opacity: 0;
-            }
-        }
-    }
-
-    &.top {
-        top: 0;
-        // Top left placement, use for transitions.
-        &.left, &:not(.right) {
-            > * {
-
-            }
-        }
-        // Top right placement, use for transitions
-        &.right {
-            > * {
-
-            }
-        }
-    }
-
     > * {
         box-sizing: border-box;
-        transition: all .4s cubic-bezier(.25, .8, .25, 1);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         position: relative;
         clear: both;
         backface-visibility: hidden;
-	    perspective: 1000;
+        perspective: 1000;
+        padding: $padding-base $padding-base * 2;
+        color: #fff;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+        display: block !important;
+        max-height: 0;
+        margin: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
 
-        & {
-            max-height: 0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
+        &,
+        &.default {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        &.error {
+            background: $danger-color;
+        }
+
+        &.success {
+            background: $success-color;
         }
 
         &.show {
@@ -231,4 +157,54 @@ $border-radius: 1px;
         }
     }
 
+    &.bottom,
+    &:not(.top) {
+        bottom: 1em;
+    }
+
+    // All left positions.
+
+    &.left,
+    &:not(.right) {
+        left: 1em;
+
+        > * {
+            float: left;
+            transform: translate3d(0, 0, 0);
+            height: auto;
+
+            &.show {
+                left: 0;
+            }
+
+            &,
+            &.hide {
+                left: -110%;
+            }
+        }
+    }
+
+    &.right {
+        right: 1em;
+
+        > * {
+            float: right;
+            transform: translate3d(0, 0, 0);
+
+            &.show {
+                right: 0;
+                opacity: 1;
+            }
+
+            &,
+            &.hide {
+                right: -110%;
+                opacity: 0;
+            }
+        }
+    }
+
+    &.top {
+        top: 0;
+    }
 }
